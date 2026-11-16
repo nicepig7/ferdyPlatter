@@ -1,0 +1,19 @@
+{
+  "name": "ferdy-platter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Web OS Monorepo built with SolidJS, Vite, and TypeScript (Single-Server MPA Mode)",
+  "workspaces": [
+    "packages/shell",
+    "packages/apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@ferdy/shell",
+    "build": "npm run build --workspace=@ferdy/shell",
+    "preview": "npm run preview --workspace=@ferdy/shell",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
