@@ -1,86 +1,94 @@
 # Architecture Guide
 
-이 문서는 **Ferdy Platter (FerdyOS)**의 전체 아키텍처, Single-Server MPA 동작 원리, 윈도우 매니저 설계, 그리고 Shell과 App 간의 통신 프로토콜을 설명합니다.
+이 문서는 **Ferdy Platter (FerdyOS)**의 **A-B-C-D-E 모노레포 계층 구조**, Single-Server MPA 동작 원리, 공통 디자인 시스템(`@ferdy/ui`), 그리고 이벤트 브릿지(`@ferdy/bridge`) 설계를 설명합니다.
 
 ---
 
-## 1. 시스템 개요 (High-Level Architecture)
+## 1. A-B-C-D-E 계층 구조 (Layered Monorepo Architecture)
 
-Ferdy Platter는 브라우저 탭 하나를 데스크탑 OS처럼 사용하는 **Web OS**입니다.  
-단일 모노레포 안에서 OS 환경을 제공하는 **Shell (`@ferdy/shell`)**과, 각 창 내부에서 독립적으로 실행되는 **App (`@ferdy/app-*`)**들로 분리되어 있습니다.
+`packages/` 하위는 알파벳 순서(**A → B → C → D → E**)가 곧 아키텍처의 역할과 계층을 나타내도록 설계되어 있습니다.
+
+| 계층 | 디렉토리 | 패키지명 | 역할 |
+| :--- | :--- | :--- | :--- |
+| **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 아이콘/경로 상수(`FERDY_ASSETS`) |
+| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge` | `@ferdy/ui`<br>`@ferdy/bridge` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트) 및 `postMessage` Pub/Sub 브릿지 |
+| **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 윈도우 매니저(`windowStore`) 및 단일 Vite 서버 MPA 게이트웨이 |
+| **[D] Domains** | `packages/domains/*` | `@ferdy/app-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 개별 도메인 웹 애플리케이션 |
+| **[E] Etc** | `packages/etc` | - | 실험적 기능, 외부 연동 어댑터, 기타 보조 스크립트를 위한 확장 공간 |
 
 ```mermaid
 flowchart TB
     subgraph Browser["Browser (Single Origin :3000)"]
-        subgraph Shell["@ferdy/shell (Root Window)"]
+        subgraph Core["[C] @ferdy/core (Root Window)"]
             Desktop["Desktop UI (Shortcuts & Window Layer)"]
             Taskbar["Taskbar (Launcher, Active Tabs, Clock)"]
             Store["windowStore (SolidJS createStore)"]
-            Bridge["Message Listener (window.addEventListener)"]
         end
 
-        subgraph Window1["WindowWrapper #1 (iframe sandbox)"]
-            App1["/apps/app-sample/?instance=1"]
+        subgraph Base["[B] Shared Base Modules"]
+            UI["@ferdy/ui (CSS Tokens & Solid Components)"]
+            Bridge["@ferdy/bridge (Typed Pub/Sub Event Bus)"]
         end
 
-        subgraph Window2["WindowWrapper #2 (iframe sandbox)"]
-            App2["/apps/app-sample/?instance=2"]
+        subgraph Assets["[A] @ferdy/assets"]
+            Static["/assets/* & FERDY_ASSETS"]
+        end
+
+        subgraph Window1["[D] WindowWrapper #1 (iframe sandbox)"]
+            App1["@ferdy/app-sample (/apps/app-sample/)"]
+        end
+
+        subgraph Window2["[D] WindowWrapper #2 (iframe sandbox)"]
+            App2["@ferdy/app-clock (/apps/app-clock/)"]
         end
     end
 
-    Desktop --> Store
-    Taskbar --> Store
-    Store --> Window1
-    Store --> Window2
-    App1 -- "window.parent.postMessage" --> Bridge
-    App2 -- "window.parent.postMessage" --> Bridge
-    Bridge -- "openWindow() 등 액션 호출" --> Store
+    Core --> UI
+    Core --> Bridge
+    Core --> Assets
+    App1 --> UI
+    App1 --> Bridge
+    App2 --> UI
+    Bridge <--> Store
 ```
 
 ---
 
-## 2. Single-Server MPA 아키텍처
+## 2. Single-Server MPA 아키텍처 (`packages/core/vite.config.ts`)
 
 일반적인 마이크로 프론트엔드나 `iframe` 기반 프로젝트는 앱마다 별도의 개발 서버 포트(`:3001`, `:3002`...)를 띄워야 하는 번거로움이 있습니다.  
-Ferdy Platter는 `packages/shell/vite.config.ts`의 커스텀 설정을 통해 **단일 Vite 서버(`:3000`)에서 모든 앱을 온디맨드로 서빙**합니다.
+Ferdy Platter는 `packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`을 통해 **단일 Vite 서버(`:3000`)에서 모든 도메인 앱과 공용 에셋을 서빙**합니다.
 
-### 2.1 개발 환경 (`monorepoAppsGatewayPlugin`)
-1. Shell 내부의 `iframe`이 `/apps/<app-name>/` 경로를 요청합니다.
-2. `monorepoAppsGatewayPlugin` 미들웨어가 요청을 가로채어 `packages/apps/<app-name>/index.html` 파일을 읽어들입니다.
-3. HTML 내부의 상대 스크립트 경로(`./src/index.tsx` 등)를 Vite의 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/index.tsx`로 동적 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
-4. 덕분에 **창이 실제로 열릴 때만(On-Demand)** 해당 앱의 모듈이 컴파일/로드되며, HMR(Hot Module Replacement)도 단일 서버에서 그대로 동작합니다.
+### 2.1 개발 환경 (On-Demand Dev Gateway)
+1. Core 내부의 `iframe`이 `/apps/<app-name>/` 경로를 요청합니다.
+2. `monorepoDomainsGatewayPlugin` 미들웨어가 요청을 가로채어 `packages/domains/<app-name>/index.html` 파일을 읽어들입니다.
+3. HTML 내부의 상대 스크립트 경로(`./src/index.tsx` 등)를 Vite 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/index.tsx`로 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
+4. `publicDir`이 `packages/assets/public`으로 지정되어 있어, Core와 모든 `iframe` 앱이 `/assets/...` 정적 리소스를 동일 오리진에서 즉시 공유합니다.
 
-### 2.2 프로덕션 빌드 (`getAppsBuildInputs`)
-1. `vite build` 실행 시 `packages/apps/*` 하위 폴더들을 자동으로 스캔합니다.
-2. `index.html`이 존재하는 모든 앱을 Rollup의 멀티페이지 엔트리(`rollupOptions.input`)에 자동 등록합니다.
-
----
-
-## 3. Window Manager 상태 관리 (`windowStore.ts`)
-
-윈도우 매니저는 드래그와 리사이징처럼 초당 수십 번 발생하는 포인터 이벤트를 부드럽게 처리해야 합니다. 이를 위해 **SolidJS의 Fine-grained Reactivity**를 적극 활용합니다.
-
-- **상태 구조 (`WindowStoreState`)**:
-  - `windows`: 열려 있는 `WindowInstance` 배열 (`id`, `title`, `appUrl`, `x`, `y`, `width`, `height`, `zIndex`, `isFocused`, `isMinimized`, `isMaximized`)
-  - `activeWindowId`: 현재 포커스된 창의 ID
-  - `topZIndex`: 새 창이나 포커스 전환 시 부여할 최상단 Z-Index 카운터
-- **성능 최적화**:
-  - 창 목록 렌더링에는 `<For each={windowStore.state.windows}>`를 사용하여 배열 요소가 추가/삭제될 때 기존 창의 DOM이나 `iframe`이 리로드되지 않도록 보장합니다.
-  - 창 이동 시 `left`/`top` 대신 GPU 가속이 적용되는 `transform: translate3d(x, y, 0)`를 사용합니다.
-  - 드래그/리사이즈 중이거나 비활성 상태인 창에는 `.os-window-iframe-shield` 투명 오버레이를 씌워 `iframe`이 마우스 이벤트를 삼키는 문제를 방지합니다.
+### 2.2 프로덕션 빌드 및 코드 공유 (Shared Chunks)
+1. `npm run build` 실행 시 `packages/domains/*` 하위 폴더들을 자동으로 스캔하여 `dist/apps/<app-name>/index.html` 멀티페이지 엔트리로 번들링합니다.
+2. 각 `iframe`은 런타임에 독립된 DOM/JS 인스턴스로 격리 실행되지만, 빌드 시 Rollup이 `solid-js`, `@ferdy/ui`, `@ferdy/bridge`를 **공통 청크(`dist/assets/...`)로 자동 추출**하므로 네트워크 다운로드는 1회(브라우저 캐시 공유)만 발생합니다.
 
 ---
 
-## 4. Shell ↔ App 통신 프로토콜 (`postMessage`)
+## 3. 중앙 디자인 시스템 (`@ferdy/ui`)
 
-각 앱은 `<iframe sandbox="allow-scripts allow-same-origin allow-forms allow-modals">` 내부에서 격리 실행되므로, 부모 창의 전역 변수를 직접 수정하는 대신 표준 `window.postMessage` API를 사용합니다.
+`iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/app-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
 
-### 현재 정의된 메시지 타입 (App → Shell)
+- **`tokens.css`**: `--ferdy-bg-*`, `--ferdy-text-*`, `--ferdy-accent*`, `--ferdy-border-*`, `--ferdy-radius-*`, `--ferdy-font-sans` 등 시맨틱 토큰 정의
+- **`base.css`**: 전역 Box-sizing/Margin 리셋, 기본 배경·타이포그래피, `.f-app-shell`, `.f-btn`, `.f-badge`, `.f-card` 스타일 정의
+- **SolidJS Primitives**: `<Button>`, `<Badge>`, `<Card>` 컴포넌트 제공 (`splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙 준수)
 
-| 메시지 `type` | 페이로드 필드 | 동작 설명 |
-| :--- | :--- | :--- |
-| `FERDY_APP_PING` | `instanceId: string`, `timestamp: string` | 자식 앱이 정상 동작 중임을 Shell 콘솔에 알리는 핑 메시지 |
-| `FERDY_OPEN_WINDOW` | `title?: string`, `appUrl?: string` | 자식 앱 내부에서 Shell에게 새로운 창을 열어달라고 요청 |
+---
 
-> 향후 테마 동기화, 알림(Notification) 호출, 클립보드/데이터 공유 등의 시스템 콜이 추가될 때 `FERDY_*` 네임스페이스를 확장하여 사용합니다.
+## 4. Core ↔ Domain App 이벤트 브릿지 (`@ferdy/bridge`)
 
+각 도메인 앱은 Core의 내부 스토어(`windowStore`)를 직접 참조하지 않고, `@ferdy/bridge`의 `ferdyBridge` 객체를 통해 Pub/Sub 방식으로 통신합니다.
+
+### 정의된 이벤트 규격 (`FerdyEventMap`)
+
+| 이벤트 `type` | 방향 | 페이로드 필드 | 동작 설명 |
+| :--- | :--- | :--- | :--- |
+| `FERDY_APP_PING` | App → Core | `instanceId: string`, `timestamp: string` | 자식 앱이 정상 동작 중임을 Core에 알리는 핑 이벤트 |
+| `FERDY_OPEN_WINDOW` | App → Core | `id?`, `title?`, `appUrl?`, `x?`, `y?`, `width?`, `height?` | 자식 앱 내부에서 Core에게 새로운 창 생성을 요청 |
+| `FERDY_THEME_CHANGE` | Core → Apps | `theme: 'dark' \| 'light'` | Core에서 열린 모든 `iframe` 앱으로 테마 변경을 브로드캐스트 |

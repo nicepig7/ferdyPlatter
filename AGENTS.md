@@ -22,16 +22,21 @@
 
 ---
 
-## 2. 모노레포 및 아키텍처 규칙 (Single-Server MPA)
+## 2. 모노레포 및 A-B-C-D-E 아키텍처 규칙 (Single-Server MPA)
 
-1. **워크스페이스 구조**:
-   - `packages/shell` (`@ferdy/shell`): OS 데스크탑, 태스크바, 윈도우 매니저, 그리고 하위 앱들을 서빙하는 단일 Vite 서버 게이트웨이입니다.
-   - `packages/apps/*` (`@ferdy/app-<name>`): `iframe` 샌드박스 내부에서 독립 실행되는 개별 웹 앱입니다.
-2. **Shell ↔ App 격리 원칙**:
-   - 개별 앱(`packages/apps/*`)은 Shell의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
-   - 앱과 Shell 간의 모든 상호작용은 `window.parent.postMessage` / `window.addEventListener('message')` 브릿지를 통해 이루어져야 합니다. (메시지 `type`은 `FERDY_` 접두사 사용)
+1. **워크스페이스 구조 (`packages/` 하위 A-B-C-D-E 계층)**:
+   - **[A] `packages/assets` (`@ferdy/assets`)**: 공용 정적 에셋(`public/assets/...`) 및 에셋 상수 정의.
+   - **[B] `packages/base/*` (`@ferdy/bridge`, `@ferdy/ui`)**:
+     - `@ferdy/bridge`: Core와 Domain Apps 간의 타입 안전 `postMessage` Pub/Sub 이벤트 버스.
+     - `@ferdy/ui`: 공통 CSS 디자인 토큰(`--ferdy-*`), Base 리셋 스타일, 공통 SolidJS UI 컴포넌트(`Button`, `Badge`, `Card`).
+   - **[C] `packages/core` (`@ferdy/core`)**: OS 데스크탑, 태스크바, 윈도우 매니저, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.
+   - **[D] `packages/domains/*` (`@ferdy/app-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱.
+   - **[E] `packages/etc`**: 기타 실험적 모듈, 외부 연동 어댑터, 유틸리티 공간.
+2. **Core ↔ Domain App 격리 원칙**:
+   - 개별 앱(`packages/domains/*`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
+   - 앱과 Core 간의 모든 상호작용은 `@ferdy/bridge` (`ferdyBridge`)를 통해 이루어져야 하며, 공통 Look & Feel은 `@ferdy/ui`를 통해 일관되게 유지합니다.
 3. **앱 라우팅 규격**:
-   - 모든 하위 앱은 `/apps/<폴더명>/` 경로로 서빙됩니다. (`packages/shell/vite.config.ts`의 `monorepoAppsGatewayPlugin`이 자동 매핑)
+   - 모든 도메인 앱은 `/apps/<폴더명>/` 경로로 서빙됩니다. (`packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`이 `packages/domains/<폴더명>/`과 자동 매핑)
 
 ---
 
@@ -39,10 +44,10 @@
 
 코드 변경 시 프로젝트의 정보 관리 체계가 항상 최신 상태를 유지하도록 다음 문서를 함께 점검하고 업데이트합니다.
 
-- **아키텍처, 빌드 설정, `postMessage` 프로토콜 변경 시**: [docs/architecture.md](./docs/architecture.md) 업데이트
+- **아키텍처, 빌드 설정, `@ferdy/bridge` 프로토콜 변경 시**: [docs/architecture.md](./docs/architecture.md) 업데이트
 - **새로운 OS 기능 구현 또는 로드맵 항목 완료 시**: [docs/features.md](./docs/features.md) 및 [docs/releases.md](./docs/releases.md) 업데이트
-- **각 패키지(`shell`, `apps/*`)의 주요 컴포넌트나 구조 변경 시**: 해당 패키지 내부의 `README.md` 업데이트
-- **새로운 앱(`packages/apps/<app-name>`) 추가 시**: `.agents/skills/create-new-app/SKILL.md` 스킬 절차를 따르고, 해당 앱 폴더에 `README.md`를 반드시 생성합니다.
+- **각 패키지(`assets`, `base/*`, `core`, `domains/*`)의 주요 컴포넌트나 구조 변경 시**: 해당 패키지 내부의 `README.md` 업데이트
+- **새로운 도메인 앱(`packages/domains/<app-name>`) 추가 시**: `.agents/skills/create-new-app/SKILL.md` 스킬 절차를 따르고, 해당 앱 폴더에 `README.md`를 반드시 생성합니다.
 
 ---
 
@@ -52,4 +57,3 @@
 ```bash
 npm run typecheck
 ```
-

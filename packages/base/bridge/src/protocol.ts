@@ -1,0 +1,45 @@
+/**
+ * FerdyOS Core ↔ Domain Apps 간 postMessage 이벤트 페이로드 규격
+ */
+export interface FerdyEventMap {
+  /** 자식 앱이 정상 동작 중임을 알리는 핑 이벤트 */
+  FERDY_APP_PING: {
+    instanceId: string;
+    timestamp: string;
+  };
+  /** 자식 앱에서 Core에게 새로운 창 생성을 요청하는 이벤트 */
+  FERDY_OPEN_WINDOW: {
+    id?: string;
+    title?: string;
+    appUrl?: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+  };
+  /** Core에서 모든 자식 앱으로 테마 변경을 알리는 브로드캐스트 이벤트 */
+  FERDY_THEME_CHANGE: {
+    theme: 'dark' | 'light';
+  };
+}
+
+export type FerdyEventType = keyof FerdyEventMap;
+
+export type FerdyMessage<K extends FerdyEventType = FerdyEventType> = {
+  type: K;
+} & FerdyEventMap[K];
+
+export type FerdyEventHandler<K extends FerdyEventType> = (
+  payload: FerdyEventMap[K],
+  rawEvent: MessageEvent
+) => void;
+
+export function isFerdyMessage(data: unknown): data is FerdyMessage {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'type' in data &&
+    typeof (data as { type: unknown }).type === 'string' &&
+    (data as { type: string }).type.startsWith('FERDY_')
+  );
+}
