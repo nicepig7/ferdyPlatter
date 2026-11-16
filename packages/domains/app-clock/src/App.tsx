@@ -1,5 +1,5 @@
 import { Component, Show, createSignal, onCleanup, onMount } from 'solid-js';
-import { Button } from '@ferdy/ui';
+import { fd } from '@ferdy/ui';
 
 const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
 
@@ -42,8 +42,8 @@ export const App: Component = () => {
       style={{
         height: '100vh',
         padding: '14px 18px',
-        background: 'var(--ferdy-bg-gradient-surface)',
-        color: 'var(--ferdy-text-primary)',
+        background: 'var(--fd-bg-gradient-surface)',
+        color: 'var(--fd-text-primary)',
         display: 'flex',
         'flex-direction': 'column',
         'justify-content': 'space-between',
@@ -61,7 +61,7 @@ export const App: Component = () => {
         <span
           style={{
             'font-size': 'clamp(14px, min(4.8vw, 9vh), 28px)',
-            color: 'var(--ferdy-text-muted)',
+            color: 'var(--fd-text-muted)',
             'font-weight': '600',
             'font-variant-numeric': 'tabular-nums',
             'letter-spacing': '0.02em',
@@ -70,7 +70,7 @@ export const App: Component = () => {
         >
           {formattedDate()}
         </span>
-        <Button
+        <fd.Button
           variant="accent-ghost"
           size="sm"
           onClick={() => setIs24Hour((prev) => !prev)}
@@ -80,7 +80,7 @@ export const App: Component = () => {
           }}
         >
           {is24Hour() ? '24H' : '12H'}
-        </Button>
+        </fd.Button>
       </div>
 
       <div
@@ -98,7 +98,7 @@ export const App: Component = () => {
             style={{
               'font-size': 'clamp(14px, min(4.5vw, 10vh), 32px)',
               'font-weight': '700',
-              color: 'var(--ferdy-accent)',
+              color: 'var(--fd-accent)',
               'letter-spacing': '0.05em',
               'align-self': 'baseline',
             }}
@@ -113,7 +113,7 @@ export const App: Component = () => {
             'font-variant-numeric': 'tabular-nums',
             'letter-spacing': '0.02em',
             'line-height': '1',
-            color: 'var(--ferdy-text-primary)',
+            color: 'var(--fd-text-primary)',
             'text-shadow': '0 2px 12px rgba(56, 189, 248, 0.25)',
             'white-space': 'nowrap',
           }}
@@ -128,8 +128,8 @@ export const App: Component = () => {
           'align-items': 'center',
           'justify-content': 'space-between',
           'font-size': '11px',
-          color: 'var(--ferdy-text-dim)',
-          'border-top': '1px solid var(--ferdy-border-subtle)',
+          color: 'var(--fd-text-dim)',
+          'border-top': '1px solid var(--fd-border-subtle)',
           'padding-top': '8px',
         }}
       >

@@ -37,7 +37,7 @@ description: >-
    - 기본 CSS Reset과 토큰은 `@ferdy/ui`에서 자동 주입되므로 별도의 인라인 리셋 `<style>`을 중복 작성할 필요가 없습니다.
    - **주의**: Core의 `monorepoDomainsGatewayPlugin`이 `./src/` 또는 `/src/` 경로를 자동 치환하므로 스크립트 경로는 반드시 `./src/index.tsx` 형태로 작성합니다.
 5. **`src/index.tsx` 및 `src/App.tsx`**:
-   - `@ferdy/ui`의 컴포넌트(`Button`, `Badge`, `Card`) 및 CSS 변수(`var(--ferdy-*)`)를 사용하여 단일한 Look & Feel을 유지합니다.
+   - `@ferdy/ui`의 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card` 또는 `FdButton`/`Button` 등) 및 CSS 변수(`var(--fd-*)`), 레이아웃 클래스(`.fd-app-shell`)를 사용하여 단일한 Look & Feel을 유지합니다.
    - 부모 Core와의 통신이 필요할 경우 `@ferdy/bridge`의 `ferdyBridge` (`ferdyBridge.openWindow`, `ferdyBridge.on`, `ferdyBridge.emit` 등)를 사용합니다.
 6. **`README.md`**:
    - 해당 도메인 앱의 목적, 주요 기능, 사용하는 `@ferdy/bridge` 이벤트를 요약합니다.

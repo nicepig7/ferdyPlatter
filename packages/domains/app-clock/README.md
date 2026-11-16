@@ -10,9 +10,9 @@
    - 1초 주기로 갱신되는 현재 시각(`HH:MM:SS`) 및 `YYYY-MM-DD(DAY)` 포맷 날짜 표시
    - 창 너비와 높이(`vw`, `vh`)에 맞춰 숫자 폰트 크기가 유연하게 반응형으로 조절되며, `tabular-nums` 속성으로 숫자 변경 시 흔들림 방지
 2. **24시간제 기본 적용 및 12H/24H 토글**:
-   - 기본 `24H` 포맷으로 시작하며, 상단 `@ferdy/ui` `<Button>`을 클릭해 `12H`(AM/PM) 표기로 즉시 전환 가능
+   - 기본 `24H` 포맷으로 시작하며, 상단 `@ferdy/ui` `<fd.Button>`을 클릭해 `12H`(AM/PM) 표기로 즉시 전환 가능
 3. **공통 디자인 토큰 적용 (`@ferdy/ui`)**:
-   - `--ferdy-bg-gradient-surface`, `--ferdy-accent` 등 공통 CSS 변수를 사용하여 OS 테마와 일관성을 유지
+   - `--fd-bg-gradient-surface`, `--fd-accent` 등 공통 CSS 변수를 사용하여 OS 테마와 일관성을 유지
 
 ---
 

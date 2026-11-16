@@ -6,16 +6,21 @@ export interface BadgeProps extends JSX.HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
 }
 
+export type FdBadgeVariant = BadgeVariant;
+export type FdBadgeProps = BadgeProps;
+
 export const Badge: Component<BadgeProps> = (rawProps) => {
   const merged = mergeProps({ variant: 'accent' as BadgeVariant }, rawProps);
   const [local, rest] = splitProps(merged, ['variant', 'class', 'children']);
 
   return (
     <span
-      class={`f-badge f-badge--${local.variant}${local.class ? ` ${local.class}` : ''}`}
+      class={`fd-badge fd-badge--${local.variant}${local.class ? ` ${local.class}` : ''}`}
       {...rest}
     >
       {local.children}
     </span>
   );
 };
+
+export const FdBadge = Badge;

@@ -75,9 +75,9 @@ Ferdy Platter는 `packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin
 
 `iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/app-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
 
-- **`tokens.css`**: `--ferdy-bg-*`, `--ferdy-text-*`, `--ferdy-accent*`, `--ferdy-border-*`, `--ferdy-radius-*`, `--ferdy-font-sans` 등 시맨틱 토큰 정의
-- **`base.css`**: 전역 Box-sizing/Margin 리셋, 기본 배경·타이포그래피, `.f-app-shell`, `.f-btn`, `.f-badge`, `.f-card` 스타일 정의
-- **SolidJS Primitives**: `<Button>`, `<Badge>`, `<Card>` 컴포넌트 제공 (`splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙 준수)
+- **`tokens.css`**: `--fd-bg-*`, `--fd-text-*`, `--fd-accent*`, `--fd-border-*`, `--fd-radius-*`, `--fd-font-sans` 등 시맨틱 토큰 정의
+- **`base.css`**: 전역 Box-sizing/Margin 리셋, 기본 배경·타이포그래피, `.fd-app-shell`, `.fd-btn`, `.fd-badge`, `.fd-card` 스타일 정의
+- **SolidJS Primitives**: 소문자 네임스페이스 `<fd.Button>`, `<fd.Badge>`, `<fd.Card>` 및 `<FdButton>` / `<Button>`, `<FdBadge>` / `<Badge>`, `<FdCard>` / `<Card>` 컴포넌트 제공 (`splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙 준수)
 
 ---
 

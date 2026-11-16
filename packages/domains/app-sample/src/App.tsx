@@ -1,6 +1,6 @@
 import { Component, createSignal } from 'solid-js';
 import { ferdyBridge } from '@ferdy/bridge';
-import { Badge, Button } from '@ferdy/ui';
+import { fd } from '@ferdy/ui';
 
 export const App: Component = () => {
   const [count, setCount] = createSignal(0);
@@ -18,16 +18,16 @@ export const App: Component = () => {
   };
 
   return (
-    <div class="f-app-shell">
-      <header class="f-app-header">
-        <h2 class="f-app-title">Isolated App Template (#{instanceId})</h2>
-        <Badge variant="accent">iframe sandboxed</Badge>
+    <div class="fd-app-shell">
+      <header class="fd-app-header">
+        <h2 class="fd-app-title">Isolated App Template (#{instanceId})</h2>
+        <fd.Badge variant="accent">iframe sandboxed</fd.Badge>
       </header>
 
       <p
         style={{
           'font-size': '14px',
-          color: 'var(--ferdy-text-muted)',
+          color: 'var(--fd-text-muted)',
           'line-height': '1.5',
         }}
       >
@@ -45,17 +45,17 @@ export const App: Component = () => {
           'flex-wrap': 'wrap',
         }}
       >
-        <Button variant="primary" onClick={() => setCount((c) => c + 1)}>
+        <fd.Button variant="primary" onClick={() => setCount((c) => c + 1)}>
           Local State Count: {count()}
-        </Button>
+        </fd.Button>
 
-        <Button variant="secondary" onClick={sendPingToCore}>
+        <fd.Button variant="secondary" onClick={sendPingToCore}>
           Send Ping via @ferdy/bridge
-        </Button>
+        </fd.Button>
 
-        <Button variant="purple" onClick={requestNewWindowFromCore}>
+        <fd.Button variant="purple" onClick={requestNewWindowFromCore}>
           Request Core to Open Window
-        </Button>
+        </fd.Button>
       </div>
     </div>
   );

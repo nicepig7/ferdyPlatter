@@ -5,8 +5,8 @@ body,
   height: 100vh;
   overflow: hidden;
   user-select: none;
-  background-color: var(--ferdy-bg-base);
-  color: var(--ferdy-text-primary);
+  background-color: var(--fd-bg-base);
+  color: var(--fd-text-primary);
 }
 
 .os-shell-root {
@@ -26,7 +26,7 @@ body,
   background:
     radial-gradient(circle at 18% 22%, rgba(56, 189, 248, 0.18), transparent 45%),
     radial-gradient(circle at 82% 78%, rgba(139, 92, 246, 0.2), transparent 50%),
-    linear-gradient(135deg, var(--ferdy-bg-surface) 0%, #1e1b4b 50%, #090d16 100%);
+    linear-gradient(135deg, var(--fd-bg-surface) 0%, #1e1b4b 50%, #090d16 100%);
   overflow: hidden;
 }
 
@@ -43,10 +43,10 @@ body,
 .os-desktop-icon {
   width: 88px;
   padding: 10px 6px;
-  border-radius: var(--ferdy-radius-lg);
+  border-radius: var(--fd-radius-lg);
   border: 1px solid transparent;
   background: rgba(15, 23, 42, 0.35);
-  color: var(--ferdy-text-primary);
+  color: var(--fd-text-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,19 +90,19 @@ body,
   left: 0;
   display: flex;
   flex-direction: column;
-  background: var(--ferdy-bg-window);
+  background: var(--fd-bg-window);
   backdrop-filter: blur(16px);
-  border: 1px solid var(--ferdy-border-subtle);
-  border-radius: var(--ferdy-radius-lg);
-  box-shadow: var(--ferdy-shadow-window);
+  border: 1px solid var(--fd-border-subtle);
+  border-radius: var(--fd-radius-lg);
+  box-shadow: var(--fd-shadow-window);
   overflow: hidden;
   pointer-events: auto;
   will-change: transform, width, height;
 }
 
 .os-window.is-focused {
-  border-color: var(--ferdy-accent-focus);
-  box-shadow: var(--ferdy-shadow-window-focused);
+  border-color: var(--fd-accent-focus);
+  box-shadow: var(--fd-shadow-window-focused);
 }
 
 .os-window.is-minimized {
@@ -120,7 +120,7 @@ body,
   align-items: center;
   justify-content: space-between;
   background: rgba(30, 41, 59, 0.85);
-  border-bottom: 1px solid var(--ferdy-border-subtle);
+  border-bottom: 1px solid var(--fd-border-subtle);
   cursor: grab;
 }
 
@@ -138,26 +138,26 @@ body,
   gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--ferdy-text-secondary);
+  color: var(--fd-text-secondary);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .os-window.is-focused .os-window-title {
-  color: var(--ferdy-text-primary);
+  color: var(--fd-text-primary);
 }
 
 .os-window-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--ferdy-text-dim);
+  background: var(--fd-text-dim);
 }
 
 .os-window.is-focused .os-window-dot {
-  background: var(--ferdy-accent);
-  box-shadow: 0 0 8px var(--ferdy-accent);
+  background: var(--fd-accent);
+  box-shadow: 0 0 8px var(--fd-accent);
 }
 
 .os-window-controls {
@@ -169,10 +169,10 @@ body,
 .win-btn {
   width: 24px;
   height: 24px;
-  border-radius: var(--ferdy-radius-sm);
+  border-radius: var(--fd-radius-sm);
   border: none;
   background: rgba(255, 255, 255, 0.06);
-  color: var(--ferdy-text-secondary);
+  color: var(--fd-text-secondary);
   font-size: 12px;
   display: inline-flex;
   align-items: center;
@@ -187,7 +187,7 @@ body,
 }
 
 .win-btn-close:hover {
-  background: var(--ferdy-danger);
+  background: var(--fd-danger);
   color: #ffffff;
 }
 
@@ -196,7 +196,7 @@ body,
   flex: 1;
   width: 100%;
   min-height: 0;
-  background: var(--ferdy-bg-surface);
+  background: var(--fd-bg-surface);
 }
 
 .os-window-iframe {
@@ -204,7 +204,7 @@ body,
   height: 100%;
   border: none;
   display: block;
-  background: var(--ferdy-bg-surface);
+  background: var(--fd-bg-surface);
 }
 
 .os-window-iframe-shield {
@@ -286,19 +286,19 @@ body,
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: var(--ferdy-bg-glass);
+  background: var(--fd-bg-glass);
   backdrop-filter: blur(20px);
-  border-top: 1px solid var(--ferdy-border-subtle);
+  border-top: 1px solid var(--fd-border-subtle);
   z-index: 9999;
 }
 
 .os-start-btn {
   height: 34px;
   padding: 0 14px;
-  border-radius: var(--ferdy-radius-md);
-  border: 1px solid var(--ferdy-accent-border);
+  border-radius: var(--fd-radius-md);
+  border: 1px solid var(--fd-accent-border);
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2));
-  color: var(--ferdy-text-primary);
+  color: var(--fd-text-primary);
   font-weight: 600;
   font-size: 13px;
   display: inline-flex;
@@ -309,12 +309,12 @@ body,
 }
 
 .os-start-btn:hover {
-  border-color: var(--ferdy-accent-focus);
+  border-color: var(--fd-accent-focus);
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.32), rgba(99, 102, 241, 0.32));
 }
 
 .os-start-logo {
-  color: var(--ferdy-accent);
+  color: var(--fd-accent);
   font-size: 15px;
 }
 
@@ -331,9 +331,9 @@ body,
   max-width: 220px;
   padding: 0 12px;
   border-radius: 7px;
-  border: 1px solid var(--ferdy-border-subtle);
+  border: 1px solid var(--fd-border-subtle);
   background: rgba(30, 41, 59, 0.6);
-  color: var(--ferdy-text-secondary);
+  color: var(--fd-text-secondary);
   font-size: 12px;
   display: inline-flex;
   align-items: center;
@@ -348,8 +348,8 @@ body,
 }
 
 .os-taskbar-item.is-active {
-  background: var(--ferdy-accent-subtle);
-  border-color: var(--ferdy-accent-focus);
+  background: var(--fd-accent-subtle);
+  border-color: var(--fd-accent-focus);
   color: #ffffff;
 }
 
@@ -361,12 +361,12 @@ body,
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--ferdy-text-dim);
+  background: var(--fd-text-dim);
   flex-shrink: 0;
 }
 
 .os-taskbar-item.is-active .os-taskbar-item-dot {
-  background: var(--ferdy-accent);
+  background: var(--fd-accent);
 }
 
 .os-taskbar-item-title {
@@ -380,7 +380,7 @@ body,
   padding: 1px 5px;
   border-radius: 4px;
   background: rgba(15, 23, 42, 0.5);
-  color: var(--ferdy-text-muted);
+  color: var(--fd-text-muted);
 }
 
 .os-taskbar-tray {
@@ -388,12 +388,12 @@ body,
   align-items: center;
   gap: 12px;
   font-size: 12px;
-  color: var(--ferdy-text-muted);
+  color: var(--fd-text-muted);
 }
 
 .os-tray-status {
   padding: 4px 8px;
-  border-radius: var(--ferdy-radius-sm);
+  border-radius: var(--fd-radius-sm);
   background: rgba(30, 41, 59, 0.7);
 }
 

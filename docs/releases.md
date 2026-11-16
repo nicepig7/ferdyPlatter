@@ -4,6 +4,16 @@
 
 ---
 
+## [0.1.3] - `@ferdy/ui` Design System & Prefix Standardization (In Progress)
+
+### Changed
+- **`@ferdy/ui` 접두어 및 컴포넌트 네임스페이스 통일**:
+  - CSS 디자인 토큰 접두어를 `--ferdy-*`에서 `--fd-*`로 통일 (`tokens.css`)
+  - 공통 클래스 및 레이아웃 헬퍼 접두어를 `.f-*`에서 `.fd-*`로 통일 (`base.css`)
+  - 소문자 `fd` 컴포넌트 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`) 및 `FdButton` / `Button` 등 별칭 동시 지원
+
+---
+
 ## [0.1.2] - A-B-C-D-E Architecture, `@ferdy/ui` & `@ferdy/bridge`
 
 ### Added

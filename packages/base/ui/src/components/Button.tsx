@@ -14,6 +14,10 @@ export interface ButtonProps extends JSX.ButtonHTMLAttributes<HTMLButtonElement>
   size?: ButtonSize;
 }
 
+export type FdButtonVariant = ButtonVariant;
+export type FdButtonSize = ButtonSize;
+export type FdButtonProps = ButtonProps;
+
 export const Button: Component<ButtonProps> = (rawProps) => {
   const merged = mergeProps(
     {
@@ -27,10 +31,12 @@ export const Button: Component<ButtonProps> = (rawProps) => {
 
   return (
     <button
-      class={`f-btn f-btn--${local.variant} f-btn--${local.size}${local.class ? ` ${local.class}` : ''}`}
+      class={`fd-btn fd-btn--${local.variant} fd-btn--${local.size}${local.class ? ` ${local.class}` : ''}`}
       {...rest}
     >
       {local.children}
     </button>
   );
 };
+
+export const FdButton = Button;
