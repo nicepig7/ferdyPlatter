@@ -3,7 +3,9 @@ import { Component, JSX, mergeProps, splitProps } from 'solid-js';
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
+  | 'neutral'
   | 'accent-ghost'
+  | 'secondary-ghost'
   | 'purple'
   | 'danger';
 

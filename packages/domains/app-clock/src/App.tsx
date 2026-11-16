@@ -114,7 +114,7 @@ export const App: Component = () => {
             'letter-spacing': '0.02em',
             'line-height': '1',
             color: 'var(--fd-text-primary)',
-            'text-shadow': '0 2px 12px rgba(56, 189, 248, 0.25)',
+            'text-shadow': '0 2px 14px var(--fd-primary-subtle)',
             'white-space': 'nowrap',
           }}
         >

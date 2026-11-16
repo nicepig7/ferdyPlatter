@@ -8,14 +8,16 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
 ## 주요 구성 요소
 
 1. **Design Tokens (`src/styles/tokens.css`)**:
-   - `--fd-bg-*`, `--fd-text-*`, `--fd-accent*`, `--fd-border-*`, `--fd-radius-*`, `--fd-font-sans` 등 OS 전역 시맨틱 CSS 변수 정의
+   - **Primary**: 빈티지 오렌지 브라운 계열 (`--fd-primary*`, `--fd-accent*`)
+   - **Secondary**: 차분한 포레스트 그린 계열 (`--fd-secondary*`)
+   - **Surface & Text**: 웜 에스프레소/차콜 배경(`--fd-bg-*`) 및 웜 크림/샌드 텍스트(`--fd-text-*`) 등 OS 전역 시맨틱 CSS 변수 정의
 2. **Base & Utility Styles (`src/styles/base.css`)**:
    - `*, *::before, *::after` 박스 모델 리셋 및 `html, body, #root` 기본 타이포그래피/배경 설정
    - `.fd-app-shell`, `.fd-app-header`, `.fd-app-title`, `.fd-btn`, `.fd-badge`, `.fd-card` 등 `fd-` 접두어 기반 표준 클래스 제공
 3. **SolidJS UI Primitives (`src/components/`)**:
    - 소문자 `fd` 네임스페이스(`<fd.Button>`, `<fd.Badge>`, `<fd.Card>`)와 개별 컴포넌트(`<FdButton>` / `<Button>`, `<FdBadge>` / `<Badge>`, `<FdCard>` / `<Card>`)를 모두 지원합니다.
-   - `fd.Button` (`FdButton` / `Button`): `variant` (`primary`, `secondary`, `accent-ghost`, `purple`, `danger`), `size` (`sm`, `md`) 지원
-   - `fd.Badge` (`FdBadge` / `Badge`): `variant` (`accent`, `neutral`, `purple`) 캡슐형 상태 배지
+   - `fd.Button` (`FdButton` / `Button`): `variant` (`primary`, `secondary`, `neutral`, `accent-ghost`, `secondary-ghost`, `purple`, `danger`), `size` (`sm`, `md`) 지원
+   - `fd.Badge` (`FdBadge` / `Badge`): `variant` (`primary`, `secondary`, `accent`, `neutral`, `purple`) 캡슐형 상태 배지
    - `fd.Card` (`FdCard` / `Card`): 반투명 서피스 패널 컨테이너
 
 ---

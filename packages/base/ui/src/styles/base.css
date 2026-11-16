@@ -22,8 +22,8 @@ code {
   font-size: 0.92em;
   padding: 2px 5px;
   border-radius: 4px;
-  background: rgba(148, 163, 184, 0.14);
-  color: var(--fd-accent);
+  background: rgba(196, 181, 165, 0.14);
+  color: var(--fd-primary);
 }
 
 /* ==================== Common UI Primitives ==================== */
@@ -59,50 +59,65 @@ code {
 }
 
 .fd-btn--primary {
-  background: var(--fd-accent-strong);
-  border-color: var(--fd-accent);
-  color: #ffffff;
+  background: var(--fd-primary-strong);
+  border-color: var(--fd-primary);
+  color: #fffaf5;
 }
 
 .fd-btn--primary:hover {
-  background: #0369a1;
+  background: var(--fd-primary-hover);
 }
 
 .fd-btn--secondary {
+  background: var(--fd-secondary-strong);
+  border-color: var(--fd-secondary-border);
+  color: #eef6f0;
+}
+
+.fd-btn--secondary:hover {
+  background: var(--fd-secondary-hover);
+  border-color: var(--fd-secondary-focus);
+  color: #ffffff;
+}
+
+.fd-btn--neutral {
   background: var(--fd-bg-elevated);
   border-color: var(--fd-border-strong);
   color: var(--fd-text-secondary);
 }
 
-.fd-btn--secondary:hover {
-  background: #334155;
+.fd-btn--neutral:hover {
+  background: #362d27;
   color: var(--fd-text-primary);
 }
 
 .fd-btn--accent-ghost {
-  background: var(--fd-accent-subtle);
-  border-color: var(--fd-accent-border);
-  color: var(--fd-accent);
+  background: var(--fd-primary-subtle);
+  border-color: var(--fd-primary-border);
+  color: var(--fd-primary);
 }
 
 .fd-btn--accent-ghost:hover {
-  background: rgba(56, 189, 248, 0.24);
-  border-color: var(--fd-accent);
+  background: rgba(217, 119, 54, 0.26);
+  border-color: var(--fd-primary);
 }
 
+.fd-btn--secondary-ghost,
 .fd-btn--purple {
-  background: var(--fd-purple-subtle);
-  border-color: var(--fd-purple-border);
-  color: var(--fd-purple-text);
+  background: var(--fd-secondary-subtle);
+  border-color: var(--fd-secondary-border);
+  color: var(--fd-secondary-text);
 }
 
+.fd-btn--secondary-ghost:hover,
 .fd-btn--purple:hover {
-  background: rgba(139, 92, 246, 0.32);
+  background: rgba(59, 110, 82, 0.34);
+  border-color: var(--fd-secondary-focus);
 }
 
 .fd-btn--danger {
-  background: rgba(239, 68, 68, 0.18);
-  border-color: rgba(239, 68, 68, 0.45);
+  background: rgba(217, 78, 67, 0.18);
+  border-color: rgba(217, 78, 67, 0.45);
   color: #fecaca;
 }
 
@@ -122,9 +137,16 @@ code {
   white-space: nowrap;
 }
 
+.fd-badge--primary,
 .fd-badge--accent {
-  background: var(--fd-accent-subtle);
-  color: var(--fd-accent);
+  background: var(--fd-primary-subtle);
+  color: var(--fd-primary);
+}
+
+.fd-badge--secondary,
+.fd-badge--purple {
+  background: var(--fd-secondary-subtle);
+  color: var(--fd-secondary-text);
 }
 
 .fd-badge--neutral {
@@ -132,14 +154,9 @@ code {
   color: var(--fd-text-muted);
 }
 
-.fd-badge--purple {
-  background: var(--fd-purple-subtle);
-  color: var(--fd-purple-text);
-}
-
 /* Card / Panel (.fd-card) */
 .fd-card {
-  background: rgba(30, 41, 59, 0.55);
+  background: rgba(40, 33, 29, 0.6);
   border: 1px solid var(--fd-border-subtle);
   border-radius: var(--fd-radius-lg);
   padding: 16px;

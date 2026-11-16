@@ -53,7 +53,7 @@ export const App: Component = () => {
           Send Ping via @ferdy/bridge
         </fd.Button>
 
-        <fd.Button variant="purple" onClick={requestNewWindowFromCore}>
+        <fd.Button variant="secondary-ghost" onClick={requestNewWindowFromCore}>
           Request Core to Open Window
         </fd.Button>
       </div>

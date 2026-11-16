@@ -1,6 +1,6 @@
 import { Component, JSX, mergeProps, splitProps } from 'solid-js';
 
-export type BadgeVariant = 'accent' | 'neutral' | 'purple';
+export type BadgeVariant = 'primary' | 'secondary' | 'accent' | 'neutral' | 'purple';
 
 export interface BadgeProps extends JSX.HTMLAttributes<HTMLSpanElement> {
   variant?: BadgeVariant;
