@@ -7,6 +7,10 @@ interface DesktopShortcut {
   title: string;
   icon: string;
   appUrl: string;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
 }
 
 const SHORTCUTS: DesktopShortcut[] = [
@@ -15,6 +19,16 @@ const SHORTCUTS: DesktopShortcut[] = [
     title: 'Sample App',
     icon: '🧩',
     appUrl: '/apps/app-sample/',
+  },
+  {
+    id: 'clock-app-1',
+    title: 'Clock',
+    icon: '🕒',
+    appUrl: '/apps/app-clock/',
+    x: 780,
+    y: 80,
+    width: 340,
+    height: 230,
   },
   {
     id: 'sample-app-2',
@@ -32,6 +46,10 @@ export const Desktop: Component = () => {
       id: shortcut.id,
       title: shortcut.title,
       appUrl: shortcut.appUrl,
+      x: shortcut.x,
+      y: shortcut.y,
+      width: shortcut.width,
+      height: shortcut.height,
     });
   };
 

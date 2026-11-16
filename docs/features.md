@@ -27,6 +27,7 @@
 - [x] **단일 서버 MPA 게이트웨이**: Vite 커스텀 플러그인을 통한 `/apps/<app-name>/` 온디맨드 라우팅 및 멀티페이지 빌드 자동화
 - [x] **Shell ↔ App `postMessage` 브릿지**: `FERDY_APP_PING`, `FERDY_OPEN_WINDOW` 메시지 통신 구현
 - [x] **샘플 앱 (`@ferdy/app-sample`)**: 독립 상태 카운터 및 Shell 메시지 발신 테스트 UI
+- [x] **시계 앱 (`@ferdy/app-clock`)**: 샘플 앱 옆에 배치되는 컴팩트 실시간 디지털 시계 및 12H/24H 포맷 토글 위젯 앱
 
 ---
 

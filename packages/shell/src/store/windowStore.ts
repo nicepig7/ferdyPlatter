@@ -22,13 +22,26 @@ const [state, setState] = createStore<WindowStoreState>({
       width: 640,
       height: 440,
       zIndex: BASE_Z_INDEX + 1,
+      isFocused: false,
+      isMinimized: false,
+      isMaximized: false,
+    },
+    {
+      id: 'clock-app-1',
+      title: 'Clock',
+      appUrl: '/apps/app-clock/',
+      x: 780,
+      y: 80,
+      width: 340,
+      height: 230,
+      zIndex: BASE_Z_INDEX + 2,
       isFocused: true,
       isMinimized: false,
       isMaximized: false,
     },
   ],
-  activeWindowId: 'sample-app-1',
-  topZIndex: BASE_Z_INDEX + 1,
+  activeWindowId: 'clock-app-1',
+  topZIndex: BASE_Z_INDEX + 2,
 });
 
 /**

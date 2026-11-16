@@ -30,7 +30,8 @@ ferdyPlatter/
 └── packages/
     ├── shell/                # [@ferdy/shell] Web OS 데스크탑, 태스크바, 윈도우 매니저
     └── apps/
-        └── app-sample/       # [@ferdy/app-sample] 격리된 샌드박스 샘플 앱
+        ├── app-sample/       # [@ferdy/app-sample] 격리된 샌드박스 샘플 앱
+        └── app-clock/        # [@ferdy/app-clock] 실시간 디지털 시계 소형 앱
 ```
 
 ---
@@ -72,5 +73,6 @@ npm run preview
 | **Release Notes** | [docs/releases.md](./docs/releases.md) | 버전별 주요 변경 사항 기록 |
 | **Shell Package** | [packages/shell/README.md](./packages/shell/README.md) | `@ferdy/shell` 내부 구조 및 컴포넌트 설명 |
 | **Sample App** | [packages/apps/app-sample/README.md](./packages/apps/app-sample/README.md) | `@ferdy/app-sample` 구조 및 새 앱 작성 참고용 템플릿 |
+| **Clock App** | [packages/apps/app-clock/README.md](./packages/apps/app-clock/README.md) | `@ferdy/app-clock` 소형 디지털 시계 앱 설명 |
 | **Agent Rules** | [AGENTS.md](./AGENTS.md) | AI 페어 프로그래밍 시 적용되는 프로젝트 규칙 안내 |
 

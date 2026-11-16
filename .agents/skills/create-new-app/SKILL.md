@@ -34,6 +34,7 @@ description: >-
    - 단독 실행 및 빌드를 위한 기본 `vite-plugin-solid` 설정을 포함합니다.
 4. **`index.html`**:
    - `<div id="root"></div>`와 `<script type="module" src="./src/index.tsx"></script>`를 포함합니다.
+   - `iframe` 내부에서 브라우저 기본 `body { margin: 8px }`로 인해 불필요한 흰색 테두리나 스크롤바가 생기지 않도록 `html, body, #root { margin: 0; padding: 0; width: 100%; height: 100%; }` 기본 리셋 스타일을 포함합니다.
    - **주의**: Shell의 `monorepoAppsGatewayPlugin`이 `./src/` 또는 `/src/` 경로를 `/@fs/.../src/`로 자동 치환하므로 스크립트 경로는 반드시 `./src/index.tsx` 형태로 작성합니다.
 5. **`src/index.tsx` 및 `src/App.tsx`**:
    - SolidJS 컴포넌트로 작성하며, 부모 Shell과의 통신이 필요할 경우 `window.parent.postMessage({ type: 'FERDY_...', ... }, '*')`를 사용합니다.
