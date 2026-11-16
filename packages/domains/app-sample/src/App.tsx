@@ -20,8 +20,14 @@ export const App: Component = () => {
   return (
     <div class="fd-app-shell">
       <header class="fd-app-header">
-        <h2 class="fd-app-title">Isolated App Template (#{instanceId})</h2>
-        <fd.Badge variant="accent">iframe sandboxed</fd.Badge>
+        <h2 class="fd-app-title">
+          <fd.Icon name="box" size="lg" style={{ 'margin-right': '6px', color: 'var(--fd-primary)' }} />
+          Isolated App Template (#{instanceId})
+        </h2>
+        <fd.Badge variant="accent">
+          <fd.Icon name="shield-check" size="xs" />
+          iframe sandboxed
+        </fd.Badge>
       </header>
 
       <p
@@ -46,14 +52,17 @@ export const App: Component = () => {
         }}
       >
         <fd.Button variant="primary" onClick={() => setCount((c) => c + 1)}>
+          <fd.Icon name="plus" size="sm" />
           Local State Count: {count()}
         </fd.Button>
 
         <fd.Button variant="secondary" onClick={sendPingToCore}>
+          <fd.Icon name="radio" size="sm" />
           Send Ping via @ferdy/bridge
         </fd.Button>
 
         <fd.Button variant="secondary-ghost" onClick={requestNewWindowFromCore}>
+          <fd.Icon name="external-link" size="sm" />
           Request Core to Open Window
         </fd.Button>
       </div>

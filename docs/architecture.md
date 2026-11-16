@@ -76,14 +76,15 @@ Ferdy Platter는 `packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin
 `iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/app-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
 
 - **CSS Cascade Layers (`index.css` & `fdStyle.*.css`)**:
-  - `@layer reset, tokens, theme, base, layout, components, utilities;` 계층 구조를 통해 스타일 우선순위를 제어하며, `index.css`를 제외한 모든 스타일시트는 `fdStyle.` 접두어를 사용합니다.
+  - `@layer reset, tokens, theme, libraries, base, layout, components, utilities;` 계층 구조를 통해 스타일 우선순위를 제어하며, `index.css`를 제외한 모든 스타일시트는 `fdStyle.` 접두어를 사용합니다.
   - `fdStyle.reset.css` (`reset`): 전역 Box-sizing/Margin 리셋
   - `fdStyle.tokens.css` (`tokens`): `--fd-radius-*`, `--fd-font-*` 등 테마 비의존 기본 토큰
   - `fdStyle.theme.css` (`theme`): `--fd-primary*` (빈티지 오렌지 브라운), `--fd-secondary*` (포레스트 그린), `--fd-bg-*`, `--fd-text-*` 등 테마 시맨틱 토큰
+  - `fdStyle.libraries.css` (`libraries`): 외부 오픈소스/서드파티 CSS(`lucide-static` 등) 전용 계층
   - `fdStyle.base.css` (`base`), `fdStyle.layout.css` (`layout`), `fdStyle.components.css` (`components` 공통 규칙), `fdStyle.utilities.css` (`utilities`)로 역할을 분리
 - **SolidJS Primitives (`src/components/<name>/fdCompo.<name>.*`)**:
-  - 각 컴포넌트는 `components/button/`, `components/badge/`, `components/card/` 폴더 안에 `fdCompo.<name>.tsx`와 `fdCompo.<name>.css` (`@layer components`)로 Co-location(근접 배치)됩니다.
-  - 소문자 네임스페이스 `<fd.Button>`, `<fd.Badge>`, `<fd.Card>` 및 `<FdButton>` / `<Button>`, `<FdBadge>` / `<Badge>`, `<FdCard>` / `<Card>` 컴포넌트 제공 (`splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙 준수)
+  - 각 컴포넌트는 `components/button/`, `components/badge/`, `components/card/`, `components/icon/` 폴더 안에 `fdCompo.<name>.tsx`와 `fdCompo.<name>.css` (`@layer components`)로 Co-location(근접 배치)됩니다.
+  - 소문자 네임스페이스 `<fd.Button>`, `<fd.Badge>`, `<fd.Card>`, `<fd.Icon>` 및 `<FdButton>` / `<Button>`, `<FdBadge>` / `<Badge>`, `<FdCard>` / `<Card>`, `<FdIcon>` / `<Icon>` 컴포넌트 제공 (`splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙 준수)
 
 ---
 

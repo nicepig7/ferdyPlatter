@@ -10,7 +10,7 @@
 - [x] **[A] `@ferdy/assets` (`packages/assets`)**: 공용 정적 에셋 디렉토리(`public/assets/`) 및 심볼/경로 상수(`FERDY_ASSETS`) 중앙 관리
 - [x] **[B] `@ferdy/ui` (`packages/base/ui`)**:
   - OS 전역 시맨틱 CSS 디자인 토큰(`--fd-*`) 및 Base Reset 스타일 통합
-  - 공통 SolidJS UI 컴포넌트(`<fd.Button>` / `<FdButton>` / `<Button>`, `<fd.Badge>` / `<FdBadge>` / `<Badge>`, `<fd.Card>` / `<FdCard>` / `<Card>`) 및 도메인 앱 레이아웃 헬퍼(`.fd-app-shell`, `.fd-app-header`, `.fd-app-title`) 제공
+  - 공통 SolidJS UI 컴포넌트(`<fd.Button>` / `<FdButton>` / `<Button>`, `<fd.Badge>` / `<FdBadge>` / `<Badge>`, `<fd.Card>` / `<FdCard>` / `<Card>`, `<fd.Icon>` / `<FdIcon>` / `<Icon>`) 및 도메인 앱 레이아웃 헬퍼(`.fd-app-shell`, `.fd-app-header`, `.fd-app-title`) 제공
 - [x] **[B] `@ferdy/bridge` (`packages/base/bridge`)**:
   - `FerdyEventMap` 기반 타입 안전 `postMessage` 프로토콜 정의
   - `ferdyBridge.emit`, `ferdyBridge.on`, `ferdyBridge.broadcast`, `ferdyBridge.ping`, `ferdyBridge.openWindow` Pub/Sub API 제공

@@ -1,0 +1,2 @@
+/* Third-party / Open-source CSS imports wrapped in the `libraries` cascade layer */
+@import 'lucide-static/font/lucide.css' layer(libraries);

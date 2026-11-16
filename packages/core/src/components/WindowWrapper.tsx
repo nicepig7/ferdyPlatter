@@ -1,4 +1,5 @@
 import { Component, createSignal, Show } from 'solid-js';
+import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../types/window';
 import { windowStore } from '../store/windowStore';
 
@@ -149,18 +150,18 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
               windowStore.minimizeWindow(props.window.id);
             }}
           >
-            &#8211;
+            <fd.Icon name="minus" size="sm" />
           </button>
           <button
             type="button"
             class="win-btn win-btn-maximize"
-            title="Maximize / Restore"
+            title={props.window.isMaximized ? 'Restore' : 'Maximize'}
             onClick={(e) => {
               e.stopPropagation();
               windowStore.toggleMaximizeWindow(props.window.id);
             }}
           >
-            &#9633;
+            <fd.Icon name={props.window.isMaximized ? 'copy' : 'square'} size="xs" />
           </button>
           <button
             type="button"
@@ -171,7 +172,7 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
               windowStore.closeWindow(props.window.id);
             }}
           >
-            &#10005;
+            <fd.Icon name="x" size="sm" />
           </button>
         </div>
       </header>

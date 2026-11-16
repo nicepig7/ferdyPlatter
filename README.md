@@ -9,7 +9,7 @@
 ## 핵심 특징
 
 - **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`) → `core` → `domains` → `etc` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
-- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), Base 스타일(`.fd-*`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
+- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), Base 스타일(`.fd-*`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
 - **타입 안전 이벤트 브릿지 (`@ferdy/bridge`)**: `window.postMessage` 기반의 Pub/Sub 통신(`emit`, `on`, `broadcast`)을 타입 안전하게 추상화합니다.
 - **Single-Server MPA 아키텍처**: `@ferdy/core`의 단일 Vite 서버(`:3000`)가 미들웨어 게이트웨이를 통해 `/apps/<app-name>/` 경로로 `packages/domains/<app-name>/` 앱들을 온디맨드 서빙합니다.
 

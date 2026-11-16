@@ -1,0 +1,48 @@
+@layer components {
+  .fd-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    flex-shrink: 0;
+    vertical-align: middle;
+    user-select: none;
+  }
+
+  .fd-icon--inherit {
+    font-size: inherit;
+  }
+
+  .fd-icon--xs {
+    font-size: 12px;
+  }
+
+  .fd-icon--sm {
+    font-size: 14px;
+  }
+
+  .fd-icon--md {
+    font-size: 16px;
+  }
+
+  .fd-icon--lg {
+    font-size: 20px;
+  }
+
+  .fd-icon--xl {
+    font-size: 24px;
+  }
+
+  .fd-icon--spin {
+    animation: fd-icon-spin 1s linear infinite;
+  }
+}
+
+@keyframes fd-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
