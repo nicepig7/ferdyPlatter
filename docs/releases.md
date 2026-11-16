@@ -7,13 +7,17 @@
 ## [0.1.3] - `@ferdy/ui` Design System & Prefix Standardization (In Progress)
 
 ### Changed
-- **전반적인 컬러 테마 및 톤앤매너 리파인 (`tokens.css`, `base.css`, `core/src/index.css`)**:
+- **`@ferdy/ui` CSS `@layer` 아키텍처 도입 및 `fdStyle.*` / `fdCompo.*` 구조화**:
+  - `src/styles/index.css`에 `@layer reset, tokens, theme, base, layout, components, utilities;` 순서 정의
+  - `index.css` 외 전역 스타일시트를 역할별 `fdStyle.<layer>.css` (`fdStyle.reset.css`, `fdStyle.tokens.css`, `fdStyle.theme.css`, `fdStyle.base.css`, `fdStyle.layout.css`, `fdStyle.components.css`, `fdStyle.utilities.css`)로 분리
+  - 각 컴포넌트를 `src/components/<name>/` 폴더별로 분리하고 `fdCompo.<name>.tsx` 및 전용 스타일 `fdCompo.<name>.css`를 나란히 배치 (`fdStyle.components.css`에는 모든 컴포넌트 공통 규칙만 유지)
+- **전반적인 컬러 테마 및 톤앤매너 리파인 (`fdStyle.theme.css`, `fdStyle.components.css`, `core/src/index.css`)**:
   - **Primary**: 빈티지한 오렌지 브라운(Terracotta) 계열(`--fd-primary*`, `--fd-accent*`) 적용
   - **Secondary**: 차분한 포레스트 그린(Forest Green) 계열(`--fd-secondary*`) 적용
   - **Surface & Text**: 오렌지 브라운 및 포레스트 그린과 조화를 이루는 웜 에스프레소/차콜 배경(`--fd-bg-*`)과 웜 크림/샌드 텍스트(`--fd-text-*`)로 데스크탑, 윈도우 프레임, 태스크바, 도메인 앱 전반의 색상 톤 통일
 - **`@ferdy/ui` 접두어 및 컴포넌트 네임스페이스 통일**:
-  - CSS 디자인 토큰 접두어를 `--ferdy-*`에서 `--fd-*`로 통일 (`tokens.css`)
-  - 공통 클래스 및 레이아웃 헬퍼 접두어를 `.f-*`에서 `.fd-*`로 통일 (`base.css`)
+  - CSS 디자인 토큰 접두어를 `--ferdy-*`에서 `--fd-*`로 통일
+  - 공통 클래스 및 레이아웃 헬퍼 접두어를 `.f-*`에서 `.fd-*`로 통일
   - 소문자 `fd` 컴포넌트 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`) 및 `FdButton` / `Button` 등 별칭 동시 지원
 
 ---

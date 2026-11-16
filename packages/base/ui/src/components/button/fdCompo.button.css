@@ -1,0 +1,98 @@
+@layer components {
+  .fd-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--fd-font-sans);
+    font-weight: 600;
+    border-radius: var(--fd-radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    user-select: none;
+  }
+
+  .fd-btn:active {
+    transform: scale(0.98);
+  }
+
+  .fd-btn--sm {
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: var(--fd-radius-sm);
+  }
+
+  .fd-btn--md {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .fd-btn--primary {
+    background: var(--fd-primary-strong);
+    border-color: var(--fd-primary);
+    color: #fffaf5;
+  }
+
+  .fd-btn--primary:hover {
+    background: var(--fd-primary-hover);
+  }
+
+  .fd-btn--secondary {
+    background: var(--fd-secondary-strong);
+    border-color: var(--fd-secondary-border);
+    color: #eef6f0;
+  }
+
+  .fd-btn--secondary:hover {
+    background: var(--fd-secondary-hover);
+    border-color: var(--fd-secondary-focus);
+    color: #ffffff;
+  }
+
+  .fd-btn--neutral {
+    background: var(--fd-bg-elevated);
+    border-color: var(--fd-border-strong);
+    color: var(--fd-text-secondary);
+  }
+
+  .fd-btn--neutral:hover {
+    background: #362d27;
+    color: var(--fd-text-primary);
+  }
+
+  .fd-btn--accent-ghost {
+    background: var(--fd-primary-subtle);
+    border-color: var(--fd-primary-border);
+    color: var(--fd-primary);
+  }
+
+  .fd-btn--accent-ghost:hover {
+    background: rgba(217, 119, 54, 0.26);
+    border-color: var(--fd-primary);
+  }
+
+  .fd-btn--secondary-ghost,
+  .fd-btn--purple {
+    background: var(--fd-secondary-subtle);
+    border-color: var(--fd-secondary-border);
+    color: var(--fd-secondary-text);
+  }
+
+  .fd-btn--secondary-ghost:hover,
+  .fd-btn--purple:hover {
+    background: rgba(59, 110, 82, 0.34);
+    border-color: var(--fd-secondary-focus);
+  }
+
+  .fd-btn--danger {
+    background: rgba(217, 78, 67, 0.18);
+    border-color: rgba(217, 78, 67, 0.45);
+    color: #fecaca;
+  }
+
+  .fd-btn--danger:hover {
+    background: var(--fd-danger);
+    color: #ffffff;
+  }
+}

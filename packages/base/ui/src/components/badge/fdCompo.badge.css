@@ -1,0 +1,28 @@
+@layer components {
+  .fd-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--fd-radius-pill);
+    white-space: nowrap;
+  }
+
+  .fd-badge--primary,
+  .fd-badge--accent {
+    background: var(--fd-primary-subtle);
+    color: var(--fd-primary);
+  }
+
+  .fd-badge--secondary,
+  .fd-badge--purple {
+    background: var(--fd-secondary-subtle);
+    color: var(--fd-secondary-text);
+  }
+
+  .fd-badge--neutral {
+    background: var(--fd-bg-elevated);
+    color: var(--fd-text-muted);
+  }
+}

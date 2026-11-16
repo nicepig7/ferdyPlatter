@@ -1,4 +1,5 @@
 import { Component, JSX, mergeProps, splitProps } from 'solid-js';
+import './fdCompo.button.css';
 
 export type ButtonVariant =
   | 'primary'

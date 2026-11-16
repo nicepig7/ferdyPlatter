@@ -1,4 +1,5 @@
 import { Component, JSX, mergeProps, splitProps } from 'solid-js';
+import './fdCompo.badge.css';
 
 export type BadgeVariant = 'primary' | 'secondary' | 'accent' | 'neutral' | 'purple';
 

@@ -1,4 +1,5 @@
 import { Component, JSX, splitProps } from 'solid-js';
+import './fdCompo.card.css';
 
 export type CardProps = JSX.HTMLAttributes<HTMLDivElement>;
 export type FdCardProps = CardProps;

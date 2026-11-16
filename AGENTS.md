@@ -28,7 +28,10 @@
    - **[A] `packages/assets` (`@ferdy/assets`)**: 공용 정적 에셋(`public/assets/...`) 및 에셋 상수 정의.
    - **[B] `packages/base/*` (`@ferdy/bridge`, `@ferdy/ui`)**:
      - `@ferdy/bridge`: Core와 Domain Apps 간의 타입 안전 `postMessage` Pub/Sub 이벤트 버스.
-     - `@ferdy/ui`: 공통 CSS 디자인 토큰(`--fd-*`), Base 리셋/유틸리티 클래스(`.fd-*`), 공통 SolidJS UI 컴포넌트(`fd.Button` / `FdButton` / `Button`, `fd.Badge` / `FdBadge` / `Badge`, `fd.Card` / `FdCard` / `Card`).
+     - `@ferdy/ui`:
+       - CSS `@layer` 계층(`@layer reset, tokens, theme, base, layout, components, utilities;`) 및 전역 스타일시트(`fdStyle.*.css`)
+       - 공통 CSS 디자인 토큰(`--fd-*`), Base 리셋/유틸리티 클래스(`.fd-*`)
+       - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`)
    - **[C] `packages/core` (`@ferdy/core`)**: OS 데스크탑, 태스크바, 윈도우 매니저, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.
    - **[D] `packages/domains/*` (`@ferdy/app-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱.
    - **[E] `packages/etc`**: 기타 실험적 모듈, 외부 연동 어댑터, 유틸리티 공간.

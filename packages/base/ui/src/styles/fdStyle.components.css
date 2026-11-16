@@ -1,0 +1,23 @@
+@layer components {
+  /* Common rules shared across all @ferdy/ui components */
+  .fd-compo,
+  .fd-btn,
+  .fd-badge,
+  .fd-card {
+    font-family: var(--fd-font-sans);
+    box-sizing: border-box;
+  }
+
+  .fd-btn:focus-visible,
+  .fd-card:focus-visible {
+    outline: 2px solid var(--fd-primary-focus);
+    outline-offset: 2px;
+  }
+
+  .fd-btn:disabled,
+  .fd-compo[aria-disabled='true'] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}

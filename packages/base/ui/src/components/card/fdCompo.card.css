@@ -1,0 +1,8 @@
+@layer components {
+  .fd-card {
+    background: rgba(40, 33, 29, 0.6);
+    border: 1px solid var(--fd-border-subtle);
+    border-radius: var(--fd-radius-lg);
+    padding: 16px;
+  }
+}
