@@ -112,6 +112,10 @@
   color: #ffffff;
 }
 
+.win-btn-external:hover {
+  color: var(--fd-primary);
+}
+
 .win-btn-close:hover {
   background: var(--fd-danger);
   color: #ffffff;

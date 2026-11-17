@@ -39,6 +39,7 @@ export const Desktop: Component = () => {
                     title={shortcut().title}
                     icon={shortcut().icon}
                     tone={shortcut().tone}
+                    isExternal={shortcut().isExternal || shortcut().openMode === 'new-tab'}
                     onClick={() => appStore.openShortcut(item)}
                   />
                 )}

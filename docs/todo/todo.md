@@ -11,11 +11,9 @@
 
 가장 먼저 착수할 만한 단기 작업 목록입니다.
 
-- [ ] **외부 웹 사이트 링크 바로가기 아이콘 지원 (External URL Shortcuts)**
+- [x] **외부 웹 사이트 링크 바로가기 아이콘 지원 (External URL Shortcuts)**
   - 바탕화면에 내부 도메인 앱(`/apps/...`)뿐만 아니라 외부 사이트 주소(예: `https://nicepig7.github.io/cubeTimer/`)를 아이콘으로 등록하고 실행하는 기능
-  - 실행 방식 옵션 구상:
-    1. OS 내부 `iframe` 창(`WindowWrapper`)으로 임베드하여 열기 (외부 사이트의 `X-Frame-Options` / CSP 허용 여부에 따라 동작)
-    2. 또는 새 브라우저 탭(`window.open`)으로 열기 / 창 헤더에 '외부 탭에서 열기' 액션 버튼 제공
+  - `openMode` (`'window'` | `'new-tab'`), 바탕화면 외부 링크 배지, 창 타이틀바 '새 탭에서 열기' 버튼 및 Cross-Origin `iframe` 보안 예외 방어 처리 구현 완료
 - [ ] **런타임 테마 스위처 (`dark` / `light`) 연동**
   - `@ferdy/ui`의 `fdStyle.theme.css`에 라이트 모드(또는 추가 빈티지 테마) 토큰 세트 정의
   - `@ferdy/core`에서 `ferdyBridge.broadcast('FERDY_THEME_CHANGE', { theme })` 발행 및 각 도메인 앱 수신 처리

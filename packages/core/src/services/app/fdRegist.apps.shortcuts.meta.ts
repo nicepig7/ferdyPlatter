@@ -32,4 +32,13 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     id: 'calendar-app-1',
     appId: 'app-calendar',
   },
+  {
+    id: 'ext-cube-timer',
+    title: 'Cube Timer',
+    icon: FERDY_ASSETS.icons.timer,
+    tone: 'secondary',
+    appUrl: 'https://nicepig7.github.io/cubeTimer/',
+    width: 960,
+    height: 640,
+  },
 ];

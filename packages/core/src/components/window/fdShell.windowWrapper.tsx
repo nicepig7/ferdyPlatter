@@ -1,6 +1,8 @@
 import { Component, createSignal, onCleanup, onMount, Show } from 'solid-js';
+import { FERDY_ASSETS } from '@ferdy/assets';
 import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../../types/fdType.window';
+import { isExternalUrl, openInNewTab } from '../../services/app/fdStore.app';
 import {
   MIN_WINDOW_HEIGHT,
   MIN_WINDOW_WIDTH,
@@ -31,9 +33,23 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
 
   // 현재 창의 iframe만 단독 새로고침
   const reloadIframe = () => {
-    const contentWin = iframeRef?.contentWindow;
-    if (!contentWin) return;
-    contentWin.location.reload();
+    if (!iframeRef) return;
+    try {
+      const contentWin = iframeRef.contentWindow;
+      if (contentWin) {
+        contentWin.location.reload();
+        return;
+      }
+    } catch {
+      // Cross-origin iframe: location.reload() is blocked by Same-Origin Policy
+    }
+    iframeRef.src = props.window.appUrl;
+  };
+
+  // 외부 URL 창을 브라우저 새 탭에서 열기
+  const handleOpenExternalTab = (e: MouseEvent) => {
+    e.stopPropagation();
+    openInNewTab(props.window.appUrl);
   };
 
   // iframe 내부 문서에서 발생한 새로고침 단축키 가로채기
@@ -47,10 +63,14 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
 
   // iframe 로드(및 리로드 완료) 시마다 내부 window에 키보드 리스너 등록
   const handleIframeLoad = () => {
-    const contentWin = iframeRef?.contentWindow;
-    if (!contentWin) return;
-    contentWin.removeEventListener('keydown', handleIframeKeyDown, true);
-    contentWin.addEventListener('keydown', handleIframeKeyDown, true);
+    try {
+      const contentWin = iframeRef?.contentWindow;
+      if (!contentWin) return;
+      contentWin.removeEventListener('keydown', handleIframeKeyDown, true);
+      contentWin.addEventListener('keydown', handleIframeKeyDown, true);
+    } catch {
+      // Cross-origin iframe: ignore SecurityError when attaching inner keydown listener
+    }
   };
 
   // 창 프레임(타이틀바 등)을 클릭하여 해당 창이 포커스된 상태에서 누른 새로고침 단축키 처리
@@ -67,7 +87,11 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
     window.addEventListener('keydown', handleHostKeyDown, true);
     onCleanup(() => {
       window.removeEventListener('keydown', handleHostKeyDown, true);
-      iframeRef?.contentWindow?.removeEventListener('keydown', handleIframeKeyDown, true);
+      try {
+        iframeRef?.contentWindow?.removeEventListener('keydown', handleIframeKeyDown, true);
+      } catch {
+        // Cross-origin iframe: ignore SecurityError on cleanup
+      }
       cleanupPointerInteraction?.();
     });
   });
@@ -213,6 +237,16 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
           <span class="os-window-title-text">{props.window.title}</span>
         </div>
         <div class="os-window-controls">
+          <Show when={isExternalUrl(props.window.appUrl)}>
+            <button
+              type="button"
+              class="win-btn win-btn-external"
+              title="Open in new tab"
+              onClick={handleOpenExternalTab}
+            >
+              <fd.Icon name={FERDY_ASSETS.icons.externalLink} size="xs" />
+            </button>
+          </Show>
           <button
             type="button"
             class="win-btn win-btn-minimize"
@@ -267,7 +301,7 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
           class="os-window-iframe"
           src={props.window.appUrl}
           title={props.window.title}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
           onLoad={handleIframeLoad}
         />
       </div>

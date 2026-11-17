@@ -1,6 +1,13 @@
 export type AppIconTone = 'primary' | 'secondary' | 'neutral';
 
 /**
+ * 바로가기/앱 실행 방식
+ * - `'window'`: OS 내부 iframe 창으로 실행 (기본값)
+ * - `'new-tab'`: 브라우저 새 탭(`window.open`)으로 바로 열기
+ */
+export type ShortcutOpenMode = 'window' | 'new-tab';
+
+/**
  * OS에 설치/등록된 도메인 애플리케이션의 고유 메타정보 (App Manifest)
  */
 export interface AppManifest {
@@ -45,6 +52,8 @@ export interface DesktopShortcut {
   tone?: AppIconTone;
   /** 직접 URL을 지정하거나 오버라이드할 때 사용 (생략 시 AppManifest.appUrl 사용) */
   appUrl?: string;
+  /** 실행 방식 ('window': OS 내부 창, 'new-tab': 브라우저 새 탭. 기본값: 'window') */
+  openMode?: ShortcutOpenMode;
   /** 앱 URL 뒤에 부착할 쿼리 파라미터 (예: { instance: 2 } -> '?instance=2') */
   queryParams?: Record<string, string | number>;
   /** 초기 X 좌표 오버라이드 */
@@ -73,6 +82,8 @@ export interface LaunchAppOptions {
   icon?: string;
   /** 직접 지정할 URL 오버라이드 */
   appUrl?: string;
+  /** 실행 방식 ('window': OS 내부 창, 'new-tab': 브라우저 새 탭. 기본값: 'window') */
+  openMode?: ShortcutOpenMode;
   /** 앱 URL에 추가할 쿼리 스트링 파라미터 (예: { instance: 2 }) */
   queryParams?: Record<string, string | number>;
   /** 초기 X 좌표 오버라이드 */

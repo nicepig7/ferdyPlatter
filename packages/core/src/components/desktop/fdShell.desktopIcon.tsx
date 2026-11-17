@@ -1,4 +1,6 @@
-import { Component, JSX, createUniqueId } from 'solid-js';
+import { Component, JSX, Show, createUniqueId } from 'solid-js';
+import { FERDY_ASSETS } from '@ferdy/assets';
+import { fd } from '@ferdy/ui';
 import type { AppIconTone } from '../../types/fdType.app';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.desktopIcon.css';
@@ -14,6 +16,8 @@ export interface DesktopIconProps {
   tone?: DesktopIconTone;
   /** 내부 아이콘 픽셀 크기 (기본값: 32) */
   iconSize?: number;
+  /** 외부 웹 사이트 링크 여부 (타일 모서리에 링크 배지 표시) */
+  isExternal?: boolean;
   /** 클릭 핸들러 */
   onClick?: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>;
   /** 더블클릭 핸들러 */
@@ -72,6 +76,12 @@ export const DesktopIcon: Component<DesktopIconProps> = (props) => {
         <span class="os-desktop-icon-glyph">
           <AppIcon icon={props.icon} size={props.iconSize ?? 32} />
         </span>
+
+        <Show when={props.isExternal}>
+          <span class="os-desktop-icon-badge" aria-hidden="true">
+            <fd.Icon name={FERDY_ASSETS.icons.externalLink} size={10} />
+          </span>
+        </Show>
       </span>
       <span class="os-desktop-icon-label">{props.title}</span>
     </button>

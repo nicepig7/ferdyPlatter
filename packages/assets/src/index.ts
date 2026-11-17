@@ -14,6 +14,9 @@ export const FERDY_ASSETS = {
     rocket: 'rocket',
     plus: 'plus',
     hello: 'hand',
+    globe: 'globe',
+    timer: 'timer',
+    externalLink: 'external-link',
   },
   paths: {
     logoSvg: '/assets/logo/ferdy.svg',

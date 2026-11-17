@@ -1,9 +1,11 @@
 import { createStore, produce } from 'solid-js/store';
+import { FERDY_ASSETS } from '@ferdy/assets';
 import type {
   AppIconTone,
   AppManifest,
   DesktopShortcut,
   LaunchAppOptions,
+  ShortcutOpenMode,
 } from '../../types/fdType.app';
 import { windowStore } from '../window/fdStore.window';
 import { INITIAL_APP_MANIFESTS } from './fdRegist.apps.manifest.meta';
@@ -16,6 +18,8 @@ export interface ResolvedDesktopShortcut {
   icon: string;
   tone: AppIconTone;
   appUrl: string;
+  openMode: ShortcutOpenMode;
+  isExternal: boolean;
   x?: number;
   y?: number;
   width?: number;
@@ -43,6 +47,20 @@ const [state, setState] = createStore<AppStoreState>({
   apps: initialAppsMap,
   shortcuts: [...INITIAL_DESKTOP_SHORTCUTS],
 });
+
+/**
+ * URL이 외부 웹 사이트(`http://`, `https://`)인지 판별합니다.
+ */
+export function isExternalUrl(url: string): boolean {
+  return /^https?:\/\//i.test(url);
+}
+
+/**
+ * 지정한 URL을 보안 옵션(`noopener,noreferrer`)과 함께 새 브라우저 탭에서 엽니다.
+ */
+export function openInNewTab(url: string): void {
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
 
 /**
  * 기본 URL에 쿼리 파라미터(`?key=value`)를 안전하게 결합합니다.
@@ -105,13 +123,19 @@ export function resolveShortcut(
     return null;
   }
 
+  const finalUrl = buildAppUrl(baseUrl, shortcut.queryParams);
+  const external = isExternalUrl(finalUrl);
+  const openMode: ShortcutOpenMode = shortcut.openMode ?? 'window';
+
   return {
     id: shortcut.id,
     appId: shortcut.appId ?? manifest?.appId,
     title: shortcut.title ?? manifest?.title ?? shortcut.id,
-    icon: shortcut.icon ?? manifest?.icon ?? 'box',
+    icon: shortcut.icon ?? manifest?.icon ?? (external ? FERDY_ASSETS.icons.globe : 'box'),
     tone: shortcut.tone ?? manifest?.tone ?? 'neutral',
-    appUrl: buildAppUrl(baseUrl, shortcut.queryParams),
+    appUrl: finalUrl,
+    openMode,
+    isExternal: external,
     x: shortcut.x ?? manifest?.defaultWindow?.x,
     y: shortcut.y ?? manifest?.defaultWindow?.y,
     width: shortcut.width ?? manifest?.defaultWindow?.width,
@@ -137,6 +161,11 @@ export function launchApp(appId: string, options?: LaunchAppOptions): void {
 
   const finalUrl = buildAppUrl(baseUrl, options?.queryParams);
 
+  if ((options?.openMode ?? 'window') === 'new-tab') {
+    openInNewTab(finalUrl);
+    return;
+  }
+
   windowStore.openWindow({
     id: options?.windowId ?? appId,
     appId: manifest?.appId ?? appId,
@@ -158,6 +187,11 @@ export function launchApp(appId: string, options?: LaunchAppOptions): void {
 export function openShortcut(shortcut: DesktopShortcut): void {
   const resolved = resolveShortcut(shortcut);
   if (!resolved) return;
+
+  if (resolved.openMode === 'new-tab') {
+    openInNewTab(resolved.appUrl);
+    return;
+  }
 
   windowStore.openWindow({
     id: resolved.id,
@@ -192,6 +226,8 @@ export function addShortcut(shortcut: DesktopShortcut): void {
 
 export const appStore = {
   state,
+  isExternalUrl,
+  openInNewTab,
   getApp,
   getAppList,
   registerApp,
