@@ -7,7 +7,7 @@
 
 ## 주요 역할
 
-1. **Desktop & Taskbar UI (`components/`)**: 바탕화면 바로가기 아이콘 그리드(`appStore.state.shortcuts`), 하단 작업 표시줄(앱 런처, 열린 창 목록, 상태 트레이 및 시계)을 렌더링합니다.
+1. **Desktop & Taskbar UI (`components/`)**: 뷰포트 크기에 맞춰 정사각형에 가깝게 균등 분할되는 반응형 바탕화면 바로가기 아이콘 그리드(`desktopStore` + `appStore.state.shortcuts`), Ghost 격자 오버레이(`Ctrl+Wheel` 배율 조절), 하단 작업 표시줄(앱 런처, 열린 창 목록, 상태 트레이 및 시계)을 렌더링합니다.
 2. **App Registry & Shortcut Service (`services/app/`)**:
    - `.meta.ts` 파일 규칙(한 파일당 한 종류의 메타데이터 관리)에 따라 설치된 도메인 앱의 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdRegist.apps.shortcuts.meta.ts`)을 분리하여 관리합니다.
    - `appStore.launchApp(appId, options)` 및 `appStore.openShortcut(shortcut)`을 통해 매니페스트 기본값을 기반으로 쿼리 파라미터(`?instance=2`), 창 제목, 위치/크기를 오버라이드하거나 외부 웹 사이트(`appUrl`, `openMode: 'window' | 'new-tab'`)를 바로가기로 실행할 수 있습니다.
@@ -50,10 +50,13 @@ packages/core/
     │   │   ├── fdRegist.apps.manifest.meta.ts   # 설치된 도메인 앱 매니페스트 초기 메타데이터 (INITIAL_APP_MANIFESTS)
     │   │   ├── fdRegist.apps.shortcuts.meta.ts  # 바탕화면 바로가기 초기 메타데이터 (INITIAL_DESKTOP_SHORTCUTS)
     │   │   └── fdStore.app.ts                   # 앱 레지스트리 조회/등록, 바로가기 해석 및 앱 실행 스토어
+    │   ├── desktop/
+    │   │   └── fdStore.desktop.ts               # 바탕화면 반응형 그리드 분할 계산, Ctrl+Wheel 배율 및 Ghost 격자 상태 스토어
     │   └── window/
     │       └── fdStore.window.ts                # SolidJS createStore 기반 활성 창 상태 및 액션 정의
     └── types/
         ├── fdType.app.ts         # AppManifest, DesktopShortcut, LaunchAppOptions 타입 정의
+        ├── fdType.desktop.ts     # DesktopGridConfig, DesktopGridLayout, DesktopGridPlacement 타입 정의
         └── fdType.window.ts      # WindowInstance, CreateWindowPayload 타입 정의
 ```
 

@@ -22,7 +22,10 @@
   - `.meta.ts` 단일 데이터 파일 규칙에 따라 설치된 도메인 앱 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdRegist.apps.shortcuts.meta.ts`)을 분리하여 중앙 관리
   - `appId` 참조 기반 실행(`appStore.launchApp`) 및 인스턴스 파라미터(`queryParams`), 제목, 아이콘, 창 좌표/크기 오버라이드 지원
   - **외부 웹 사이트 바로가기 지원**: `appUrl`에 `http(s)://` 외부 주소를 지정해 OS 창(`openMode: 'window'`) 또는 새 탭(`openMode: 'new-tab'`)으로 실행하고, 외부 창 타이틀바에 '새 탭에서 열기' 버튼 및 Cross-Origin `iframe` 안전 리로드 제공
-- [x] **바탕화면 바로가기 그리드 & SVG 스쿼클(Superellipse) 아이콘 타일 (`DesktopIcon`)**:
+- [x] **바탕화면 반응형 그리드 & SVG 스쿼클(Superellipse) 아이콘 타일 (`Desktop`, `DesktopIcon`, `desktopStore`)**:
+  - `ResizeObserver`와 짧은 변 기준 균등 분할 알고리즘(`computeDesktopGridLayout`)으로 데스크탑 영역을 정사각형에 가까운 `cols × rows` 그리드로 자동 분할하고, 셀 크기에 맞춰 아이콘 타일·글리프·라벨이 비례 스케일링됨
+  - 바탕화면에서 `Ctrl + Wheel`로 짧은 변 기준 셀 개수(`3 ~ 14`, `localStorage` 저장)를 1칸씩 즉시 증감하며, 조절 중에는 Ghost 격자 오버레이와 배율 배지를 표시
+  - **아이콘 드래그 앤 드롭 배치**: 포인터 드래그 시 Ghost 격자 및 드롭 대상 셀을 하이라이트하고, 드롭 시 해당 좌표(`(col, row)`)로 이동 또는 기존 아이콘과 위치 교환(`localStorage` 저장)
   - 연속 곡률 SVG 스쿼클 타일 + 하이브리드 아이콘(`AppIcon`: 커스텀 SVG 및 Lucide 아이콘 자동 분기) 및 외부 링크 배지(`external-link`) 표시
   - 1줄 말줄임(`ellipsis`) 라벨 및 마우스 오버 전체 이름 툴팁 지원
 - [x] **태스크바 런처 버튼 (`fdPlatter`)**: `ferdy.svg` 브랜드 로고 적용 및 빠른 새 샘플 앱 인스턴스 실행
