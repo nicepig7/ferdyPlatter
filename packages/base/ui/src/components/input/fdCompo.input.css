@@ -1,0 +1,56 @@
+@layer components {
+  .fd-input {
+    width: 100%;
+    min-width: 0;
+    font-family: var(--fd-font-sans);
+    color: var(--fd-text-primary);
+    border-radius: var(--fd-radius-md);
+    border: 1px solid transparent;
+    outline: none;
+    user-select: text;
+    transition:
+      border-color var(--fd-duration-normal) var(--fd-ease-default),
+      background-color var(--fd-duration-normal) var(--fd-ease-default);
+  }
+
+  .fd-input::placeholder {
+    color: var(--fd-text-dim);
+  }
+
+  .fd-input--sm {
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 1.3;
+    border-radius: var(--fd-radius-sm);
+  }
+
+  .fd-input--md {
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .fd-input--default {
+    background: var(--fd-bg-elevated);
+    border-color: var(--fd-border-subtle);
+  }
+
+  .fd-input--default:hover:not(:disabled) {
+    border-color: var(--fd-border-strong);
+  }
+
+  .fd-input--default:focus {
+    border-color: var(--fd-primary-border);
+  }
+
+  .fd-input--ghost {
+    background: transparent;
+    border-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .fd-input--ghost:focus-visible {
+    outline: none;
+  }
+}

@@ -1,0 +1,56 @@
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cal-title-icon {
+  color: var(--fd-primary);
+  flex-shrink: 0;
+}
+
+.cal-title-text {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.cal-year-month {
+  font-family: var(--fd-font-sans);
+  font-size: clamp(15px, min(5.2vw, 5.5vh), 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fd-text-primary);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.cal-month-name {
+  font-size: clamp(12px, min(3vw, 3.2vh), 24px);
+  font-weight: 500;
+  color: var(--fd-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cal-nav-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cal-nav-btn {
+  padding: 4px 6px;
+}

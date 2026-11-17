@@ -60,6 +60,12 @@
     --fd-radius-pill: 999px;
 
     /* ======================================================================
+     * Control Size Tokens
+     * ====================================================================== */
+    --fd-control-height-sm: 30px;
+    --fd-control-height-md: 36px;
+
+    /* ======================================================================
      * Typography Tokens
      * ====================================================================== */
     --fd-font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;

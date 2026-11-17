@@ -1,0 +1,59 @@
+.cal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.5vmin, 8px);
+  padding-top: clamp(6px, 1.8vmin, 10px);
+  border-top: 1px solid var(--fd-border-subtle);
+  flex-shrink: 0;
+}
+
+.cal-footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cal-selected-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cal-selected-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--fd-text-dim);
+}
+
+.cal-selected-date {
+  font-family: var(--fd-font-sans);
+  font-size: clamp(13px, min(3.2vw, 3.4vh), 22px);
+  font-weight: 600;
+  color: var(--fd-text-secondary);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  white-space: nowrap;
+}
+
+.cal-dday-badge {
+  font-family: var(--fd-font-sans);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  flex-shrink: 0;
+}
+
+.cal-memo-field {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cal-memo-field:focus-within {
+  background: var(--fd-bg-elevated);
+}
+
+.cal-memo-input {
+  font-size: clamp(12px, min(2.8vw, 3vh), 15px);
+  line-height: 1.3;
+}
