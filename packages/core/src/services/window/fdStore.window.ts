@@ -5,6 +5,7 @@ interface WindowStoreState {
   windows: WindowInstance[];
   activeWindowId: string | null;
   topZIndex: number;
+  isInteracting: boolean;
 }
 
 const BASE_Z_INDEX = 100;
@@ -17,6 +18,7 @@ const [state, setState] = createStore<WindowStoreState>({
   windows: [],
   activeWindowId: null,
   topZIndex: BASE_Z_INDEX,
+  isInteracting: false,
 });
 
 /**
@@ -233,6 +235,13 @@ export function resizeWindow(
   );
 }
 
+/**
+ * 창 드래그/리사이즈 등 전역 포인터 인터랙션 진행 여부를 설정합니다.
+ */
+export function setInteracting(interacting: boolean) {
+  setState('isInteracting', interacting);
+}
+
 export const windowStore = {
   state,
   openWindow,
@@ -244,4 +253,5 @@ export const windowStore = {
   toggleTaskbarWindow,
   moveWindow,
   resizeWindow,
+  setInteracting,
 };

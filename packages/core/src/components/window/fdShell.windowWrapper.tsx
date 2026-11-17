@@ -27,7 +27,7 @@ function isReloadShortcut(e: KeyboardEvent): boolean {
 }
 
 export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
-  const [isInteracting, setIsInteracting] = createSignal(false);
+  const [canInterceptIframe, setCanInterceptIframe] = createSignal(false);
   let iframeRef: HTMLIFrameElement | undefined;
   let cleanupPointerInteraction: (() => void) | null = null;
 
@@ -61,15 +61,29 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
     reloadIframe();
   };
 
-  // iframe 로드(및 리로드 완료) 시마다 내부 window에 키보드 리스너 등록
+  // 비활성 상태인 same-origin iframe 내부 클릭 시 즉시 창 포커스 전환 (클릭 이벤트는 그대로 통과)
+  const handleIframePointerDown = () => {
+    if (!props.window.isFocused) {
+      windowStore.focusWindow(props.window.id);
+    }
+  };
+
+  // iframe 로드(및 리로드 완료) 시마다 내부 window에 키보드/포인터 리스너 등록
   const handleIframeLoad = () => {
     try {
       const contentWin = iframeRef?.contentWindow;
-      if (!contentWin) return;
+      if (!contentWin) {
+        setCanInterceptIframe(false);
+        return;
+      }
       contentWin.removeEventListener('keydown', handleIframeKeyDown, true);
       contentWin.addEventListener('keydown', handleIframeKeyDown, true);
+      contentWin.removeEventListener('pointerdown', handleIframePointerDown, true);
+      contentWin.addEventListener('pointerdown', handleIframePointerDown, true);
+      setCanInterceptIframe(true);
     } catch {
-      // Cross-origin iframe: ignore SecurityError when attaching inner keydown listener
+      // Cross-origin iframe: ignore SecurityError when attaching inner listeners
+      setCanInterceptIframe(false);
     }
   };
 
@@ -88,13 +102,36 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
     onCleanup(() => {
       window.removeEventListener('keydown', handleHostKeyDown, true);
       try {
-        iframeRef?.contentWindow?.removeEventListener('keydown', handleIframeKeyDown, true);
+        const contentWin = iframeRef?.contentWindow;
+        contentWin?.removeEventListener('keydown', handleIframeKeyDown, true);
+        contentWin?.removeEventListener('pointerdown', handleIframePointerDown, true);
       } catch {
         // Cross-origin iframe: ignore SecurityError on cleanup
       }
       cleanupPointerInteraction?.();
     });
   });
+
+  // 드래그/리사이징 포인터 추적 시작 및 안전 종료(pointercancel/blur 포함)
+  const startPointerInteraction = (onMove: (moveEvent: PointerEvent) => void) => {
+    cleanupPointerInteraction?.();
+    windowStore.setInteracting(true);
+
+    const finishInteraction = () => {
+      windowStore.setInteracting(false);
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', finishInteraction);
+      window.removeEventListener('pointercancel', finishInteraction);
+      window.removeEventListener('blur', finishInteraction);
+      cleanupPointerInteraction = null;
+    };
+
+    cleanupPointerInteraction = finishInteraction;
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', finishInteraction);
+    window.addEventListener('pointercancel', finishInteraction);
+    window.addEventListener('blur', finishInteraction);
+  };
 
   // 타이틀바 드래그로 창 이동
   const handleTitleBarPointerDown = (e: PointerEvent) => {
@@ -104,29 +141,17 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
 
     e.preventDefault();
     windowStore.focusWindow(props.window.id);
-    setIsInteracting(true);
 
     const startX = e.clientX;
     const startY = e.clientY;
     const initialX = props.window.x;
     const initialY = props.window.y;
 
-    const onPointerMove = (moveEvent: PointerEvent) => {
+    startPointerInteraction((moveEvent) => {
       const dx = moveEvent.clientX - startX;
       const dy = moveEvent.clientY - startY;
       windowStore.moveWindow(props.window.id, initialX + dx, initialY + dy);
-    };
-
-    const onPointerUp = () => {
-      setIsInteracting(false);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      cleanupPointerInteraction = null;
-    };
-
-    cleanupPointerInteraction = onPointerUp;
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
+    });
   };
 
   // 8방향 창 리사이징 핸들러
@@ -136,7 +161,6 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
     e.stopPropagation();
 
     windowStore.focusWindow(props.window.id);
-    setIsInteracting(true);
 
     const startX = e.clientX;
     const startY = e.clientY;
@@ -149,7 +173,7 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       height: props.window.height,
     };
 
-    const onPointerMove = (moveEvent: PointerEvent) => {
+    startPointerInteraction((moveEvent) => {
       const dx = moveEvent.clientX - startX;
       const dy = moveEvent.clientY - startY;
 
@@ -185,18 +209,7 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         width: newWidth,
         height: newHeight,
       });
-    };
-
-    const onPointerUp = () => {
-      setIsInteracting(false);
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      cleanupPointerInteraction = null;
-    };
-
-    cleanupPointerInteraction = onPointerUp;
-    window.addEventListener('pointermove', onPointerMove);
-    window.addEventListener('pointerup', onPointerUp);
+    });
   };
 
   return (
@@ -215,7 +228,11 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         height: props.window.isMaximized ? 'calc(100% - 48px)' : `${props.window.height}px`,
         'z-index': props.window.zIndex,
       }}
-      onPointerDown={() => windowStore.focusWindow(props.window.id)}
+      onPointerDown={() => {
+        if (!props.window.isFocused) {
+          windowStore.focusWindow(props.window.id);
+        }
+      }}
     >
       {/* 상단 타이틀바 (드래그 핸들) */}
       <header
@@ -286,13 +303,18 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       {/* 본문 영역: 격리된 iframe 앱 컨테이너 */}
       <div class="os-window-body">
         {/*
-          드래그/리사이즈 중이거나 비활성 창일 때 투명 보호막을 씌워
-          iframe이 마우스 이벤트를 가로채거나 클릭 포커스를 뺏는 현상을 방지합니다.
+          드래그/리사이즈 중이거나, 포인터 리스너를 직접 붙일 수 없는 cross-origin 비활성 창일 때
+          투명 보호막을 씌워 iframe이 마우스 이벤트를 가로채거나 드래그가 끊기는 현상을 방지합니다.
         */}
-        <Show when={isInteracting() || !props.window.isFocused}>
+        <Show when={windowStore.state.isInteracting || (!props.window.isFocused && !canInterceptIframe())}>
           <div
             class="os-window-iframe-shield"
-            onPointerDown={() => windowStore.focusWindow(props.window.id)}
+            onPointerDown={(e) => {
+              e.stopPropagation();
+              if (!props.window.isFocused) {
+                windowStore.focusWindow(props.window.id);
+              }
+            }}
           />
         </Show>
 
