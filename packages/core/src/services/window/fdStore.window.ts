@@ -8,14 +8,51 @@ interface WindowStoreState {
 }
 
 const BASE_Z_INDEX = 100;
-const MIN_WIDTH = 320;
-const MIN_HEIGHT = 220;
+export const MIN_WINDOW_WIDTH = 320;
+export const MIN_WINDOW_HEIGHT = 220;
 
 const [state, setState] = createStore<WindowStoreState>({
   windows: [],
   activeWindowId: null,
   topZIndex: BASE_Z_INDEX,
 });
+
+/**
+ * draft 내부에서 특정 창을 최상단 포커스 상태로 전환합니다.
+ */
+function focusWindowInDraft(draft: WindowStoreState, id: string): void {
+  const target = draft.windows.find((w) => w.id === id);
+  if (!target) return;
+
+  const nextZ = draft.topZIndex + 1;
+  draft.windows.forEach((w) => {
+    if (w.id === id) {
+      w.isFocused = true;
+      w.isMinimized = false;
+      w.zIndex = nextZ;
+    } else {
+      w.isFocused = false;
+    }
+  });
+  draft.activeWindowId = id;
+  draft.topZIndex = nextZ;
+}
+
+/**
+ * draft 내부에서 현재 화면에 보이는(최소화되지 않은) 창 중 가장 높은 Z-Index 창으로 포커스를 이관합니다.
+ */
+function focusNextTopWindowInDraft(draft: WindowStoreState): void {
+  const visibleWindows = draft.windows.filter((w) => !w.isMinimized);
+  if (visibleWindows.length > 0) {
+    const topWin = visibleWindows.reduce((prev, curr) =>
+      curr.zIndex > prev.zIndex ? curr : prev
+    );
+    topWin.isFocused = true;
+    draft.activeWindowId = topWin.id;
+  } else {
+    draft.activeWindowId = null;
+  }
+}
 
 /**
  * 새로운 앱 창을 열거나, 이미 동일한 ID의 창이 있다면 포커스합니다.
@@ -63,24 +100,11 @@ export function openWindow(payload: CreateWindowPayload) {
  * 특정 창을 클릭하거나 활성화할 때 최상단(Z-index 갱신)으로 올리고 포커스 상태를 부여합니다.
  */
 export function focusWindow(id: string) {
-  const target = state.windows.find((w) => w.id === id);
-  if (!target) return;
-
-  const nextZ = state.topZIndex + 1;
+  if (!state.windows.some((w) => w.id === id)) return;
 
   setState(
     produce((draft) => {
-      draft.windows.forEach((w) => {
-        if (w.id === id) {
-          w.isFocused = true;
-          w.isMinimized = false;
-          w.zIndex = nextZ;
-        } else {
-          w.isFocused = false;
-        }
-      });
-      draft.activeWindowId = id;
-      draft.topZIndex = nextZ;
+      focusWindowInDraft(draft, id);
     })
   );
 }
@@ -110,16 +134,7 @@ export function closeWindow(id: string) {
       draft.windows = draft.windows.filter((w) => w.id !== id);
 
       if (draft.activeWindowId === id) {
-        const visibleWindows = draft.windows.filter((w) => !w.isMinimized);
-        if (visibleWindows.length > 0) {
-          const topWin = visibleWindows.reduce((prev, curr) =>
-            curr.zIndex > prev.zIndex ? curr : prev
-          );
-          topWin.isFocused = true;
-          draft.activeWindowId = topWin.id;
-        } else {
-          draft.activeWindowId = null;
-        }
+        focusNextTopWindowInDraft(draft);
       }
     })
   );
@@ -138,16 +153,7 @@ export function minimizeWindow(id: string) {
       target.isFocused = false;
 
       if (draft.activeWindowId === id) {
-        const remaining = draft.windows.filter((w) => !w.isMinimized);
-        if (remaining.length > 0) {
-          const nextTop = remaining.reduce((prev, curr) =>
-            curr.zIndex > prev.zIndex ? curr : prev
-          );
-          nextTop.isFocused = true;
-          draft.activeWindowId = nextTop.id;
-        } else {
-          draft.activeWindowId = null;
-        }
+        focusNextTopWindowInDraft(draft);
       }
     })
   );
@@ -162,9 +168,9 @@ export function toggleMaximizeWindow(id: string) {
       const target = draft.windows.find((w) => w.id === id);
       if (!target) return;
       target.isMaximized = !target.isMaximized;
+      focusWindowInDraft(draft, id);
     })
   );
-  focusWindow(id);
 }
 
 /**
@@ -211,8 +217,8 @@ export function resizeWindow(
     'windows',
     (w) => w.id === id,
     produce((w) => {
-      w.width = Math.max(MIN_WIDTH, rect.width);
-      w.height = Math.max(MIN_HEIGHT, rect.height);
+      w.width = Math.max(MIN_WINDOW_WIDTH, rect.width);
+      w.height = Math.max(MIN_WINDOW_HEIGHT, rect.height);
       if (rect.x !== undefined) w.x = rect.x;
       if (rect.y !== undefined) w.y = rect.y;
     })

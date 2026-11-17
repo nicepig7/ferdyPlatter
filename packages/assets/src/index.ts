@@ -7,7 +7,6 @@
  * - 그 외 문자열: @ferdy/ui의 Lucide 아이콘 이름 (<fd.Icon name="..." />)
  */
 export const FERDY_ASSETS = {
-  logoSymbol: '❖',
   icons: {
     sample: '/assets/icons/app-sample.svg',
     clock: 'clock',

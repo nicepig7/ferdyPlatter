@@ -40,7 +40,6 @@ export const Desktop: Component = () => {
                     icon={shortcut().icon}
                     tone={shortcut().tone}
                     onClick={() => appStore.openShortcut(item)}
-                    onDblClick={() => appStore.openShortcut(item)}
                   />
                 )}
               </Show>

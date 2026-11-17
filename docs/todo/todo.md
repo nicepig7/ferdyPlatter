@@ -19,8 +19,6 @@
 - [ ] **런타임 테마 스위처 (`dark` / `light`) 연동**
   - `@ferdy/ui`의 `fdStyle.theme.css`에 라이트 모드(또는 추가 빈티지 테마) 토큰 세트 정의
   - `@ferdy/core`에서 `ferdyBridge.broadcast('FERDY_THEME_CHANGE', { theme })` 발행 및 각 도메인 앱 수신 처리
-- [x] **앱 메타데이터 레지스트리(Manifest) 구조화**
-  - 바탕화면 바로가기 아이콘(`lucide` 아이콘명), 앱 이름, 기본 창 크기(`width`, `height`), 최소 크기 등을 중앙 매니페스트(`services/app/fdRegist.apps.*.meta.ts`, `fdStore.app.ts`)로 분리 관리
 - [ ] **창 상태 `localStorage` 세션 유지**
   - 새로고침 시에도 열려 있던 창들의 위치(`x`, `y`), 크기(`width`, `height`), 최소화/최대화 상태 복원
 
@@ -38,7 +36,7 @@
 
 ### 🖥️ `@ferdy/core` (Window Manager & Desktop UX)
 - [ ] **Window Snapping (창 스냅)**: 창을 화면 좌/우/상단 가장자리로 드래그할 때 반쪽 분할 또는 최대화 가이드 프리뷰 표시
-- [ ] **Start Menu (시작 메뉴)**: 좌측 하단 `FerdyOS` 버튼 클릭 시 설치된 도메인 앱 목록과 시스템 메뉴가 담긴 팝업 패널 오픈
+- [ ] **Start Menu (시작 메뉴)**: 좌측 하단 `fdPlatter` 버튼 클릭 시 설치된 도메인 앱 목록과 시스템 메뉴가 담긴 팝업 패널 오픈
 - [ ] **바탕화면 컨텍스트 메뉴 (우클릭 메뉴)**: 새 창 열기, 창 정렬(바둑판식/계단식), 테마 변경 등 빠른 액션 제공
 - [ ] **키보드 단축키 지원**: `Alt + Tab` 유사 창 전환 또는 활성 창 닫기/최소화 단축키
 

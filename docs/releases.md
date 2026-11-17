@@ -4,7 +4,7 @@
 
 ---
 
-## [0.1.5] - App Manifest Registry (`services/app/`) & `.meta.ts` Convention
+## [0.1.5] - App Manifest Registry (`services/app/`), `.meta.ts` Convention & Brand Identity (`fdPlatter`)
 
 ### Added
 - **App/Window 서비스 계층(`services/`) 분리 및 `.meta.ts` 파일 규칙 도입 (`@ferdy/core`)**:
@@ -13,9 +13,11 @@
     - `packages/core/src/services/app/fdRegist.apps.manifest.meta.ts`: 초기 등록된 도메인 앱 매니페스트 목록(`INITIAL_APP_MANIFESTS`: `app-sample`, `app-clock`, `app-hello`) 단독 관리
     - `packages/core/src/services/app/fdRegist.apps.shortcuts.meta.ts`: 바탕화면 기본 바로가기 목록(`INITIAL_DESKTOP_SHORTCUTS`) 단독 관리
   - `packages/core/src/services/app/fdStore.app.ts`: 앱 조회(`getApp`, `getAppList`), 동적 등록(`registerApp`), 바로가기 메타정보 병합 해석(`resolveShortcut`), `appId` 기반 창 실행(`launchApp`) 및 바로가기 실행(`openShortcut`) 액션 구현
-  - `packages/core/src/services/window/fdStore.window.ts`: 기존 창 관리 스토어를 `services/window/` 하위로 이동
+  - `packages/core/src/services/window/fdStore.window.ts`: 기존 창 관리 스토어를 `services/window/` 하위로 이동 및 최소 창 크기 상수(`MIN_WINDOW_WIDTH`, `MIN_WINDOW_HEIGHT`), 포커스 이관 내부 헬퍼(`focusWindowInDraft`, `focusNextTopWindowInDraft`) 통합
   - `packages/core/src/types/fdType.app.ts`: `AppManifest`, `DesktopShortcut`, `LaunchAppOptions` 타입 정의 추가
-- **`@ferdy/app-hello` 도메인 앱 등록**:
+- **브랜드 로고(`ferdy.svg`) 추가 및 `@ferdy/app-hello` 도메인 앱 등록 (`@ferdy/assets`, `@ferdy/core`, `@ferdy/app-hello`)**:
+  - `packages/assets/public/assets/logo/ferdy.svg` 정식 브랜드 로고 SVG 추가 및 `FERDY_ASSETS.paths.logoSvg` 경로 연결 (기존 미사용 `ferdy-logo.svg` 및 `logoSymbol` 제거)
+  - Core `index.html` 파비콘, 하단 태스크바 런처 버튼(`fdPlatter` 브랜드명 + 로고 아이콘), `@ferdy/app-hello` 본문에 `ferdy.svg` 적용
   - 최소 구성 도메인 앱인 `app-hello`를 `INITIAL_APP_MANIFESTS` 및 `INITIAL_DESKTOP_SHORTCUTS`에 정식 연결하고 `@ferdy/assets`에 `FERDY_ASSETS.icons.hello` (`'hand'`) 아이콘 상수 추가
 - **활성 창 단독 새로고침 (`F5`, `Ctrl+R`, `Cmd+R`) 및 포커스 해제 (`@ferdy/core`)**:
   - `WindowWrapper` (`fdShell.windowWrapper.tsx`)에서 `iframe`의 `onLoad` 시점에 내부 `contentWindow` 및 호스트 창의 새로고침 단축키(`F5`, `Ctrl+R`, `Cmd+R`)를 가로채어 전체 OS가 아닌 해당 창의 `iframe`만 새로고침되도록 구현

@@ -1,7 +1,11 @@
 import { Component, createSignal, onCleanup, onMount, Show } from 'solid-js';
 import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../../types/fdType.window';
-import { windowStore } from '../../services/window/fdStore.window';
+import {
+  MIN_WINDOW_HEIGHT,
+  MIN_WINDOW_WIDTH,
+  windowStore,
+} from '../../services/window/fdStore.window';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.windowWrapper.css';
 
@@ -10,9 +14,6 @@ interface WindowWrapperProps {
 }
 
 type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
-
-const MIN_WIDTH = 320;
-const MIN_HEIGHT = 220;
 
 /**
  * 브라우저 기본 새로고침 단축키(F5, Ctrl+R, Cmd+R, Ctrl+Shift+R 등)인지 판별합니다.
@@ -26,6 +27,7 @@ function isReloadShortcut(e: KeyboardEvent): boolean {
 export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
   const [isInteracting, setIsInteracting] = createSignal(false);
   let iframeRef: HTMLIFrameElement | undefined;
+  let cleanupPointerInteraction: (() => void) | null = null;
 
   // 현재 창의 iframe만 단독 새로고침
   const reloadIframe = () => {
@@ -65,6 +67,8 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
     window.addEventListener('keydown', handleHostKeyDown, true);
     onCleanup(() => {
       window.removeEventListener('keydown', handleHostKeyDown, true);
+      iframeRef?.contentWindow?.removeEventListener('keydown', handleIframeKeyDown, true);
+      cleanupPointerInteraction?.();
     });
   });
 
@@ -93,8 +97,10 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       setIsInteracting(false);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      cleanupPointerInteraction = null;
     };
 
+    cleanupPointerInteraction = onPointerUp;
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
   };
@@ -127,21 +133,21 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       let newHeight = startRect.height;
 
       if (dir.includes('e')) {
-        newWidth = Math.max(MIN_WIDTH, startRect.width + dx);
+        newWidth = Math.max(MIN_WINDOW_WIDTH, startRect.width + dx);
       }
       if (dir.includes('s')) {
-        newHeight = Math.max(MIN_HEIGHT, startRect.height + dy);
+        newHeight = Math.max(MIN_WINDOW_HEIGHT, startRect.height + dy);
       }
       if (dir.includes('w')) {
         const proposedWidth = startRect.width - dx;
-        if (proposedWidth >= MIN_WIDTH) {
+        if (proposedWidth >= MIN_WINDOW_WIDTH) {
           newWidth = proposedWidth;
           newX = Math.max(0, startRect.x + dx);
         }
       }
       if (dir.includes('n')) {
         const proposedHeight = startRect.height - dy;
-        if (proposedHeight >= MIN_HEIGHT) {
+        if (proposedHeight >= MIN_WINDOW_HEIGHT) {
           newHeight = proposedHeight;
           newY = Math.max(0, startRect.y + dy);
         }
@@ -159,8 +165,10 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       setIsInteracting(false);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('pointerup', onPointerUp);
+      cleanupPointerInteraction = null;
     };
 
+    cleanupPointerInteraction = onPointerUp;
     window.addEventListener('pointermove', onPointerMove);
     window.addEventListener('pointerup', onPointerUp);
   };

@@ -5,15 +5,15 @@ import { windowStore } from '../../services/window/fdStore.window';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.taskbar.css';
 
+function formatTaskbarTime(): string {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 export const Taskbar: Component = () => {
-  const [timeString, setTimeString] = createSignal(
-    new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  );
+  const [timeString, setTimeString] = createSignal(formatTaskbarTime());
 
   const timer = setInterval(() => {
-    setTimeString(
-      new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    );
+    setTimeString(formatTaskbarTime());
   }, 10000);
 
   onCleanup(() => clearInterval(timer));
