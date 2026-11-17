@@ -1,6 +1,6 @@
 import { Component, JSX, createUniqueId } from 'solid-js';
-import { AppIcon } from '../common/AppIcon';
-import './DesktopIcon.css';
+import { AppIcon } from '../common/fdShell.appIcon';
+import './fdShell.desktopIcon.css';
 
 export type DesktopIconTone = 'primary' | 'secondary' | 'neutral';
 

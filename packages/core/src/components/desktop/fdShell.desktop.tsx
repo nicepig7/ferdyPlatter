@@ -1,9 +1,9 @@
 import { Component, For } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { windowStore } from '../../store/windowStore';
-import { WindowWrapper } from '../window/WindowWrapper';
-import { DesktopIcon, type DesktopIconTone } from './DesktopIcon';
-import './Desktop.css';
+import { windowStore } from '../../store/fdStore.window';
+import { WindowWrapper } from '../window/fdShell.windowWrapper';
+import { DesktopIcon, type DesktopIconTone } from './fdShell.desktopIcon';
+import './fdShell.desktop.css';
 
 interface DesktopShortcut {
   id: string;

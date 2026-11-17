@@ -1,9 +1,9 @@
 import { Component, onCleanup, onMount } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
 import { ferdyBridge } from '@ferdy/bridge';
-import { Desktop } from './components/desktop/Desktop';
-import { Taskbar } from './components/taskbar/Taskbar';
-import { windowStore } from './store/windowStore';
+import { Desktop } from './components/desktop/fdShell.desktop';
+import { Taskbar } from './components/taskbar/fdShell.taskbar';
+import { windowStore } from './store/fdStore.window';
 
 export const App: Component = () => {
   onMount(() => {

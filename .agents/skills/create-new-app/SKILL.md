@@ -47,7 +47,7 @@ description: >-
 ## 3. Core 데스크탑 바로가기 등록 (선택/요청 시)
 
 사용자가 바탕화면 아이콘이나 런처에서 바로 실행하기를 원한다면:
-- `packages/core/src/components/Desktop.tsx`의 `SHORTCUTS` 배열에 새 앱 항목(`id`, `title`, `icon`, `appUrl: '/apps/<app-name>/'`)을 추가합니다. (아이콘 상수는 `packages/assets/src/index.ts`의 `FERDY_ASSETS.icons`에 등록 가능)
+- `packages/core/src/components/desktop/fdShell.desktop.tsx`의 `SHORTCUTS` 배열에 새 앱 항목(`id`, `title`, `icon`, `appUrl: '/apps/<app-name>/'`)을 추가합니다. (아이콘 상수는 `packages/assets/src/index.ts`의 `FERDY_ASSETS.icons`에 등록 가능)
 
 ---
 

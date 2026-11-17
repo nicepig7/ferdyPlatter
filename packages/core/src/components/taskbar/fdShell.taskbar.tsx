@@ -1,8 +1,8 @@
 import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { windowStore } from '../../store/windowStore';
-import { AppIcon } from '../common/AppIcon';
-import './Taskbar.css';
+import { windowStore } from '../../store/fdStore.window';
+import { AppIcon } from '../common/fdShell.appIcon';
+import './fdShell.taskbar.css';
 
 export const Taskbar: Component = () => {
   const [timeString, setTimeString] = createSignal(

@@ -1,5 +1,5 @@
 import { createStore, produce } from 'solid-js/store';
-import type { CreateWindowPayload, WindowInstance } from '../types/window';
+import type { CreateWindowPayload, WindowInstance } from '../types/fdType.window';
 
 interface WindowStoreState {
   windows: WindowInstance[];

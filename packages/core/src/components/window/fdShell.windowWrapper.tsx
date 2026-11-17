@@ -1,9 +1,9 @@
 import { Component, createSignal, Show } from 'solid-js';
 import { fd } from '@ferdy/ui';
-import type { WindowInstance } from '../../types/window';
-import { windowStore } from '../../store/windowStore';
-import { AppIcon } from '../common/AppIcon';
-import './WindowWrapper.css';
+import type { WindowInstance } from '../../types/fdType.window';
+import { windowStore } from '../../store/fdStore.window';
+import { AppIcon } from '../common/fdShell.appIcon';
+import './fdShell.windowWrapper.css';
 
 interface WindowWrapperProps {
   window: WindowInstance;
