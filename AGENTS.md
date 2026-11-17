@@ -50,18 +50,7 @@
 
 ---
 
-## 3. 문서 및 정보 관리 동기화 규칙 (Documentation Sync)
-
-코드 변경 시 프로젝트의 정보 관리 체계가 항상 최신 상태를 유지하도록 다음 문서를 함께 점검하고 업데이트합니다.
-
-- **아키텍처, 빌드 설정, `@ferdy/bridge` 프로토콜 변경 시**: [docs/architecture.md](./docs/architecture.md) 업데이트
-- **새로운 OS 기능 구현 또는 로드맵 항목 완료 시**: [docs/features.md](./docs/features.md) 및 [docs/releases.md](./docs/releases.md) 업데이트
-- **각 패키지(`assets`, `base/*`, `core`, `domains/*`)의 주요 컴포넌트나 구조 변경 시**: 해당 패키지 내부의 `README.md` 업데이트
-- **새로운 도메인 앱(`packages/domains/<app-name>`) 추가 시**: `.agents/skills/create-new-app/SKILL.md` 스킬 절차를 따르고, 해당 앱 폴더에 `README.md`를 반드시 생성합니다.
-
----
-
-## 4. 검증 (Verification)
+## 3. 검증 (Verification)
 
 코드 수정을 마친 후에는 작업 완료 보고 전에 루트에서 아래 명령어로 타입 오류가 없는지 확인합니다.
 ```bash

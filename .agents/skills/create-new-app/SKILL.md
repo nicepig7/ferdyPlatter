@@ -46,37 +46,14 @@ description: >-
 
 ---
 
-## 3. Core 앱 매니페스트 및 바탕화면 바로가기 등록 (`.meta.ts` 규칙)
+## 3. Core 앱 매니페스트 및 바탕화면 바로가기 등록
 
-Core(`@ferdy/core`)의 `packages/core/src/services/app/`에서는 메타데이터 파일 규칙(`.meta.ts` 접미사 + **한 파일에 한 종류의 데이터만 관리**)에 따라 **'설치된 앱의 고유 메타정보'**와 **'바탕화면 바로가기 아이콘 목록'**을 별도 파일로 분리하여 관리합니다.
+도메인 앱 파일 생성이 끝나면, 목적에 따라 아래 독립 스킬을 조합하여 Core(`@ferdy/core`)에 등록합니다.
 
-1. **공용 아이콘 상수 추가 (선택)**:
-   - 필요한 경우 `packages/assets/src/index.ts`의 `FERDY_ASSETS.icons`에 SVG 경로(`/assets/icons/...svg`) 또는 Lucide 아이콘 이름을 등록합니다.
-2. **앱 매니페스트 등록 (`packages/core/src/services/app/fdRegist.apps.manifest.meta.ts`)**:
-   - `INITIAL_APP_MANIFESTS` 배열에 새 앱의 고유 메타정보(`appId`, `title`, `icon`, `tone`, `appUrl`, `defaultWindow` 등)를 추가합니다:
-     ```ts
-     {
-       appId: 'app-notes',
-       title: 'Notes',
-       icon: 'notebook-pen',
-       tone: 'primary',
-       appUrl: '/apps/app-notes/',
-       description: '마크다운 메모장 도메인 앱',
-       defaultWindow: {
-         width: 520,
-         height: 400,
-       },
-     }
-     ```
-3. **바탕화면 바로가기 등록 (`packages/core/src/services/app/fdRegist.apps.shortcuts.meta.ts`, 선택/요청 시)**:
-   - 바탕화면 아이콘 그리드에 바로가기를 배치하려면 `INITIAL_DESKTOP_SHORTCUTS` 배열에 `id`와 `appId`를 추가합니다.
-   - 기본 메타정보는 `appId`를 통해 매니페스트에서 자동 상속되며, 특정 인스턴스 파라미터나 다른 제목/아이콘/위치를 원할 때만 `title`, `icon`, `queryParams` (`{ instance: 2 }`), `x`, `y`, `width`, `height`를 오버라이드합니다:
-     ```ts
-     {
-       id: 'notes-app-1',
-       appId: 'app-notes',
-     }
-     ```
+1. **Core 앱 매니페스트 및 아이콘 등록 (필수)**:
+   - [manage-app-manifest](../manage-app-manifest/SKILL.md) 스킬의 절차에 따라 `fdRegist.apps.manifest.meta.ts`에 앱 매니페스트를 등록합니다.
+2. **바탕화면 바로가기 등록 (선택/요청 시)**:
+   - 바탕화면 아이콘 그리드 배치가 필요한 경우 [manage-desktop-shortcut](../manage-desktop-shortcut/SKILL.md) 스킬의 절차에 따라 `fdRegist.apps.shortcuts.meta.ts`에 바로가기를 추가합니다.
 
 ---
 
