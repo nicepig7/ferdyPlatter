@@ -60,6 +60,7 @@ export const App: Component = () => {
       >
         <span
           style={{
+            'font-family': 'var(--fd-font-mono)',
             'font-size': 'clamp(14px, min(4.8vw, 9vh), 28px)',
             color: 'var(--fd-text-muted)',
             'font-weight': '600',
@@ -108,6 +109,7 @@ export const App: Component = () => {
         </Show>
         <span
           style={{
+            'font-family': 'var(--fd-font-mono)',
             'font-size': 'clamp(36px, min(17vw, 38vh), 140px)',
             'font-weight': '700',
             'font-variant-numeric': 'tabular-nums',

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="topFace" x1="16" y1="12" x2="48" y2="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F6F1EA" />
+      <stop offset="100%" stop-color="#E59866" />
+    </linearGradient>
+    <linearGradient id="leftFace" x1="14" y1="22" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D97736" />
+      <stop offset="100%" stop-color="#9A4412" />
+    </linearGradient>
+    <linearGradient id="rightFace" x1="50" y1="22" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5C9674" />
+      <stop offset="100%" stop-color="#2C553E" />
+    </linearGradient>
+  </defs>
+
+  <!-- Isometric Cube Top Face -->
+  <path
+    d="M32 10L51 21L32 32L13 21L32 10Z"
+    fill="url(#topFace)"
+  />
+
+  <!-- Isometric Cube Left Face (Terracotta) -->
+  <path
+    d="M13 21L32 32V54L13 43V21Z"
+    fill="url(#leftFace)"
+  />
+
+  <!-- Isometric Cube Right Face (Forest Green) -->
+  <path
+    d="M51 21L32 32V54L51 43V21Z"
+    fill="url(#rightFace)"
+  />
+
+  <!-- Inner Core Accent Ring & Edges -->
+  <path
+    d="M32 10L51 21V43L32 54L13 43V21L32 10Z"
+    stroke="#F6F1EA"
+    stroke-opacity="0.35"
+    stroke-width="1.5"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M13 21L32 32L51 21M32 32V54"
+    stroke="#120F0D"
+    stroke-opacity="0.45"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <circle cx="32" cy="32" r="4.5" fill="#F6F1EA" stroke="#1A1613" stroke-width="1.5" />
+</svg>

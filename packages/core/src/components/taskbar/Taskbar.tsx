@@ -1,6 +1,8 @@
-import { Component, createSignal, For, onCleanup } from 'solid-js';
+import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { windowStore } from '../store/windowStore';
+import { windowStore } from '../../store/windowStore';
+import { AppIcon } from '../common/AppIcon';
+import './Taskbar.css';
 
 export const Taskbar: Component = () => {
   const [timeString, setTimeString] = createSignal(
@@ -20,6 +22,7 @@ export const Taskbar: Component = () => {
     windowStore.openWindow({
       id,
       title: `Sample App (${windowStore.state.windows.length + 1})`,
+      icon: FERDY_ASSETS.icons.sample,
       appUrl: '/apps/app-sample/',
     });
   };
@@ -52,7 +55,16 @@ export const Taskbar: Component = () => {
               }}
               onClick={() => windowStore.toggleTaskbarWindow(win.id)}
             >
-              <span class="os-taskbar-item-dot" />
+              <Show
+                when={win.icon}
+                fallback={<span class="os-taskbar-item-dot" />}
+              >
+                {(icon) => (
+                  <span class="os-taskbar-item-icon">
+                    <AppIcon icon={icon()} size={15} />
+                  </span>
+                )}
+              </Show>
               <span class="os-taskbar-item-title">{win.title}</span>
               <span class="os-taskbar-item-z">z:{win.zIndex}</span>
             </button>

@@ -1,7 +1,9 @@
 import { Component, createSignal, Show } from 'solid-js';
 import { fd } from '@ferdy/ui';
-import type { WindowInstance } from '../types/window';
-import { windowStore } from '../store/windowStore';
+import type { WindowInstance } from '../../types/window';
+import { windowStore } from '../../store/windowStore';
+import { AppIcon } from '../common/AppIcon';
+import './WindowWrapper.css';
 
 interface WindowWrapperProps {
   window: WindowInstance;
@@ -137,7 +139,16 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         onDblClick={() => windowStore.toggleMaximizeWindow(props.window.id)}
       >
         <div class="os-window-title">
-          <span class="os-window-dot" />
+          <Show
+            when={props.window.icon}
+            fallback={<span class="os-window-dot" />}
+          >
+            {(icon) => (
+              <span class="os-window-app-icon">
+                <AppIcon icon={icon()} size={15} />
+              </span>
+            )}
+          </Show>
           <span class="os-window-title-text">{props.window.title}</span>
         </div>
         <div class="os-window-controls">

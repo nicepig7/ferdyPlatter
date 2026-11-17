@@ -1,4 +1,5 @@
 @layer base {
+
   html,
   body,
   #root {
@@ -10,8 +11,21 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  code {
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
     font-family: var(--fd-font-mono);
+  }
+
+  code {
     font-size: 0.92em;
     padding: 2px 5px;
     border-radius: 4px;

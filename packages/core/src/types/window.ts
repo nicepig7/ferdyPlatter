@@ -5,6 +5,8 @@ export interface WindowInstance {
   title: string;
   /** 내부 iframe으로 격리 실행할 앱의 URL */
   appUrl: string;
+  /** 창 아이콘 (SVG 에셋 경로 또는 Lucide 아이콘 이름) */
+  icon?: string;
   /** X 좌표 (px) */
   x: number;
   /** Y 좌표 (px) */
@@ -27,6 +29,7 @@ export interface CreateWindowPayload {
   id?: string;
   title: string;
   appUrl: string;
+  icon?: string;
   x?: number;
   y?: number;
   width?: number;

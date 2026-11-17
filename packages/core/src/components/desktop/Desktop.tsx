@@ -1,12 +1,15 @@
 import { Component, For } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { windowStore } from '../store/windowStore';
-import { WindowWrapper } from './WindowWrapper';
+import { windowStore } from '../../store/windowStore';
+import { WindowWrapper } from '../window/WindowWrapper';
+import { DesktopIcon, type DesktopIconTone } from './DesktopIcon';
+import './Desktop.css';
 
 interface DesktopShortcut {
   id: string;
   title: string;
   icon: string;
+  tone?: DesktopIconTone;
   appUrl: string;
   x?: number;
   y?: number;
@@ -19,12 +22,14 @@ const SHORTCUTS: DesktopShortcut[] = [
     id: 'sample-app-1',
     title: 'Sample App',
     icon: FERDY_ASSETS.icons.sample,
+    tone: 'primary',
     appUrl: '/apps/app-sample/',
   },
   {
     id: 'clock-app-1',
     title: 'Clock',
     icon: FERDY_ASSETS.icons.clock,
+    tone: 'secondary',
     appUrl: '/apps/app-clock/',
     x: 780,
     y: 80,
@@ -35,6 +40,7 @@ const SHORTCUTS: DesktopShortcut[] = [
     id: 'sample-app-2',
     title: 'Second Instance',
     icon: FERDY_ASSETS.icons.rocket,
+    tone: 'primary',
     appUrl: '/apps/app-sample/?instance=2',
   },
 ];
@@ -46,6 +52,7 @@ export const Desktop: Component = () => {
     windowStore.openWindow({
       id: shortcut.id,
       title: shortcut.title,
+      icon: shortcut.icon,
       appUrl: shortcut.appUrl,
       x: shortcut.x,
       y: shortcut.y,
@@ -59,6 +66,7 @@ export const Desktop: Component = () => {
     windowStore.openWindow({
       id: `sample-app-${num}`,
       title: `Sample App #${num}`,
+      icon: FERDY_ASSETS.icons.sample,
       appUrl: `/apps/app-sample/?instance=${num}`,
     });
   };
@@ -69,26 +77,23 @@ export const Desktop: Component = () => {
       <section class="os-desktop-icons">
         <For each={SHORTCUTS}>
           {(item) => (
-            <button
-              type="button"
-              class="os-desktop-icon"
-              onDblClick={() => handleOpenShortcut(item)}
+            <DesktopIcon
+              title={item.title}
+              icon={item.icon}
+              tone={item.tone}
               onClick={() => handleOpenShortcut(item)}
-            >
-              <span class="os-desktop-icon-glyph">{item.icon}</span>
-              <span class="os-desktop-icon-label">{item.title}</span>
-            </button>
+              onDblClick={() => handleOpenShortcut(item)}
+            />
           )}
         </For>
 
-        <button
-          type="button"
-          class="os-desktop-icon"
+        <DesktopIcon
+          title="New Window"
+          icon={FERDY_ASSETS.icons.plus}
+          tone="neutral"
+          iconSize={28}
           onClick={handleSpawnNewWindow}
-        >
-          <span class="os-desktop-icon-glyph">{FERDY_ASSETS.icons.plus}</span>
-          <span class="os-desktop-icon-label">New Window</span>
-        </button>
+        />
       </section>
 
       {/* 활성 창 레이어 (Store의 windows 배열을 Fine-grained 구독) */}

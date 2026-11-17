@@ -13,9 +13,11 @@ packages/assets/
 ├── tsconfig.json
 ├── public/
 │   └── assets/
-│       └── ferdy-logo.svg    # 단일 서버의 /assets/ferdy-logo.svg 경로로 서빙됨
+│       ├── ferdy-logo.svg        # 단일 서버의 /assets/ferdy-logo.svg 경로로 서빙됨
+│       └── icons/
+│           └── app-sample.svg    # Sample App 전용 커스텀 SVG 아이콘 (/assets/icons/app-sample.svg)
 └── src/
-    └── index.ts              # 에셋 경로 및 공통 아이콘 상수 (FERDY_ASSETS)
+    └── index.ts                  # 에셋 경로 및 공통 아이콘 상수 (FERDY_ASSETS)
 ```
 
 ---

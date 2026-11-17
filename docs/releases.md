@@ -4,6 +4,27 @@
 
 ---
 
+## [0.1.4] - Desktop Squircle Icons, Typography (`Pretendard` + `D2Coding`) & Core Component Refactoring
+
+### Added
+- **SVG 초타원(Superellipse) 바탕화면 스쿼클 아이콘 (`DesktopIcon`) 및 하이브리드 아이콘 렌더러 (`AppIcon`)**:
+  - `packages/assets/public/assets/icons/app-sample.svg`에 FerdyOS 컬러 테마(테라코타·포레스트 그린·웜 크림)를 반영한 입체 아이소메트릭 큐브 SVG 아이콘 추가
+  - `AppIcon` (`packages/core/src/components/common/AppIcon.tsx`): SVG 정적 경로(`/assets/...svg`)와 `@ferdy/ui` Lucide 아이콘 이름(`'clock'`, `'rocket'`, `'plus'`)을 자동 판별하여 렌더링하는 공통 컴포넌트 구현
+  - `DesktopIcon` (`packages/core/src/components/desktop/DesktopIcon.tsx`): 일반 CSS `border-radius` 대신 연속 곡률 베지어 패스(`<svg><path>`)로 그린 진짜 스쿼클(Superellipse) 타일, 1줄 말줄임(`ellipsis`, `14px`), 마우스 오버 `title` 툴팁을 캡슐화
+  - 창 타이틀바(`WindowWrapper`) 및 하단 태스크바 탭(`Taskbar`)에도 각 창의 앱 아이콘이 연동되어 표시되도록 확장 (`WindowInstance.icon`)
+- **전역 웹폰트 (`Pretendard Variable` & `D2Coding`) CDN 연동**:
+  - `@ferdy/ui`의 `fdStyle.libraries.css`에 `Pretendard Variable (Dynamic Subset)` 및 `D2Coding` 웹폰트 CDN을 `@layer libraries`로 로드
+  - `--fd-font-sans`(`Pretendard Variable`), `--fd-font-mono`(`D2Coding`) 토큰 구성 및 태스크바 트레이/배지, `@ferdy/app-clock` 디지털 시계에 `D2Coding` 고정폭 폰트 적용
+
+### Changed
+- **`@ferdy/core` 컴포넌트 화면별 폴더 구조화 및 CSS Co-location 리팩토링**:
+  - `packages/core/src/components/` 하위를 `common/`, `desktop/`, `window/`, `taskbar/` 폴더로 분리
+  - 기존 `packages/core/src/index.css`에 집중되어 있던 스타일을 `AppIcon.css`, `Desktop.css`, `DesktopIcon.css`, `WindowWrapper.css`, `Taskbar.css`로 각각 분리하여 컴포넌트와 1:1 Co-location 구성
+- **기존 유니코드 이모지 아이콘 제거**:
+  - `@ferdy/assets` (`FERDY_ASSETS.icons`)의 윈도우 기본 컬러 이모지(`🧩`, `🕒`, `🚀`, `➕`)를 커스텀 SVG 경로 및 Lucide 아이콘 이름으로 전면 교체
+
+---
+
 ## [0.1.3] - `@ferdy/ui` Design System, `@layer` Architecture & Icon System
 
 ### Added

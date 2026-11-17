@@ -11,9 +11,9 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
    - `@layer reset, tokens, theme, libraries, base, layout, components, utilities;` 순서로 명시적 우선순위 계층을 구성합니다.
    - `index.css`를 제외한 모든 스타일 파일은 `fdStyle.<layer>.css` 네이밍 규칙을 따릅니다:
      - `fdStyle.reset.css` (`@layer reset`): `*, *::before, *::after` 박스 모델 및 마진/패딩 초기화
-     - `fdStyle.tokens.css` (`@layer tokens`): 테마와 무관한 공통 수치/폰트 토큰 (`--fd-radius-*`, `--fd-font-sans`, `--fd-font-mono`)
+     - `fdStyle.tokens.css` (`@layer tokens`): 테마와 무관한 공통 수치/폰트 토큰 (`--fd-radius-*`, `--fd-font-sans`: `Pretendard Variable`, `--fd-font-mono`: `D2Coding`)
      - `fdStyle.theme.css` (`@layer theme`): 테마별 시맨틱 컬러/표면 토큰 정의 (Primary: 빈티지 오렌지 브라운 `--fd-primary*`, Secondary: 포레스트 그린 `--fd-secondary*`, Surface/Text: `--fd-bg-*`, `--fd-text-*`)
-     - `fdStyle.libraries.css` (`@layer libraries`): 외부 오픈소스/서드파티 CSS(`lucide-static` 등)를 `layer(libraries)`로 래핑하여 로드 (`base`, `components`보다 낮은 우선순위 보장)
+     - `fdStyle.libraries.css` (`@layer libraries`): 외부 오픈소스/서드파티 CSS 및 웹폰트(`Pretendard Variable`, `D2Coding`, `lucide-static`)를 `layer(libraries)`로 래핑하여 로드 (`base`, `components`보다 낮은 우선순위 보장)
      - `fdStyle.base.css` (`@layer base`): `html, body, #root`, `code` 등 기본 요소 스타일
      - `fdStyle.layout.css` (`@layer layout`): `.fd-app-shell`, `.fd-app-header`, `.fd-app-title` 등 도메인 앱 표준 레이아웃 헬퍼
      - `fdStyle.components.css` (`@layer components`): 모든 UI 컴포넌트가 공통으로 공유하는 베이스 규칙(`:focus-visible`, `:disabled`, 기본 폰트/박스 모델)

@@ -1,7 +1,8 @@
 import { Component, onCleanup, onMount } from 'solid-js';
+import { FERDY_ASSETS } from '@ferdy/assets';
 import { ferdyBridge } from '@ferdy/bridge';
-import { Desktop } from './components/Desktop';
-import { Taskbar } from './components/Taskbar';
+import { Desktop } from './components/desktop/Desktop';
+import { Taskbar } from './components/taskbar/Taskbar';
 import { windowStore } from './store/windowStore';
 
 export const App: Component = () => {
@@ -14,6 +15,7 @@ export const App: Component = () => {
       windowStore.openWindow({
         id: payload.id,
         title: payload.title ?? 'Spawned from App',
+        icon: FERDY_ASSETS.icons.sample,
         appUrl: payload.appUrl ?? '/apps/app-sample/',
         x: payload.x,
         y: payload.y,

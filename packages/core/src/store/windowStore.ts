@@ -12,36 +12,9 @@ const MIN_WIDTH = 320;
 const MIN_HEIGHT = 220;
 
 const [state, setState] = createStore<WindowStoreState>({
-  windows: [
-    {
-      id: 'sample-app-1',
-      title: 'Sample App (Isolated iframe)',
-      appUrl: '/apps/app-sample/',
-      x: 120,
-      y: 80,
-      width: 640,
-      height: 440,
-      zIndex: BASE_Z_INDEX + 1,
-      isFocused: false,
-      isMinimized: false,
-      isMaximized: false,
-    },
-    {
-      id: 'clock-app-1',
-      title: 'Clock',
-      appUrl: '/apps/app-clock/',
-      x: 780,
-      y: 80,
-      width: 340,
-      height: 230,
-      zIndex: BASE_Z_INDEX + 2,
-      isFocused: true,
-      isMinimized: false,
-      isMaximized: false,
-    },
-  ],
-  activeWindowId: 'clock-app-1',
-  topZIndex: BASE_Z_INDEX + 2,
+  windows: [],
+  activeWindowId: null,
+  topZIndex: BASE_Z_INDEX,
 });
 
 /**
@@ -68,6 +41,7 @@ export function openWindow(payload: CreateWindowPayload) {
         id,
         title: payload.title,
         appUrl: payload.appUrl,
+        icon: payload.icon,
         x: payload.x ?? 100 + offset,
         y: payload.y ?? 70 + offset,
         width: payload.width ?? 640,

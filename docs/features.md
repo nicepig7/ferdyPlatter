@@ -9,7 +9,7 @@
 ### 🏗️ A-B-C-D-E Monorepo Foundation
 - [x] **[A] `@ferdy/assets` (`packages/assets`)**: 공용 정적 에셋 디렉토리(`public/assets/`) 및 심볼/경로 상수(`FERDY_ASSETS`) 중앙 관리
 - [x] **[B] `@ferdy/ui` (`packages/base/ui`)**:
-  - OS 전역 시맨틱 CSS 디자인 토큰(`--fd-*`) 및 Base Reset 스타일 통합
+  - OS 전역 시맨틱 CSS 디자인 토큰(`--fd-*`), 웹폰트(`Pretendard Variable` & `D2Coding`), Base Reset 스타일 통합
   - 공통 SolidJS UI 컴포넌트(`<fd.Button>` / `<FdButton>` / `<Button>`, `<fd.Badge>` / `<FdBadge>` / `<Badge>`, `<fd.Card>` / `<FdCard>` / `<Card>`, `<fd.Icon>` / `<FdIcon>` / `<Icon>`) 및 도메인 앱 레이아웃 헬퍼(`.fd-app-shell`, `.fd-app-header`, `.fd-app-title`) 제공
 - [x] **[B] `@ferdy/bridge` (`packages/base/bridge`)**:
   - `FerdyEventMap` 기반 타입 안전 `postMessage` 프로토콜 정의
@@ -18,10 +18,12 @@
 - [x] **[E] `packages/etc`**: 실험적 모듈 및 확장 유틸리티를 위한 예비 계층 구성
 
 ### 🖥️ Desktop, Taskbar & Window Manager (`@ferdy/core`)
-- [x] **바탕화면 바로가기 그리드**: 아이콘 클릭/더블클릭을 통한 앱 실행 및 새 창 스폰 기능
+- [x] **바탕화면 바로가기 그리드 & SVG 스쿼클(Superellipse) 아이콘 타일 (`DesktopIcon`)**:
+  - 연속 곡률 SVG 스쿼클 타일 + 하이브리드 아이콘(`AppIcon`: 커스텀 SVG 및 Lucide 아이콘 자동 분기)
+  - 1줄 말줄임(`ellipsis`) 라벨 및 마우스 오버 전체 이름 툴팁 지원
 - [x] **태스크바 런처 버튼 (`FerdyOS`)**: 빠른 새 샘플 앱 인스턴스 실행
 - [x] **태스크바 활성 창 탭 목록**:
-  - 현재 열린 모든 창의 제목과 Z-Index 상태 실시간 표시
+  - 현재 열린 모든 창의 앱 아이콘, 제목, Z-Index 상태 실시간 표시
   - 탭 클릭 시 상태에 따라 **포커스 전환 / 최소화 / 복원** 스마트 토글
 - [x] **창 생명주기 및 Z-Index 포커스 제어**: 열기, 닫기, 최소화, 최대화/복원, 차상위 창 포커스 자동 이관
 - [x] **창 드래그 이동 및 8방향 리사이징**: `translate3d` 기반 이동, 8방향 크기 조절(`320x220` 최소 크기 제한), `iframe` 포인터 보호막(`.os-window-iframe-shield`)

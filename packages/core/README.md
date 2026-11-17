@@ -25,12 +25,23 @@ packages/core/
 ├── vite.config.ts            # 단일 서버 도메인 앱 게이트웨이 미들웨어 및 MPA 빌드 설정
 └── src/
     ├── index.tsx             # SolidJS 마운트 엔트리 (@ferdy/ui 로드)
-    ├── index.css             # OS 데스크탑, 윈도우 프레임, 태스크바 레이아웃 스타일 (@ferdy/ui 토큰 활용)
+    ├── index.css             # OS 쉘 루트(#root, .os-shell-root) 레이아웃 스타일
     ├── App.tsx               # 최상위 레이아웃 (Desktop + Taskbar) 및 @ferdy/bridge 이벤트 구독
     ├── components/
-    │   ├── Desktop.tsx       # 바탕화면 아이콘 그리드 및 활성 창 레이어 렌더링
-    │   ├── WindowWrapper.tsx # 개별 창 프레임 (타이틀바 드래그, 8방향 리사이즈, iframe 보호막)
-    │   └── Taskbar.tsx       # 하단 작업 표시줄 (런처 버튼, 창 토글 탭, 시계)
+    │   ├── common/
+    │   │   ├── AppIcon.tsx         # SVG 에셋 경로 및 Lucide 아이콘(<fd.Icon>) 하이브리드 렌더러
+    │   │   └── AppIcon.css         # 공통 아이콘 이미지 스타일
+    │   ├── desktop/
+    │   │   ├── Desktop.tsx         # 바탕화면 바로가기 그리드 및 활성 창 레이어 렌더링
+    │   │   ├── Desktop.css         # 바탕화면 배경 및 레이어 스타일
+    │   │   ├── DesktopIcon.tsx     # 바탕화면 앱 타일(Squircle) + 1줄 말줄임 라벨 + 툴팁 아이콘 버튼
+    │   │   └── DesktopIcon.css     # 바탕화면 아이콘 타일 및 호버 스타일
+    │   ├── window/
+    │   │   ├── WindowWrapper.tsx   # 개별 창 프레임 (타이틀바 드래그, 8방향 리사이즈, iframe 보호막)
+    │   │   └── WindowWrapper.css   # 창 프레임, 타이틀바, 리사이즈 핸들 스타일
+    │   └── taskbar/
+    │       ├── Taskbar.tsx         # 하단 작업 표시줄 (런처 버튼, 창 토글 탭, 시계)
+    │       └── Taskbar.css         # 작업 표시줄 및 트레이 스타일
     ├── store/
     │   └── windowStore.ts    # SolidJS createStore 기반 창 상태 및 액션 정의
     └── types/

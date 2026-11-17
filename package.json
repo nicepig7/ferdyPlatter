@@ -1,6 +1,6 @@
 {
   "name": "ferdy-platter",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "description": "Web OS Monorepo built with SolidJS, Vite, and TypeScript (Single-Server MPA Mode)",
   "workspaces": [

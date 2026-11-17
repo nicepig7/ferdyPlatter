@@ -27,7 +27,10 @@ ferdyPlatter/
 ├── docs/                     # 프로젝트 지식 베이스
 │   ├── architecture.md       # A-B-C-D-E 아키텍처, Vite 게이트웨이, @ferdy/ui & @ferdy/bridge 설계
 │   ├── features.md           # 구현된 기능 명세 및 로드맵
-│   └── releases.md           # 버전별 릴리즈 노트 및 변경 이력
+│   ├── releases.md           # 버전별 릴리즈 노트 및 변경 이력
+│   └── todo/                 # 다음 작업 할 일(TODO) 및 주제별 아이디어 메모장
+│       ├── todo.md           # 전체 단기 Action Items 및 아이디어 목록
+│       └── todo.opfs.md      # 브라우저 스토리지 및 OPFS 활용 아이디어
 └── packages/                 # 📦 A-B-C-D-E 워크스페이스 루트
     ├── assets/               # [A] @ferdy/assets — 공용 정적 리소스(public/assets/) 및 심볼 상수
     ├── base/                 # [B] 기반 공통 모듈
@@ -76,6 +79,7 @@ npm run preview
 | :--- | :--- | :--- |
 | **Architecture** | [docs/architecture.md](./docs/architecture.md) | A-B-C-D-E 구조, Single-Server MPA, `@ferdy/ui`, `@ferdy/bridge` 설계 |
 | **Features & Roadmap** | [docs/features.md](./docs/features.md) | 현재 구현된 OS 기능 목록 및 향후 개발 로드맵 |
+| **TODO & Ideas** | [docs/todo/todo.md](./docs/todo/todo.md) | 다음 작업 후보(TODO) 및 자유 아이디어/브레인스토밍 메모장 ([OPFS 아이디어](./docs/todo/todo.opfs.md)) |
 | **Release Notes** | [docs/releases.md](./docs/releases.md) | 버전별 주요 변경 사항 기록 |
 | **[A] Assets Package** | [packages/assets/README.md](./packages/assets/README.md) | `@ferdy/assets` 정적 리소스 및 상수 설명 |
 | **[B] Bridge Package** | [packages/base/bridge/README.md](./packages/base/bridge/README.md) | `@ferdy/bridge` Pub/Sub 이벤트 통신 규격 설명 |
