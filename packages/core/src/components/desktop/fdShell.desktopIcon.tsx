@@ -2,6 +2,7 @@ import { Component, JSX, Show, createUniqueId } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
 import { fd } from '@ferdy/ui';
 import type { AppIconTone } from '../../types/fdType.app';
+import { getIconToneMeta } from '../../services/app/fdStore.app';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.desktopIcon.css';
 
@@ -36,6 +37,7 @@ const SQUIRCLE_HIGHLIGHT_PATH =
 
 export const DesktopIcon: Component<DesktopIconProps> = (props) => {
   const gradId = createUniqueId();
+  const toneMeta = () => getIconToneMeta(props.tone);
 
   return (
     <button
@@ -46,7 +48,14 @@ export const DesktopIcon: Component<DesktopIconProps> = (props) => {
       onDblClick={props.onDblClick}
     >
       <span
-        class={`os-desktop-icon-tile os-desktop-icon-tile--${props.tone ?? 'neutral'}`}
+        class={`os-desktop-icon-tile os-desktop-icon-tile--${toneMeta().tone}`}
+        style={{
+          '--os-tile-fg': toneMeta().fg,
+          '--os-tile-grad-start': toneMeta().gradStart,
+          '--os-tile-grad-end': toneMeta().gradEnd,
+          '--os-tile-border': toneMeta().border,
+          '--os-tile-hover-border': toneMeta().hoverBorder,
+        }}
       >
         <svg
           class="os-desktop-icon-squircle"

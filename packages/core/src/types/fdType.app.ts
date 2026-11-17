@@ -1,4 +1,32 @@
-export type AppIconTone = 'primary' | 'secondary' | 'neutral';
+export type AppIconTone =
+  | 'neutral'
+  | 'primary'
+  | 'secondary'
+  | 'blue'
+  | 'amber'
+  | 'rose'
+  | 'violet'
+  | 'teal';
+
+/**
+ * 바탕화면 아이콘 타일 컬러 톤 메타데이터
+ */
+export interface AppIconToneMeta {
+  /** 톤 식별자 */
+  tone: AppIconTone;
+  /** 메타데이터 관리용 톤 이름 (추후 UI/설정에서 활용) */
+  name: string;
+  /** 내부 아이콘(glyph) 전경색 */
+  fg: string;
+  /** 스쿼클 그라데이션 시작 색 */
+  gradStart: string;
+  /** 스쿼클 그라데이션 끝 색 */
+  gradEnd: string;
+  /** 스쿼클 기본 외곽선 색 */
+  border: string;
+  /** 스쿼클 호버 시 외곽선 색 */
+  hoverBorder: string;
+}
 
 /**
  * 바로가기/앱 실행 방식

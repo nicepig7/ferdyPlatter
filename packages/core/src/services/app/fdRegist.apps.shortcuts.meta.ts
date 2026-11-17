@@ -21,7 +21,7 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     appId: 'app-sample',
     title: 'Second Instance',
     icon: FERDY_ASSETS.icons.rocket,
-    tone: 'primary',
+    tone: 'amber',
     queryParams: { instance: 2 },
   },
   {
@@ -40,7 +40,7 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     id: 'ext-cube-timer',
     title: 'Cube Timer',
     icon: FERDY_ASSETS.icons.timer,
-    tone: 'secondary',
+    tone: 'violet',
     appUrl: 'https://nicepig7.github.io/cubeTimer/',
     width: 960,
     height: 640,

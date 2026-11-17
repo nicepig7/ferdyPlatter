@@ -78,15 +78,18 @@
   border-color: var(--fd-primary-border);
 }
 
-/* 기본(neutral) 스쿼클 테마 */
+/* 스쿼클 톤 스타일 (fdRegist.apps.tones.meta.ts에서 주입된 CSS 변수 사용) */
+.os-desktop-icon-tile {
+  color: var(--os-tile-fg, var(--fd-text-secondary));
+}
 .os-desktop-icon-tile .squircle-grad-start {
-  stop-color: rgba(48, 39, 34, 0.94);
+  stop-color: var(--os-tile-grad-start, rgba(48, 39, 34, 0.94));
 }
 .os-desktop-icon-tile .squircle-grad-end {
-  stop-color: rgba(20, 16, 14, 0.96);
+  stop-color: var(--os-tile-grad-end, rgba(20, 16, 14, 0.96));
 }
 .os-desktop-icon-tile .squircle-body {
-  stroke: var(--fd-border-strong);
+  stroke: var(--os-tile-border, var(--fd-border-strong));
   stroke-width: 2;
   transition: stroke 0.15s ease;
 }
@@ -96,55 +99,14 @@
   stroke-linecap: round;
 }
 
-/* Primary 톤 (Terracotta) */
-.os-desktop-icon-tile--primary {
-  color: var(--fd-primary);
-}
-.os-desktop-icon-tile--primary .squircle-grad-start {
-  stop-color: rgba(88, 49, 26, 0.92);
-}
-.os-desktop-icon-tile--primary .squircle-grad-end {
-  stop-color: rgba(28, 22, 18, 0.96);
-}
-.os-desktop-icon-tile--primary .squircle-body {
-  stroke: var(--fd-primary-border);
-}
-
-/* Secondary 톤 (Forest Green) */
-.os-desktop-icon-tile--secondary {
-  color: var(--fd-secondary-text);
-}
-.os-desktop-icon-tile--secondary .squircle-grad-start {
-  stop-color: rgba(39, 68, 52, 0.92);
-}
-.os-desktop-icon-tile--secondary .squircle-grad-end {
-  stop-color: rgba(22, 26, 23, 0.96);
-}
-.os-desktop-icon-tile--secondary .squircle-body {
-  stroke: var(--fd-secondary-border);
-}
-
-/* Neutral 톤 */
-.os-desktop-icon-tile--neutral {
-  color: var(--fd-text-secondary);
-}
-
 /* Hover 인터랙션 */
 .os-desktop-icon:hover .os-desktop-icon-tile {
   transform: translateY(-2px);
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
 }
 
-.os-desktop-icon:hover .os-desktop-icon-tile--neutral .squircle-body {
-  stroke: rgba(246, 241, 234, 0.42);
-}
-
-.os-desktop-icon:hover .os-desktop-icon-tile--primary .squircle-body {
-  stroke: var(--fd-primary-focus);
-}
-
-.os-desktop-icon:hover .os-desktop-icon-tile--secondary .squircle-body {
-  stroke: var(--fd-secondary-focus);
+.os-desktop-icon:hover .os-desktop-icon-tile .squircle-body {
+  stroke: var(--os-tile-hover-border, rgba(246, 241, 234, 0.42));
 }
 
 .os-desktop-icon-label {

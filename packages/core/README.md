@@ -49,6 +49,7 @@ packages/core/
     │   ├── app/
     │   │   ├── fdRegist.apps.manifest.meta.ts   # 설치된 도메인 앱 매니페스트 초기 메타데이터 (INITIAL_APP_MANIFESTS)
     │   │   ├── fdRegist.apps.shortcuts.meta.ts  # 바탕화면 바로가기 초기 메타데이터 (INITIAL_DESKTOP_SHORTCUTS)
+    │   │   ├── fdRegist.apps.tones.meta.ts      # 아이콘 타일 컬러 톤 프리셋 초기 메타데이터 (INITIAL_APP_ICON_TONES)
     │   │   └── fdStore.app.ts                   # 앱 레지스트리 조회/등록, 바로가기 해석 및 앱 실행 스토어
     │   ├── desktop/
     │   │   └── fdStore.desktop.ts               # 바탕화면 반응형 그리드 분할 계산, Ctrl+Wheel 배율 및 Ghost 격자 상태 스토어

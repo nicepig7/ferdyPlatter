@@ -2,6 +2,7 @@ import { createStore, produce } from 'solid-js/store';
 import { FERDY_ASSETS } from '@ferdy/assets';
 import type {
   AppIconTone,
+  AppIconToneMeta,
   AppManifest,
   DesktopShortcut,
   LaunchAppOptions,
@@ -10,6 +11,7 @@ import type {
 import { windowStore } from '../window/fdStore.window';
 import { INITIAL_APP_MANIFESTS } from './fdRegist.apps.manifest.meta';
 import { INITIAL_DESKTOP_SHORTCUTS } from './fdRegist.apps.shortcuts.meta';
+import { INITIAL_APP_ICON_TONES } from './fdRegist.apps.tones.meta';
 
 export interface ResolvedDesktopShortcut {
   id: string;
@@ -41,6 +43,16 @@ const initialAppsMap = INITIAL_APP_MANIFESTS.reduce<Record<string, AppManifest>>
     return acc;
   },
   {}
+);
+
+const initialTonesMap = INITIAL_APP_ICON_TONES.reduce<
+  Record<AppIconTone, AppIconToneMeta>
+>(
+  (acc, toneMeta) => {
+    acc[toneMeta.tone] = toneMeta;
+    return acc;
+  },
+  {} as Record<AppIconTone, AppIconToneMeta>
 );
 
 const [state, setState] = createStore<AppStoreState>({
@@ -224,12 +236,28 @@ export function addShortcut(shortcut: DesktopShortcut): void {
   );
 }
 
+/**
+ * 톤 식별자에 해당하는 아이콘 컬러 톤 메타데이터를 반환합니다. (없을 경우 neutral 폴백)
+ */
+export function getIconToneMeta(tone?: AppIconTone): AppIconToneMeta {
+  return (tone && initialTonesMap[tone]) || initialTonesMap.neutral;
+}
+
+/**
+ * 등록된 모든 아이콘 컬러 톤 메타데이터 목록을 반환합니다.
+ */
+export function getIconToneList(): AppIconToneMeta[] {
+  return INITIAL_APP_ICON_TONES;
+}
+
 export const appStore = {
   state,
   isExternalUrl,
   openInNewTab,
   getApp,
   getAppList,
+  getIconToneMeta,
+  getIconToneList,
   registerApp,
   resolveShortcut,
   launchApp,

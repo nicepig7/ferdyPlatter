@@ -24,7 +24,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     appId: 'app-clock',
     title: 'Clock',
     icon: FERDY_ASSETS.icons.clock,
-    tone: 'secondary',
+    tone: 'blue',
     appUrl: '/apps/app-clock/',
     description: '실시간 디지털 시계 및 24H/12H 포맷 전환 위젯 앱',
     defaultWindow: {
@@ -38,7 +38,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     appId: 'app-hello',
     title: 'Hello World',
     icon: FERDY_ASSETS.icons.hello,
-    tone: 'neutral',
+    tone: 'teal',
     appUrl: '/apps/app-hello/',
     description: '최소 구성(Minimal) Hello World 도메인 앱',
     defaultWindow: {
@@ -50,7 +50,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     appId: 'app-calendar',
     title: 'Calendar',
     icon: FERDY_ASSETS.icons.calendar,
-    tone: 'primary',
+    tone: 'blue',
     appUrl: '/apps/app-calendar/',
     description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
     defaultWindow: {
@@ -64,7 +64,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     appId: 'app-notes',
     title: 'Notes',
     icon: FERDY_ASSETS.icons.notes,
-    tone: 'primary',
+    tone: 'blue',
     appUrl: '/apps/app-notes/',
     description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
     defaultWindow: {
