@@ -43,6 +43,14 @@ const SHORTCUTS: DesktopShortcut[] = [
     tone: 'primary',
     appUrl: '/apps/app-sample/?instance=2',
   },
+  {
+    id: 'app-hello',
+    title: 'Hello World',
+    icon: FERDY_ASSETS.icons.sample,
+    appUrl: '/apps/app-hello/',
+    width: 480,
+    height: 360,
+  },
 ];
 
 export const Desktop: Component = () => {
