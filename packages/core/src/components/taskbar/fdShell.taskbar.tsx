@@ -1,6 +1,7 @@
 import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { windowStore } from '../../store/fdStore.window';
+import { appStore } from '../../services/app/fdStore.app';
+import { windowStore } from '../../services/window/fdStore.window';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.taskbar.css';
 
@@ -18,12 +19,11 @@ export const Taskbar: Component = () => {
   onCleanup(() => clearInterval(timer));
 
   const handleLauncherClick = () => {
-    const id = `sample-app-${Date.now()}`;
-    windowStore.openWindow({
-      id,
-      title: `Sample App (${windowStore.state.windows.length + 1})`,
-      icon: FERDY_ASSETS.icons.sample,
-      appUrl: '/apps/app-sample/',
+    const nextIdx = windowStore.state.windows.length + 1;
+    appStore.launchApp('app-sample', {
+      windowId: `sample-app-${Date.now()}`,
+      title: `Sample App (${nextIdx})`,
+      queryParams: { instance: nextIdx },
     });
   };
 

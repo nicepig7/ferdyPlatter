@@ -1,5 +1,5 @@
 import { createStore, produce } from 'solid-js/store';
-import type { CreateWindowPayload, WindowInstance } from '../types/fdType.window';
+import type { CreateWindowPayload, WindowInstance } from '../../types/fdType.window';
 
 interface WindowStoreState {
   windows: WindowInstance[];
@@ -39,6 +39,7 @@ export function openWindow(payload: CreateWindowPayload) {
 
       draft.windows.push({
         id,
+        appId: payload.appId,
         title: payload.title,
         appUrl: payload.appUrl,
         icon: payload.icon,

@@ -12,7 +12,7 @@
 | :--- | :--- | :--- | :--- |
 | **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 아이콘/경로 상수(`FERDY_ASSETS`) |
 | **[B] Base** | `packages/base/ui`<br>`packages/base/bridge` | `@ferdy/ui`<br>`@ferdy/bridge` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트) 및 `postMessage` Pub/Sub 브릿지 |
-| **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 윈도우 매니저(`windowStore`) 및 단일 Vite 서버 MPA 게이트웨이 |
+| **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리(`appStore`), 윈도우 매니저(`windowStore`) 및 단일 Vite 서버 MPA 게이트웨이 |
 | **[D] Domains** | `packages/domains/*` | `@ferdy/app-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 개별 도메인 웹 애플리케이션 |
 | **[E] Etc** | `packages/etc` | - | 실험적 기능, 외부 연동 어댑터, 기타 보조 스크립트를 위한 확장 공간 |
 
@@ -22,7 +22,7 @@ flowchart TB
         subgraph Core["[C] @ferdy/core (Root Window)"]
             Desktop["Desktop UI (Shortcuts & Window Layer)"]
             Taskbar["Taskbar (Launcher, Active Tabs, Clock)"]
-            Store["windowStore (SolidJS createStore)"]
+            Services["services/ (appStore, windowStore & .meta.ts)"]
         end
 
         subgraph Base["[B] Shared Base Modules"]
@@ -49,7 +49,7 @@ flowchart TB
     App1 --> UI
     App1 --> Bridge
     App2 --> UI
-    Bridge <--> Store
+    Bridge <--> Services
 ```
 
 ---
@@ -97,5 +97,5 @@ Ferdy Platter는 `packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin
 | 이벤트 `type` | 방향 | 페이로드 필드 | 동작 설명 |
 | :--- | :--- | :--- | :--- |
 | `FERDY_APP_PING` | App → Core | `instanceId: string`, `timestamp: string` | 자식 앱이 정상 동작 중임을 Core에 알리는 핑 이벤트 |
-| `FERDY_OPEN_WINDOW` | App → Core | `id?`, `title?`, `appUrl?`, `x?`, `y?`, `width?`, `height?` | 자식 앱 내부에서 Core에게 새로운 창 생성을 요청 |
+| `FERDY_OPEN_WINDOW` | App → Core | `id?`, `appId?`, `title?`, `appUrl?`, `icon?`, `queryParams?`, `x?`, `y?`, `width?`, `height?` | 자식 앱 내부에서 Core에게 새로운 창 생성을 요청 (`appId` 지정 시 레지스트리 기본값 활용) |
 | `FERDY_THEME_CHANGE` | Core → Apps | `theme: 'dark' \| 'light'` | Core에서 열린 모든 `iframe` 앱으로 테마 변경을 브로드캐스트 |

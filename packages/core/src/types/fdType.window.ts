@@ -1,6 +1,8 @@
 export interface WindowInstance {
   /** 고유 창 식별자 */
   id: string;
+  /** 연결된 도메인 앱 식별자 (등록된 앱에서 실행된 경우) */
+  appId?: string;
   /** 창 상단 타이틀바 및 태스크바에 표시될 제목 */
   title: string;
   /** 내부 iframe으로 격리 실행할 앱의 URL */
@@ -27,6 +29,7 @@ export interface WindowInstance {
 
 export interface CreateWindowPayload {
   id?: string;
+  appId?: string;
   title: string;
   appUrl: string;
   icon?: string;

@@ -33,8 +33,13 @@
        - 공통 CSS 디자인 토큰(`--fd-*`), Base 리셋/유틸리티 클래스(`.fd-*`)
        - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`)
    - **[C] `packages/core` (`@ferdy/core`)**:
-     - OS 데스크탑, 태스크바, 윈도우 매니저, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.
-     - 역할별 파일 접두어 규칙: OS 셸 UI 컴포넌트 및 스타일은 `fdShell.<name>.tsx` / `.css`, 스토어는 `fdStore.<name>.ts`, 타입 정의는 `fdType.<name>.ts` 네이밍을 사용합니다.
+     - OS 데스크탑, 태스크바, 윈도우 매니저, 앱 레지스트리, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.
+     - `src/` 최상위 구조는 UI 뷰 계층(`components/`), 상태·레지스트리 서비스 계층(`services/<domain>/`), 타입 정의 계층(`types/`)으로 구분합니다.
+     - 역할별 파일 접두어/접미어 규칙:
+       - OS 셸 UI 컴포넌트 및 스타일: `fdShell.<name>.tsx` / `.css`
+       - 상태 스토어 (`services/<domain>/`): `fdStore.<name>.ts`
+       - 초기 등록 메타데이터 (`services/<domain>/`): `fdRegist.<domain>.<kind>.meta.ts` — 메타 정보를 저장하는 파일은 반드시 접미사(postfix)로 `.meta`를 붙이며, **한 파일에 한 종류의 데이터만 관리**합니다.
+       - 타입 정의 (`types/`): `fdType.<name>.ts`
    - **[D] `packages/domains/*` (`@ferdy/app-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱.
    - **[E] `packages/etc`**: 기타 실험적 모듈, 외부 연동 어댑터, 유틸리티 공간.
 2. **Core ↔ Domain App 격리 원칙**:

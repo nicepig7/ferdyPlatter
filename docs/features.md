@@ -17,7 +17,10 @@
 - [x] **[C] `@ferdy/core` (`packages/core`)**: 단일 Vite 서버(`:3000`) 기반 도메인 앱 온디맨드 라우팅(`/apps/<app-name>/`) 및 프로덕션 MPA 가상 엔트리 빌드 자동화
 - [x] **[E] `packages/etc`**: 실험적 모듈 및 확장 유틸리티를 위한 예비 계층 구성
 
-### 🖥️ Desktop, Taskbar & Window Manager (`@ferdy/core`)
+### 🖥️ Desktop, Taskbar, App Registry & Window Manager (`@ferdy/core`)
+- [x] **앱 매니페스트 레지스트리 및 바로가기 분리 (`services/app/fdRegist.apps.*.meta.ts`, `appStore`)**:
+  - `.meta.ts` 단일 데이터 파일 규칙에 따라 설치된 도메인 앱 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdRegist.apps.shortcuts.meta.ts`)을 분리하여 중앙 관리
+  - `appId` 참조 기반 실행(`appStore.launchApp`) 및 인스턴스 파라미터(`queryParams`), 제목, 아이콘, 창 좌표/크기 오버라이드 지원
 - [x] **바탕화면 바로가기 그리드 & SVG 스쿼클(Superellipse) 아이콘 타일 (`DesktopIcon`)**:
   - 연속 곡률 SVG 스쿼클 타일 + 하이브리드 아이콘(`AppIcon`: 커스텀 SVG 및 Lucide 아이콘 자동 분기)
   - 1줄 말줄임(`ellipsis`) 라벨 및 마우스 오버 전체 이름 툴팁 지원
@@ -31,6 +34,7 @@
 ### 🧩 Domain Apps (`packages/domains/*`)
 - [x] **샘플 앱 (`@ferdy/app-sample`)**: `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge` 통신을 활용한 표준 레퍼런스 앱
 - [x] **시계 앱 (`@ferdy/app-clock`)**: `@ferdy/ui` 토큰/버튼 기반의 실시간 디지털 시계 및 24H/12H 포맷 토글 위젯 앱
+- [x] **헬로 월드 앱 (`@ferdy/app-hello`)**: 최소 구성(Minimal) 도메인 앱 구조 및 스타일시트 연동 검증 앱
 
 ---
 
@@ -39,8 +43,8 @@
 ### Phase 1: 정보 관리 및 아키텍처 기반 고도화
 - [x] 프로젝트 문서 체계(`README.md`, `docs/`, `AGENTS.md`, `.agents/`) 수립
 - [x] A-B-C-D-E 폴더 구조 개편 및 `@ferdy/ui`, `@ferdy/bridge`, `@ferdy/assets` 분리 완료
+- [x] 앱 메타데이터 레지스트리 구조화 (설치된 앱 매니페스트와 바탕화면 바로가기 분리 관리)
 - [ ] 런타임 테마 스위처 (`FERDY_THEME_CHANGE` 브로드캐스트를 통한 다크/라이트 모드 실시간 전환)
-- [ ] 앱 메타데이터 레지스트리 구조화 (바탕화면 아이콘, 기본 창 크기 등을 매니페스트로 관리)
 
 ### Phase 2: UX 및 Window Manager 고도화
 - [ ] 창 스냅(Window Snapping) — 화면 가장자리로 드래그 시 좌/우 분할 또는 전체화면 미리보기

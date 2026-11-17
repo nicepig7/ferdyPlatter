@@ -35,5 +35,9 @@ onMount(() => {
 
 // 2. 발행 (App → Core)
 ferdyBridge.ping('1');
-ferdyBridge.openWindow({ title: 'New App', appUrl: '/apps/app-sample/' });
+ferdyBridge.openWindow({
+  appId: 'app-sample',
+  title: 'New App',
+  queryParams: { instance: 2 },
+});
 ```

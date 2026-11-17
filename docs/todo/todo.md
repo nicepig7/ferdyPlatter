@@ -19,8 +19,8 @@
 - [ ] **런타임 테마 스위처 (`dark` / `light`) 연동**
   - `@ferdy/ui`의 `fdStyle.theme.css`에 라이트 모드(또는 추가 빈티지 테마) 토큰 세트 정의
   - `@ferdy/core`에서 `ferdyBridge.broadcast('FERDY_THEME_CHANGE', { theme })` 발행 및 각 도메인 앱 수신 처리
-- [ ] **앱 메타데이터 레지스트리(Manifest) 구조화**
-  - 바탕화면 바로가기 아이콘(`lucide` 아이콘명), 앱 이름, 기본 창 크기(`width`, `height`), 최소 크기 등을 중앙 매니페스트로 관리
+- [x] **앱 메타데이터 레지스트리(Manifest) 구조화**
+  - 바탕화면 바로가기 아이콘(`lucide` 아이콘명), 앱 이름, 기본 창 크기(`width`, `height`), 최소 크기 등을 중앙 매니페스트(`services/app/fdRegist.apps.*.meta.ts`, `fdStore.app.ts`)로 분리 관리
 - [ ] **창 상태 `localStorage` 세션 유지**
   - 새로고침 시에도 열려 있던 창들의 위치(`x`, `y`), 크기(`width`, `height`), 최소화/최대화 상태 복원
 

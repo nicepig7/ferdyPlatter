@@ -12,8 +12,9 @@ export const App: Component = () => {
 
   const requestNewWindowFromCore = () => {
     ferdyBridge.openWindow({
+      appId: 'app-sample',
       title: `Spawned by Instance #${instanceId}`,
-      appUrl: `/apps/app-sample/?instance=${Math.floor(Math.random() * 900 + 100)}`,
+      queryParams: { instance: Math.floor(Math.random() * 900 + 100) },
     });
   };
 

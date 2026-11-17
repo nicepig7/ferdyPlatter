@@ -1,8 +1,9 @@
 import { Component, JSX, createUniqueId } from 'solid-js';
+import type { AppIconTone } from '../../types/fdType.app';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.desktopIcon.css';
 
-export type DesktopIconTone = 'primary' | 'secondary' | 'neutral';
+export type DesktopIconTone = AppIconTone;
 
 export interface DesktopIconProps {
   /** 아이콘 하단 라벨 및 마우스 오버 툴팁 텍스트 */

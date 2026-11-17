@@ -4,6 +4,29 @@
 
 ---
 
+## [0.1.5] - App Manifest Registry (`services/app/`) & `.meta.ts` Convention
+
+### Added
+- **App/Window 서비스 계층(`services/`) 분리 및 `.meta.ts` 파일 규칙 도입 (`@ferdy/core`)**:
+  - `packages/core/src` 하위를 `components/`(UI 뷰), `services/`(도메인별 상태·메타데이터), `types/`(타입 정의) 3계층으로 개편
+  - 메타 정보를 저장하는 파일은 접미사로 `.meta.ts`를 붙이고 **한 파일에 한 종류의 데이터만 관리**하도록 규칙 수립:
+    - `packages/core/src/services/app/fdRegist.apps.manifest.meta.ts`: 초기 등록된 도메인 앱 매니페스트 목록(`INITIAL_APP_MANIFESTS`: `app-sample`, `app-clock`, `app-hello`) 단독 관리
+    - `packages/core/src/services/app/fdRegist.apps.shortcuts.meta.ts`: 바탕화면 기본 바로가기 목록(`INITIAL_DESKTOP_SHORTCUTS`) 단독 관리
+  - `packages/core/src/services/app/fdStore.app.ts`: 앱 조회(`getApp`, `getAppList`), 동적 등록(`registerApp`), 바로가기 메타정보 병합 해석(`resolveShortcut`), `appId` 기반 창 실행(`launchApp`) 및 바로가기 실행(`openShortcut`) 액션 구현
+  - `packages/core/src/services/window/fdStore.window.ts`: 기존 창 관리 스토어를 `services/window/` 하위로 이동
+  - `packages/core/src/types/fdType.app.ts`: `AppManifest`, `DesktopShortcut`, `LaunchAppOptions` 타입 정의 추가
+- **`@ferdy/app-hello` 도메인 앱 등록**:
+  - 최소 구성 도메인 앱인 `app-hello`를 `INITIAL_APP_MANIFESTS` 및 `INITIAL_DESKTOP_SHORTCUTS`에 정식 연결하고 `@ferdy/assets`에 `FERDY_ASSETS.icons.hello` (`'hand'`) 아이콘 상수 추가
+
+### Changed
+- **바탕화면(`Desktop`) 및 태스크바(`Taskbar`) 하드코딩 제거**:
+  - `fdShell.desktop.tsx` 내부에 하드코딩되어 있던 `SHORTCUTS` 배열을 제거하고 `appStore.state.shortcuts` 및 `appStore.resolveShortcut` / `appStore.openShortcut` / `appStore.launchApp`을 사용하도록 리팩토링
+  - 바로가기에서 `appId`만 지정하면 매니페스트의 기본 제목/아이콘/URL/창 크기를 자동 상속받고, 필요 시 `queryParams` (`{ instance: 2 }`), 제목, 아이콘, 좌표/크기만 선택적으로 오버라이드하도록 개선
+- **`@ferdy/bridge` `FERDY_OPEN_WINDOW` 프로토콜 확장**:
+  - 자식 앱에서 새 창 생성을 요청할 때 직접 `appUrl`을 조합하는 대신 `appId`와 `queryParams`를 전달해 Core의 앱 레지스트리 기본값을 활용할 수 있도록 확장
+
+---
+
 ## [0.1.4] - Desktop Squircle Icons, Typography (`Pretendard` + `D2Coding`) & Core Component Refactoring
 
 ### Added

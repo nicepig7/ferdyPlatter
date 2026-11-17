@@ -1,7 +1,7 @@
 import { Component, createSignal, Show } from 'solid-js';
 import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../../types/fdType.window';
-import { windowStore } from '../../store/fdStore.window';
+import { windowStore } from '../../services/window/fdStore.window';
 import { AppIcon } from '../common/fdShell.appIcon';
 import './fdShell.windowWrapper.css';
 

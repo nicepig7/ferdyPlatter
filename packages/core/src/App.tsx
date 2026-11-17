@@ -3,7 +3,8 @@ import { FERDY_ASSETS } from '@ferdy/assets';
 import { ferdyBridge } from '@ferdy/bridge';
 import { Desktop } from './components/desktop/fdShell.desktop';
 import { Taskbar } from './components/taskbar/fdShell.taskbar';
-import { windowStore } from './store/fdStore.window';
+import { appStore } from './services/app/fdStore.app';
+import { windowStore } from './services/window/fdStore.window';
 
 export const App: Component = () => {
   onMount(() => {
@@ -12,10 +13,25 @@ export const App: Component = () => {
     });
 
     const unsubOpen = ferdyBridge.on('FERDY_OPEN_WINDOW', (payload) => {
+      if (payload.appId) {
+        appStore.launchApp(payload.appId, {
+          windowId: payload.id ?? `${payload.appId}-${Date.now()}`,
+          title: payload.title,
+          icon: payload.icon,
+          appUrl: payload.appUrl,
+          queryParams: payload.queryParams,
+          x: payload.x,
+          y: payload.y,
+          width: payload.width,
+          height: payload.height,
+        });
+        return;
+      }
+
       windowStore.openWindow({
         id: payload.id,
         title: payload.title ?? 'Spawned from App',
-        icon: FERDY_ASSETS.icons.sample,
+        icon: payload.icon ?? FERDY_ASSETS.icons.sample,
         appUrl: payload.appUrl ?? '/apps/app-sample/',
         x: payload.x,
         y: payload.y,

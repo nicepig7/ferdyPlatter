@@ -10,8 +10,11 @@ export interface FerdyEventMap {
   /** 자식 앱에서 Core에게 새로운 창 생성을 요청하는 이벤트 */
   FERDY_OPEN_WINDOW: {
     id?: string;
+    appId?: string;
     title?: string;
     appUrl?: string;
+    icon?: string;
+    queryParams?: Record<string, string | number>;
     x?: number;
     y?: number;
     width?: number;

@@ -13,6 +13,7 @@ export const FERDY_ASSETS = {
     clock: 'clock',
     rocket: 'rocket',
     plus: 'plus',
+    hello: 'hand',
   },
   paths: {
     logoSvg: '/assets/ferdy-logo.svg',
