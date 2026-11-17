@@ -11,7 +11,7 @@
 2. **App Registry & Shortcut Service (`services/app/`)**:
    - `.meta.ts` 파일 규칙(한 파일당 한 종류의 메타데이터 관리)에 따라 설치된 도메인 앱의 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdRegist.apps.shortcuts.meta.ts`)을 분리하여 관리합니다.
    - `appStore.launchApp(appId, options)` 및 `appStore.openShortcut(shortcut)`을 통해 매니페스트 기본값을 기반으로 쿼리 파라미터(`?instance=2`), 창 제목, 위치/크기를 오버라이드하여 실행할 수 있습니다.
-3. **Window Management Service (`services/window/`)**: 다중 창의 열기, 닫기, 최소화, 최대화/복원, Z-Index 포커스, 타이틀바 드래그 이동, 8방향 리사이징을 관리합니다.
+3. **Window Management Service (`services/window/`)**: 다중 창의 열기, 닫기, 최소화, 최대화/복원, Z-Index 포커스(및 바탕화면 클릭 시 포커스 해제), 타이틀바 드래그 이동, 8방향 리사이징, 활성 창 단독 새로고침(`F5`, `Ctrl+R`, `Cmd+R`)을 관리합니다.
 4. **iframe Sandbox & Bridge (`@ferdy/bridge`)**: 각 창의 본문 영역에 개별 도메인 앱을 `<iframe sandbox="...">`로 격리 로드하고, `@ferdy/bridge`를 통해 이벤트를 수신·처리합니다.
 5. **Monorepo Domains Gateway (`vite.config.ts`)**:
    - **Dev**: `/apps/<app-name>/` 요청을 가로채어 `packages/domains/<app-name>/index.html`을 실시간 변환 및 서빙합니다.

@@ -86,6 +86,22 @@ export function focusWindow(id: string) {
 }
 
 /**
+ * 바탕화면/태스크바 등 창 외부 영역 클릭 시 모든 창의 포커스를 해제합니다.
+ */
+export function blurAllWindows() {
+  if (!state.activeWindowId) return;
+
+  setState(
+    produce((draft) => {
+      draft.windows.forEach((w) => {
+        w.isFocused = false;
+      });
+      draft.activeWindowId = null;
+    })
+  );
+}
+
+/**
  * 창 닫기
  */
 export function closeWindow(id: string) {
@@ -207,6 +223,7 @@ export const windowStore = {
   state,
   openWindow,
   focusWindow,
+  blurAllWindows,
   closeWindow,
   minimizeWindow,
   toggleMaximizeWindow,

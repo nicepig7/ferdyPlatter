@@ -1,4 +1,4 @@
-import { Component, createSignal, Show } from 'solid-js';
+import { Component, createSignal, onCleanup, onMount, Show } from 'solid-js';
 import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../../types/fdType.window';
 import { windowStore } from '../../services/window/fdStore.window';
@@ -14,8 +14,59 @@ type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 220;
 
+/**
+ * 브라우저 기본 새로고침 단축키(F5, Ctrl+R, Cmd+R, Ctrl+Shift+R 등)인지 판별합니다.
+ */
+function isReloadShortcut(e: KeyboardEvent): boolean {
+  if (e.key === 'F5') return true;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') return true;
+  return false;
+}
+
 export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
   const [isInteracting, setIsInteracting] = createSignal(false);
+  let iframeRef: HTMLIFrameElement | undefined;
+
+  // 현재 창의 iframe만 단독 새로고침
+  const reloadIframe = () => {
+    const contentWin = iframeRef?.contentWindow;
+    if (!contentWin) return;
+    contentWin.location.reload();
+  };
+
+  // iframe 내부 문서에서 발생한 새로고침 단축키 가로채기
+  const handleIframeKeyDown = (e: KeyboardEvent) => {
+    if (!isReloadShortcut(e)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    windowStore.focusWindow(props.window.id);
+    reloadIframe();
+  };
+
+  // iframe 로드(및 리로드 완료) 시마다 내부 window에 키보드 리스너 등록
+  const handleIframeLoad = () => {
+    const contentWin = iframeRef?.contentWindow;
+    if (!contentWin) return;
+    contentWin.removeEventListener('keydown', handleIframeKeyDown, true);
+    contentWin.addEventListener('keydown', handleIframeKeyDown, true);
+  };
+
+  // 창 프레임(타이틀바 등)을 클릭하여 해당 창이 포커스된 상태에서 누른 새로고침 단축키 처리
+  onMount(() => {
+    const handleHostKeyDown = (e: KeyboardEvent) => {
+      if (!props.window.isFocused || props.window.isMinimized) return;
+      if (!isReloadShortcut(e)) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+      reloadIframe();
+    };
+
+    window.addEventListener('keydown', handleHostKeyDown, true);
+    onCleanup(() => {
+      window.removeEventListener('keydown', handleHostKeyDown, true);
+    });
+  });
 
   // 타이틀바 드래그로 창 이동
   const handleTitleBarPointerDown = (e: PointerEvent) => {
@@ -202,10 +253,12 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         </Show>
 
         <iframe
+          ref={iframeRef}
           class="os-window-iframe"
           src={props.window.appUrl}
           title={props.window.title}
           sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+          onLoad={handleIframeLoad}
         />
       </div>
 

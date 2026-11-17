@@ -17,6 +17,9 @@
   - `packages/core/src/types/fdType.app.ts`: `AppManifest`, `DesktopShortcut`, `LaunchAppOptions` 타입 정의 추가
 - **`@ferdy/app-hello` 도메인 앱 등록**:
   - 최소 구성 도메인 앱인 `app-hello`를 `INITIAL_APP_MANIFESTS` 및 `INITIAL_DESKTOP_SHORTCUTS`에 정식 연결하고 `@ferdy/assets`에 `FERDY_ASSETS.icons.hello` (`'hand'`) 아이콘 상수 추가
+- **활성 창 단독 새로고침 (`F5`, `Ctrl+R`, `Cmd+R`) 및 포커스 해제 (`@ferdy/core`)**:
+  - `WindowWrapper` (`fdShell.windowWrapper.tsx`)에서 `iframe`의 `onLoad` 시점에 내부 `contentWindow` 및 호스트 창의 새로고침 단축키(`F5`, `Ctrl+R`, `Cmd+R`)를 가로채어 전체 OS가 아닌 해당 창의 `iframe`만 새로고침되도록 구현
+  - 바탕화면 영역(`fdShell.desktop.tsx`) 클릭 시 모든 창의 포커스를 해제(`windowStore.blurAllWindows`)하여, 창에 포커스가 없을 때는 기존처럼 브라우저 전체 새로고침이 동작하도록 지원
 
 ### Changed
 - **바탕화면(`Desktop`) 및 태스크바(`Taskbar`) 하드코딩 제거**:

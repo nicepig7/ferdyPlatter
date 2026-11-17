@@ -19,7 +19,14 @@ export const Desktop: Component = () => {
   };
 
   return (
-    <main class="os-desktop">
+    <main
+      class="os-desktop"
+      onPointerDown={(e) => {
+        if (!(e.target as HTMLElement).closest('.os-window')) {
+          windowStore.blurAllWindows();
+        }
+      }}
+    >
       {/* 바탕화면 바로가기 아이콘 그리드 (appStore.state.shortcuts 구독) */}
       <section class="os-desktop-icons">
         <For each={appStore.state.shortcuts}>
