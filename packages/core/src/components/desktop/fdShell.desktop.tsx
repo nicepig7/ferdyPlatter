@@ -7,7 +7,6 @@ import {
   onCleanup,
   onMount,
 } from 'solid-js';
-import { FERDY_ASSETS } from '@ferdy/assets';
 import { appStore } from '../../services/app/fdStore.app';
 import {
   desktopStore,
@@ -308,7 +307,7 @@ export const Desktop: Component = () => {
               >
                 <DesktopIcon
                   title="New Window"
-                  icon={FERDY_ASSETS.icons.plus}
+                  icon="plus"
                   tone="neutral"
                   iconSize={Math.round(Math.min(40, Math.max(18, layout().cellSize * 0.26)))}
                   onClick={handleSpawnNewWindow}

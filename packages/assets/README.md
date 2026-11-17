@@ -12,13 +12,11 @@ packages/assets/
 ├── package.json
 ├── tsconfig.json
 ├── public/
-│   └── assets/
-│       ├── logo/
-│       │   └── ferdy.svg         # 단일 서버의 /assets/logo/ferdy.svg 경로로 서빙됨
-│       └── icons/
-│           └── app-sample.svg    # Sample App 전용 커스텀 SVG 아이콘 (/assets/icons/app-sample.svg)
+│   └── assets/                   # 단일 서버의 /assets/* 경로로 서빙되는 정적 리소스
+│       ├── logo/                 # 브랜드/OS 로고
+│       └── icons/                # 앱 전용 커스텀 SVG 아이콘
 └── src/
-    └── index.ts                  # 에셋 경로 및 공통 아이콘 상수 (FERDY_ASSETS)
+    └── index.ts                  # 공용 정적 에셋 경로 상수 (FERDY_ASSETS.paths)
 ```
 
 ---
@@ -26,8 +24,10 @@ packages/assets/
 ## 사용 방법
 
 1. **정적 파일 URL 참조**:
-   `packages/assets/public/assets/`에 위치한 파일은 `@ferdy/core`의 Vite `publicDir` 설정에 의해 `/assets/<파일명>`으로 서빙됩니다.
+   `packages/assets/public/assets/`에 위치한 파일은 `@ferdy/core`의 Vite `publicDir` 설정에 의해 `/assets/<경로>`로 서빙됩니다.
 2. **타입 상수 참조**:
    ```ts
    import { FERDY_ASSETS } from '@ferdy/assets';
+
+   // 예: FERDY_ASSETS.paths.logoSvg
    ```

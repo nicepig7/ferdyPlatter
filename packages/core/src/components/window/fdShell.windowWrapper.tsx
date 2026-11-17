@@ -1,5 +1,4 @@
 import { Component, createSignal, onCleanup, onMount, Show } from 'solid-js';
-import { FERDY_ASSETS } from '@ferdy/assets';
 import { fd } from '@ferdy/ui';
 import type { WindowInstance } from '../../types/fdType.window';
 import { isExternalUrl, openInNewTab } from '../../services/app/fdStore.app';
@@ -261,7 +260,7 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
               title="Open in new tab"
               onClick={handleOpenExternalTab}
             >
-              <fd.Icon name={FERDY_ASSETS.icons.externalLink} size="xs" />
+              <fd.Icon name="external-link" size="xs" />
             </button>
           </Show>
           <button

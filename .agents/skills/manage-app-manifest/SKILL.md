@@ -19,9 +19,9 @@ description: >-
 
 ---
 
-## 2. 공용 아이콘 상수 추가 (선택)
+## 2. 공용 정적 에셋 경로 추가 (선택)
 
-커스텀 SVG 아이콘이나 공용 아이콘 상수가 필요한 경우, `packages/assets/src/index.ts`의 `FERDY_ASSETS.icons`에 SVG 경로(`/assets/icons/...svg`) 또는 Lucide 아이콘 이름을 등록합니다.
+커스텀 SVG 아이콘 등 정적 이미지 파일이 필요한 경우에만 `packages/assets/public/assets/icons/`에 파일을 추가하고 `packages/assets/src/index.ts`의 `FERDY_ASSETS.paths`에 경로를 등록합니다. Lucide 아이콘을 사용하는 경우에는 매니페스트의 `icon` 필드에 Lucide 아이콘 이름 문자열(예: `'clock'`, `'calendar'`)을 직접 지정합니다.
 
 ---
 

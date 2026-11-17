@@ -1,5 +1,4 @@
 import { createStore, produce } from 'solid-js/store';
-import { FERDY_ASSETS } from '@ferdy/assets';
 import type {
   AppIconTone,
   AppIconToneMeta,
@@ -143,7 +142,7 @@ export function resolveShortcut(
     id: shortcut.id,
     appId: shortcut.appId ?? manifest?.appId,
     title: shortcut.title ?? manifest?.title ?? shortcut.id,
-    icon: shortcut.icon ?? manifest?.icon ?? (external ? FERDY_ASSETS.icons.globe : 'box'),
+    icon: shortcut.icon ?? manifest?.icon ?? (external ? 'globe' : 'box'),
     tone: shortcut.tone ?? manifest?.tone ?? 'neutral',
     appUrl: finalUrl,
     openMode,

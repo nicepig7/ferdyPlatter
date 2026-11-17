@@ -1,4 +1,3 @@
-import { FERDY_ASSETS } from '@ferdy/assets';
 import type { DesktopShortcut } from '../../types/fdType.app';
 
 /**
@@ -20,7 +19,7 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     id: 'sample-app-2',
     appId: 'app-sample',
     title: 'Second Instance',
-    icon: FERDY_ASSETS.icons.rocket,
+    icon: 'rocket',
     tone: 'amber',
     queryParams: { instance: 2 },
   },
@@ -39,7 +38,7 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
   {
     id: 'ext-cube-timer',
     title: 'Cube Timer',
-    icon: FERDY_ASSETS.icons.timer,
+    icon: 'timer',
     tone: 'violet',
     appUrl: 'https://nicepig7.github.io/cubeTimer/',
     width: 960,

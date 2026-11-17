@@ -31,7 +31,7 @@ export const App: Component = () => {
       windowStore.openWindow({
         id: payload.id,
         title: payload.title ?? 'Spawned from App',
-        icon: payload.icon ?? FERDY_ASSETS.icons.sample,
+        icon: payload.icon ?? FERDY_ASSETS.paths.sampleIconSvg,
         appUrl: payload.appUrl ?? '/apps/app-sample/',
         x: payload.x,
         y: payload.y,

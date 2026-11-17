@@ -1,5 +1,4 @@
 import { Component, JSX, Show, createUniqueId } from 'solid-js';
-import { FERDY_ASSETS } from '@ferdy/assets';
 import { fd } from '@ferdy/ui';
 import type { AppIconTone } from '../../types/fdType.app';
 import { getIconToneMeta } from '../../services/app/fdStore.app';
@@ -88,7 +87,7 @@ export const DesktopIcon: Component<DesktopIconProps> = (props) => {
 
         <Show when={props.isExternal}>
           <span class="os-desktop-icon-badge" aria-hidden="true">
-            <fd.Icon name={FERDY_ASSETS.icons.externalLink} size={10} />
+            <fd.Icon name="external-link" size={10} />
           </span>
         </Show>
       </span>
