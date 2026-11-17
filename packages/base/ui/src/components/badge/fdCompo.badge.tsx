@@ -16,7 +16,7 @@ export const Badge: Component<BadgeProps> = (rawProps) => {
 
   return (
     <span
-      class={`fd-badge fd-badge--${local.variant}${local.class ? ` ${local.class}` : ''}`}
+      class={`fd-compo fd-badge fd-badge--${local.variant}${local.class ? ` ${local.class}` : ''}`}
       {...rest}
     >
       {local.children}

@@ -8,7 +8,7 @@ export const Card: Component<CardProps> = (props) => {
   const [local, rest] = splitProps(props, ['class', 'children']);
 
   return (
-    <div class={`fd-card${local.class ? ` ${local.class}` : ''}`} {...rest}>
+    <div class={`fd-compo fd-card${local.class ? ` ${local.class}` : ''}`} {...rest}>
       {local.children}
     </div>
   );

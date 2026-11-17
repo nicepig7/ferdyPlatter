@@ -553,7 +553,7 @@ export const AppNotes: Component = () => {
             <span class="notes-brand-title">Notes</span>
           </div>
 
-          <fd.Badge variant="neutral" class="notes-count-badge fd-tabular-nums">
+          <fd.Badge variant="neutral" class="notes-count-badge">
             {notes().length}
           </fd.Badge>
 
@@ -618,7 +618,7 @@ export const AppNotes: Component = () => {
                     >
                       <span class="notes-item-title">{getDisplayTitle(note.title)}</span>
                       <span class="notes-item-snippet">{getNoteSnippet(note.content)}</span>
-                      <span class="notes-item-time fd-tabular-nums">
+                      <span class="notes-item-time">
                         {formatNoteTimestamp(note.updatedAt)}
                       </span>
                     </button>
@@ -684,7 +684,7 @@ export const AppNotes: Component = () => {
       <footer class="notes-footer">
         <div class="notes-footer-status">
           <fd.Icon name="check" size="xs" class="notes-saved-icon" />
-          <span class="fd-tabular-nums">
+          <span>
             자동 저장됨 · {formatNoteTimestamp(activeNote().updatedAt)}
           </span>
         </div>
@@ -703,7 +703,7 @@ export const AppNotes: Component = () => {
               </button>
               <button
                 type="button"
-                class="notes-font-value fd-tabular-nums"
+                class="notes-font-value"
                 aria-label={`현재 글자 크기 ${fontSize()}px, 클릭 시 기본 크기로 초기화 (Ctrl+0)`}
                 title="기본 크기(14px)로 초기화 (Ctrl+0)"
                 onClick={resetFontSize}
@@ -722,7 +722,7 @@ export const AppNotes: Component = () => {
               </button>
             </div>
           </Show>
-          <div class="notes-footer-stats fd-tabular-nums">
+          <div class="notes-footer-stats">
             <span>{charCount()}자</span>
             <span aria-hidden="true">·</span>
             <span>{lineCount()}줄</span>

@@ -34,7 +34,7 @@ export const Button: Component<ButtonProps> = (rawProps) => {
 
   return (
     <button
-      class={`fd-btn fd-btn--${local.variant} fd-btn--${local.size}${local.class ? ` ${local.class}` : ''}`}
+      class={`fd-compo fd-btn fd-btn--${local.variant} fd-btn--${local.size}${local.class ? ` ${local.class}` : ''}`}
       {...rest}
     >
       {local.children}

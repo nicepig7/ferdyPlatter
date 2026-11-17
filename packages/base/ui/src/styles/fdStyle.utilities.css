@@ -1,7 +1,0 @@
-@layer utilities {
-  /* Utility classes reserved for highest-priority overrides within @ferdy/ui */
-  .fd-tabular-nums {
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: 'tnum';
-  }
-}

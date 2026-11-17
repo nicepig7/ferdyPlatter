@@ -1,10 +1,7 @@
-@layer reset, tokens, theme, libraries, base, layout, components, utilities;
+@layer reset, tokens, theme, libraries, base, components;
 
 @import './fdStyle.reset.css';
-@import './fdStyle.tokens.css';
+@import './fdStyle.token.css';
 @import './fdStyle.theme.css';
 @import './fdStyle.libraries.css';
 @import './fdStyle.base.css';
-@import './fdStyle.layout.css';
-@import './fdStyle.components.css';
-@import './fdStyle.utilities.css';

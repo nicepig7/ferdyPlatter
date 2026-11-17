@@ -1,0 +1,75 @@
+@layer tokens {
+  :root {
+    /* ======================================================================
+     * Color Palette Primitives (Raw Values & RGB Channels)
+     * ====================================================================== */
+
+    /* Warm Dark Neutrals (Espresso / Charcoal) */
+    --fd-palette-espresso-950: #120f0d;
+    --fd-palette-espresso-900: #1a1613;
+    --fd-palette-espresso-850: #26201b;
+    --fd-palette-espresso-800: #28211d;
+    --fd-palette-espresso-700: #362d27;
+
+    --fd-rgb-espresso-900: 26, 22, 19;
+    --fd-rgb-espresso-800: 40, 33, 29;
+
+    /* Warm Light Neutrals (White / Cream / Sand) */
+    --fd-palette-white: #ffffff;
+    --fd-palette-cream-50: #fffaf5;
+    --fd-palette-cream-100: #f6f1ea;
+    --fd-palette-sand-200: #d8cfc4;
+    --fd-palette-sand-300: #c4b5a5;
+    --fd-palette-sand-400: #9e9386;
+    --fd-palette-sand-600: #70665c;
+
+    --fd-rgb-sand-300: 196, 181, 165;
+    --fd-rgb-black: 0, 0, 0;
+
+    /* Terracotta (Primary Brand) */
+    --fd-palette-terracotta-500: #d97736;
+    --fd-palette-terracotta-600: #b45318;
+    --fd-palette-terracotta-700: #9a4412;
+
+    --fd-rgb-terracotta-500: 217, 119, 54;
+
+    /* Forest Green (Secondary Brand) */
+    --fd-palette-mint-50: #eef6f0;
+    --fd-palette-forest-300: #a3cbb2;
+    --fd-palette-forest-400: #5c9674;
+    --fd-palette-forest-500: #3b6e52;
+    --fd-palette-forest-600: #2c553e;
+    --fd-palette-forest-700: #234532;
+
+    --fd-rgb-forest-400: 92, 150, 116;
+    --fd-rgb-forest-500: 59, 110, 82;
+
+    /* Crimson / Rose (Danger / Status) */
+    --fd-palette-rose-200: #fecaca;
+    --fd-palette-crimson-500: #d94e43;
+
+    --fd-rgb-crimson-500: 217, 78, 67;
+
+    /* ======================================================================
+     * Radius Scale Tokens
+     * ====================================================================== */
+    --fd-radius-xs: 4px;
+    --fd-radius-sm: 6px;
+    --fd-radius-md: 8px;
+    --fd-radius-lg: 10px;
+    --fd-radius-pill: 999px;
+
+    /* ======================================================================
+     * Typography Tokens
+     * ====================================================================== */
+    --fd-font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+    --fd-font-mono: 'D2Coding', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* ======================================================================
+     * Motion / Transition Tokens
+     * ====================================================================== */
+    --fd-duration-fast: 0.1s;
+    --fd-duration-normal: 0.15s;
+    --fd-ease-default: ease;
+  }
+}

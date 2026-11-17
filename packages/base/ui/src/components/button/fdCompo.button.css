@@ -9,7 +9,11 @@
     border-radius: var(--fd-radius-md);
     border: 1px solid transparent;
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    transition:
+      background var(--fd-duration-normal) var(--fd-ease-default),
+      border-color var(--fd-duration-normal) var(--fd-ease-default),
+      color var(--fd-duration-normal) var(--fd-ease-default),
+      transform var(--fd-duration-fast) var(--fd-ease-default);
     user-select: none;
   }
 
@@ -31,7 +35,7 @@
   .fd-btn--primary {
     background: var(--fd-primary-strong);
     border-color: var(--fd-primary);
-    color: #fffaf5;
+    color: var(--fd-text-on-primary);
   }
 
   .fd-btn--primary:hover {
@@ -41,13 +45,13 @@
   .fd-btn--secondary {
     background: var(--fd-secondary-strong);
     border-color: var(--fd-secondary-border);
-    color: #eef6f0;
+    color: var(--fd-text-on-secondary);
   }
 
   .fd-btn--secondary:hover {
     background: var(--fd-secondary-hover);
     border-color: var(--fd-secondary-focus);
-    color: #ffffff;
+    color: var(--fd-text-on-secondary-hover);
   }
 
   .fd-btn--neutral {
@@ -57,7 +61,7 @@
   }
 
   .fd-btn--neutral:hover {
-    background: #362d27;
+    background: var(--fd-bg-elevated-hover);
     color: var(--fd-text-primary);
   }
 
@@ -68,7 +72,7 @@
   }
 
   .fd-btn--accent-ghost:hover {
-    background: rgba(217, 119, 54, 0.26);
+    background: var(--fd-primary-subtle-hover);
     border-color: var(--fd-primary);
   }
 
@@ -81,18 +85,18 @@
 
   .fd-btn--secondary-ghost:hover,
   .fd-btn--purple:hover {
-    background: rgba(59, 110, 82, 0.34);
+    background: var(--fd-secondary-subtle-hover);
     border-color: var(--fd-secondary-focus);
   }
 
   .fd-btn--danger {
-    background: rgba(217, 78, 67, 0.18);
-    border-color: rgba(217, 78, 67, 0.45);
-    color: #fecaca;
+    background: var(--fd-danger-subtle);
+    border-color: var(--fd-danger-border);
+    color: var(--fd-danger-text);
   }
 
   .fd-btn--danger:hover {
     background: var(--fd-danger);
-    color: #ffffff;
+    color: var(--fd-text-on-danger);
   }
 }

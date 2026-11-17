@@ -29,7 +29,7 @@
    - **[B] `packages/base/*` (`@ferdy/bridge`, `@ferdy/ui`)**:
      - `@ferdy/bridge`: Core와 Domain Apps 간의 타입 안전 `postMessage` Pub/Sub 이벤트 버스.
      - `@ferdy/ui`:
-       - CSS `@layer` 계층(`@layer reset, tokens, theme, libraries, base, layout, components, utilities;`) 및 전역 스타일시트(`fdStyle.*.css`)
+       - CSS `@layer` 계층(`@layer reset, tokens, theme, libraries, base, components;`) 및 전역 스타일시트(`fdStyle.*.css`)
        - 공통 CSS 디자인 토큰(`--fd-*`), Base 리셋/유틸리티 클래스(`.fd-*`)
        - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`)
    - **[C] `packages/core` (`@ferdy/core`)**:

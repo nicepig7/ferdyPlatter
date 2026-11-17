@@ -55,7 +55,7 @@ export const Icon: Component<IconProps> = (rawProps) => {
 
   return (
     <i
-      class={`fd-icon ${iconClass()}${sizeClass() ? ` ${sizeClass()}` : ''}${local.spin ? ' fd-icon--spin' : ''}${local.class ? ` ${local.class}` : ''}`}
+      class={`fd-compo fd-icon ${iconClass()}${sizeClass() ? ` ${sizeClass()}` : ''}${local.spin ? ' fd-icon--spin' : ''}${local.class ? ` ${local.class}` : ''}`}
       style={mergedStyle()}
       role={local.label ? 'img' : undefined}
       aria-label={local.label}

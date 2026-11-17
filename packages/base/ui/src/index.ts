@@ -1,4 +1,5 @@
 import './styles/index.css';
+import './components/fdCompo.style.css';
 
 import { Button } from './components/button/fdCompo.button';
 import { Badge } from './components/badge/fdCompo.badge';

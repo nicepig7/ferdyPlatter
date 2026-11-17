@@ -1,6 +1,7 @@
 import { Component, createSignal } from 'solid-js';
 import { ferdyBridge } from '@ferdy/bridge';
 import { fd } from '@ferdy/ui';
+import './appSample.css';
 
 export const App: Component = () => {
   const [count, setCount] = createSignal(0);
