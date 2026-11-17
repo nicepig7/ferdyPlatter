@@ -60,4 +60,18 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
       minHeight: 310 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
     },
   },
+  {
+    appId: 'app-notes',
+    title: 'Notes',
+    icon: FERDY_ASSETS.icons.notes,
+    tone: 'primary',
+    appUrl: '/apps/app-notes/',
+    description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
+    defaultWindow: {
+      width: 660,
+      height: 460,
+      minWidth: 380 + WINDOW_FRAME_BORDER,
+      minHeight: 280 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
+    },
+  },
 ];

@@ -38,6 +38,7 @@
 - [x] **시계 앱 (`@ferdy/app-clock`)**: `@ferdy/ui` 토큰/버튼 기반의 실시간 디지털 시계 및 24H/12H 포맷 토글 위젯 앱
 - [x] **헬로 월드 앱 (`@ferdy/app-hello`)**: 최소 구성(Minimal) 도메인 앱 구조 및 스타일시트 연동 검증 앱
 - [x] **달력 앱 (`@ferdy/app-calendar`)**: 월간 캘린더 그리드 탐색, 오늘(Today) 즉시 이동, 선택 일자 D-Day 표시 및 날짜별 한 줄 메모(`localStorage` 저장·셀 도트 인디케이터) 지원 위젯 앱
+- [x] **메모장 앱 (`@ferdy/app-notes`)**: 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제), `localStorage` 실시간 자동 저장(`ferdy:notes:items`), 및 `Edit` ↔ `Preview` 경량 마크다운 미리보기 전환 지원 앱
 
 ---
 
@@ -55,6 +56,6 @@
 - [ ] 창 위치/크기/열린 상태 `localStorage` 세션 저장 및 복원
 
 ### Phase 3: 실용적인 도메인 앱(`packages/domains/*`) 추가
-- [ ] 메모장 / 마크다운 노트 앱 (`app-notes`)
+- [x] 메모장 / 마크다운 노트 앱 (`app-notes`)
 - [ ] 시스템 모니터 / 브릿지 이벤트 로그 뷰어 앱 (`app-monitor`)
 - [ ] 설정 앱 (`app-settings` — 배경화면, 테마 변경 등)

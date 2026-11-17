@@ -16,6 +16,16 @@
 - **앱별 최소 창 크기(`minWidth`, `minHeight`) 지원 (`@ferdy/core`)**:
   - `AppManifest.defaultWindow`, `DesktopShortcut`, `LaunchAppOptions`, `WindowInstance`에 `minWidth` / `minHeight` 옵션을 추가해 앱별로 OS 기본값(`320x220`) 외의 최소 크기 제한을 지정할 수 있도록 확장
   - `@ferdy/app-calendar`에 본문(컨텐츠 영역) 기준 최소 `280x310`(`창 전체 282x350`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함) 최소 크기 제약 적용
+- **외부 웹 사이트 바로가기 지원 (`@ferdy/core`, `@ferdy/assets`)**:
+  - `DesktopShortcut` / `LaunchAppOptions`에 `openMode` (`'window'` | `'new-tab'`) 지원 및 외부 URL(`http://`, `https://`) 판별(`isExternalUrl`)·새 탭 실행(`openInNewTab`) 추가
+  - `DesktopIcon` 외부 링크 배지(`FERDY_ASSETS.icons.externalLink`), `WindowWrapper` 외부 창 타이틀바 '새 탭에서 열기' 액션 버튼 및 Cross-Origin `iframe` 안전 리로드 처리 구현
+  - `@ferdy/assets`에 `globe`, `timer`, `externalLink` 아이콘 상수 추가 및 바탕화면 `Cube Timer` 외부 바로가기 등록
+- **메모장 도메인 앱 (`@ferdy/app-notes`) 신설**:
+  - `packages/domains/app-notes/` 패키지 생성 (`660x460` 기본 창 크기, 최소 `380x280` 본문 기준 `382x320` 창 크기, `/apps/app-notes/` 경로 서빙)
+  - 접기/펼치기 가능한 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제, 마지막 메모 삭제 시 빈 새 메모 자동 생성) 및 `localStorage`(`ferdy:notes:items`, `ferdy:notes:active-id`) Draft 스토리지 헬퍼 연동 실시간 자동 저장 구현
+  - 상단 툴바 `Edit` ↔ `Preview` 모드 전환 토글, `Tab` 2칸 들여쓰기 및 자체 경량 마크다운 렌더러(제목, 코드 블록, 인라인 코드, 강조/취소선, 인용구, 목록, 체크리스트, 구분선, 안전 링크) 구현
+  - `Edit` 모드 글자 크기 조절(`11px ~ 28px`, 하단 `-` / `14px` / `+` 컨트롤 및 `Ctrl/Cmd + +/-/0` 단축키) 및 `ferdy:notes:font-size` `localStorage` 저장 지원
+  - `FERDY_ASSETS.icons.notes` (`'notebook-pen'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.5` → `0.1.6`)**:

@@ -11,6 +11,7 @@ export const FERDY_ASSETS = {
     sample: '/assets/icons/app-sample.svg',
     clock: 'clock',
     calendar: 'calendar',
+    notes: 'notebook-pen',
     rocket: 'rocket',
     plus: 'plus',
     hello: 'hand',

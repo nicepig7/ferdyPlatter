@@ -33,6 +33,10 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     appId: 'app-calendar',
   },
   {
+    id: 'notes-app-1',
+    appId: 'app-notes',
+  },
+  {
     id: 'ext-cube-timer',
     title: 'Cube Timer',
     icon: FERDY_ASSETS.icons.timer,

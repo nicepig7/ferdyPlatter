@@ -11,9 +11,6 @@
 
 가장 먼저 착수할 만한 단기 작업 목록입니다.
 
-- [x] **외부 웹 사이트 링크 바로가기 아이콘 지원 (External URL Shortcuts)**
-  - 바탕화면에 내부 도메인 앱(`/apps/...`)뿐만 아니라 외부 사이트 주소(예: `https://nicepig7.github.io/cubeTimer/`)를 아이콘으로 등록하고 실행하는 기능
-  - `openMode` (`'window'` | `'new-tab'`), 바탕화면 외부 링크 배지, 창 타이틀바 '새 탭에서 열기' 버튼 및 Cross-Origin `iframe` 보안 예외 방어 처리 구현 완료
 - [ ] **런타임 테마 스위처 (`dark` / `light`) 연동**
   - `@ferdy/ui`의 `fdStyle.theme.css`에 라이트 모드(또는 추가 빈티지 테마) 토큰 세트 정의
   - `@ferdy/core`에서 `ferdyBridge.broadcast('FERDY_THEME_CHANGE', { theme })` 발행 및 각 도메인 앱 수신 처리
@@ -39,8 +36,6 @@
 - [ ] **키보드 단축키 지원**: `Alt + Tab` 유사 창 전환 또는 활성 창 닫기/최소화 단축키
 
 ### 🧩 `packages/domains/*` (신규 도메인 앱 아이디어)
-- [x] **`@ferdy/app-calendar` 일정/메모 입력 및 저장 기능 확장**: 달력에서 선택한 날짜별로 한 줄 메모를 입력·편집·삭제하고 `localStorage`(`ferdy:calendar:memos` Draft 헬퍼)에 저장 및 달력 셀에 도트(dot) 인디케이터 표시 (추후 OPFS/공용 스토리지로 확장 가능)
-- [ ] **`@ferdy/app-notes`**: 마크다운/텍스트 빠른 메모장 (`localStorage` 자동 저장)
 - [ ] **`@ferdy/app-monitor`**: `@ferdy/bridge`를 오가는 실시간 `postMessage` 이벤트 로그 및 현재 열린 창 상태 인스펙터
 - [ ] **`@ferdy/app-settings`**: OS 배경화면, 컬러 테마, 시스템 환경설정을 제어하는 설정 앱
 
