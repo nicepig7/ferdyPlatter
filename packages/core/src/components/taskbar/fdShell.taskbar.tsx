@@ -37,8 +37,10 @@ export const Taskbar: Component = () => {
           onClick={handleLauncherClick}
           title="Launch new Sample App instance"
         >
-          <span class="os-start-logo">{FERDY_ASSETS.logoSymbol}</span>
-          <span>FerdyOS</span>
+          <span class="os-start-logo">
+            <AppIcon icon={FERDY_ASSETS.paths.logoSvg} size={18} />
+          </span>
+          <span>fdPlatter</span>
         </button>
       </div>
 

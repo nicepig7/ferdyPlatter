@@ -34,8 +34,12 @@
 }
 
 .os-start-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--fd-primary);
   font-size: 15px;
+  flex-shrink: 0;
 }
 
 .os-taskbar-windows {

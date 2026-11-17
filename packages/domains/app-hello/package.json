@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ferdy/assets": "*",
     "@ferdy/bridge": "*",
     "@ferdy/ui": "*",
     "solid-js": "^1.9.3"

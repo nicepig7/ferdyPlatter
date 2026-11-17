@@ -16,7 +16,7 @@ export const FERDY_ASSETS = {
     hello: 'hand',
   },
   paths: {
-    logoSvg: '/assets/ferdy-logo.svg',
+    logoSvg: '/assets/logo/ferdy.svg',
     sampleIconSvg: '/assets/icons/app-sample.svg',
   },
 } as const;
