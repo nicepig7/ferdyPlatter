@@ -40,7 +40,8 @@ ferdyPlatter/
     ├── domains/              # [D] 개별 격리 실행 도메인 앱 (iframe 샌드박스)
     │   ├── app-sample/       #     @ferdy/app-sample — 샌드박스 레퍼런스 샘플 앱
     │   ├── app-clock/        #     @ferdy/app-clock — 실시간 디지털 시계 위젯 앱
-    │   └── app-hello/        #     @ferdy/app-hello — 최소 구성 Hello World 앱
+    │   ├── app-hello/        #     @ferdy/app-hello — 최소 구성 Hello World 앱
+    │   └── app-calendar/     #     @ferdy/app-calendar — 월간 달력 및 D-Day 위젯 앱
     └── etc/                  # [E] 실험적 모듈 및 기타 유틸리티 예비 공간
 ```
 
@@ -89,4 +90,5 @@ npm run preview
 | **[D] Sample App** | [packages/domains/app-sample/README.md](./packages/domains/app-sample/README.md) | `@ferdy/app-sample` 템플릿 설명 |
 | **[D] Clock App** | [packages/domains/app-clock/README.md](./packages/domains/app-clock/README.md) | `@ferdy/app-clock` 소형 디지털 시계 앱 설명 |
 | **[D] Hello App** | [packages/domains/app-hello/README.md](./packages/domains/app-hello/README.md) | `@ferdy/app-hello` 최소 구성 Hello World 앱 설명 |
+| **[D] Calendar App** | [packages/domains/app-calendar/README.md](./packages/domains/app-calendar/README.md) | `@ferdy/app-calendar` 월간 달력 및 D-Day 위젯 앱 설명 |
 | **Agent Rules** | [AGENTS.md](./AGENTS.md) | AI 페어 프로그래밍 시 적용되는 프로젝트 규칙 안내 |

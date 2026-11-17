@@ -4,6 +4,28 @@
 
 ---
 
+## [0.1.6] - Calendar Domain App (`@ferdy/app-calendar`)
+
+### Added
+- **월간 달력 도메인 앱 (`@ferdy/app-calendar`) 신설**:
+  - `packages/domains/app-calendar/` 패키지 생성 (`420x460` 기본 창 크기, `/apps/app-calendar/` 경로 서빙)
+  - 7열 × 6행(42셀) 월간 달력 그리드 렌더링, 이전/다음 달 탐색 및 `Today` 즉시 복귀 기능 구현
+  - 선택 날짜(`YYYY-MM-DD (DAY)`) 및 오늘 기준 상대 D-Day 배지(`TODAY`, `D-N`, `D+N`) 표시
+  - `FERDY_ASSETS.icons.calendar` (`'calendar'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
+- **앱별 최소 창 크기(`minWidth`, `minHeight`) 지원 (`@ferdy/core`)**:
+  - `AppManifest.defaultWindow`, `DesktopShortcut`, `LaunchAppOptions`, `WindowInstance`에 `minWidth` / `minHeight` 옵션을 추가해 앱별로 OS 기본값(`320x220`) 외의 최소 크기 제한을 지정할 수 있도록 확장
+  - `@ferdy/app-calendar`에 본문(컨텐츠 영역) 기준 최소 `280x280`(`창 전체 282x320`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함) 최소 크기 제약 적용
+
+### Changed
+- **워크스페이스 버전 상향 (`0.1.5` → `0.1.6`)**:
+  - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/app-*`)의 `package.json` 버전을 `0.1.6`으로 일괄 업데이트
+- **시계·달력 앱 타이포그래피 통일 및 반응형 스케일링 (`@ferdy/ui`, `@ferdy/app-clock`, `@ferdy/app-calendar`)**:
+  - `@ferdy/ui`의 `fdStyle.utilities.css`에 `.fd-tabular-nums` (`font-variant-numeric: tabular-nums; font-feature-settings: 'tnum';`) 유틸리티 추가
+  - `@ferdy/app-clock` 및 `@ferdy/app-calendar`의 숫자 표기 폰트를 `D2Coding`(`--fd-font-mono`)에서 `Pretendard Variable` (`--fd-font-sans`)로 변경하고 `tabular-nums` + `'tnum'` 적용으로 고정 너비 숫자 정렬 유지
+  - `@ferdy/app-calendar` 날짜·헤더·푸터 폰트 크기에 창 크기(`vw`, `vh`) 연동 `clamp()` 반응형 스케일링 적용
+
+---
+
 ## [0.1.5] - App Manifest Registry (`services/app/`), `.meta.ts` Convention & Brand Identity (`fdPlatter`)
 
 ### Added

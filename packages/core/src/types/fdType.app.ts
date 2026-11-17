@@ -22,6 +22,8 @@ export interface AppManifest {
     y?: number;
     width?: number;
     height?: number;
+    minWidth?: number;
+    minHeight?: number;
   };
 }
 
@@ -53,6 +55,10 @@ export interface DesktopShortcut {
   width?: number;
   /** 초기 창 높이 오버라이드 */
   height?: number;
+  /** 최소 창 너비 오버라이드 */
+  minWidth?: number;
+  /** 최소 창 높이 오버라이드 */
+  minHeight?: number;
 }
 
 /**
@@ -77,4 +83,8 @@ export interface LaunchAppOptions {
   width?: number;
   /** 초기 창 높이 오버라이드 */
   height?: number;
+  /** 최소 창 너비 오버라이드 */
+  minWidth?: number;
+  /** 최소 창 높이 오버라이드 */
+  minHeight?: number;
 }

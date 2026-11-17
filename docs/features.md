@@ -30,12 +30,13 @@
   - 탭 클릭 시 상태에 따라 **포커스 전환 / 최소화 / 복원** 스마트 토글
 - [x] **창 생명주기 및 Z-Index 포커스 제어**: 열기, 닫기, 최소화, 최대화/복원, 차상위 창 포커스 자동 이관, 바탕화면 클릭 시 창 포커스 해제(`blurAllWindows`)
 - [x] **활성 창 단독 새로고침 (`F5`, `Ctrl+R`, `Cmd+R`)**: 창 내부(`iframe`) 또는 포커스된 창에서 새로고침 단축키 입력 시 브라우저 전체 새로고침을 방지하고 해당 창만 리로드 (포커스된 창이 없을 때는 기존 브라우저 새로고침 동작 유지)
-- [x] **창 드래그 이동 및 8방향 리사이징**: `translate3d` 기반 이동, 8방향 크기 조절(`320x220` 최소 크기 제한), `iframe` 포인터 보호막(`.os-window-iframe-shield`)
+- [x] **창 드래그 이동 및 8방향 리사이징**: `translate3d` 기반 이동, 8방향 크기 조절(OS 기본 최소 크기 `320x220` 및 앱 매니페스트별 `minWidth`/`minHeight` 지정 지원), `iframe` 포인터 보호막(`.os-window-iframe-shield`)
 
 ### 🧩 Domain Apps (`packages/domains/*`)
 - [x] **샘플 앱 (`@ferdy/app-sample`)**: `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge` 통신을 활용한 표준 레퍼런스 앱
 - [x] **시계 앱 (`@ferdy/app-clock`)**: `@ferdy/ui` 토큰/버튼 기반의 실시간 디지털 시계 및 24H/12H 포맷 토글 위젯 앱
 - [x] **헬로 월드 앱 (`@ferdy/app-hello`)**: 최소 구성(Minimal) 도메인 앱 구조 및 스타일시트 연동 검증 앱
+- [x] **달력 앱 (`@ferdy/app-calendar`)**: 월간 캘린더 그리드 탐색, 오늘(Today) 즉시 이동 및 선택 일자 D-Day 표시 위젯 앱
 
 ---
 

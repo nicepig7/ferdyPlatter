@@ -10,6 +10,7 @@ export const FERDY_ASSETS = {
   icons: {
     sample: '/assets/icons/app-sample.svg',
     clock: 'clock',
+    calendar: 'calendar',
     rocket: 'rocket',
     plus: 'plus',
     hello: 'hand',

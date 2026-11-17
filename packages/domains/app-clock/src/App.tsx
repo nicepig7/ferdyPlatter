@@ -60,11 +60,12 @@ export const App: Component = () => {
       >
         <span
           style={{
-            'font-family': 'var(--fd-font-mono)',
+            'font-family': 'var(--fd-font-sans)',
             'font-size': 'clamp(14px, min(4.8vw, 9vh), 28px)',
             color: 'var(--fd-text-muted)',
             'font-weight': '600',
             'font-variant-numeric': 'tabular-nums',
+            'font-feature-settings': '"tnum"',
             'letter-spacing': '0.02em',
             'white-space': 'nowrap',
           }}
@@ -109,10 +110,11 @@ export const App: Component = () => {
         </Show>
         <span
           style={{
-            'font-family': 'var(--fd-font-mono)',
+            'font-family': 'var(--fd-font-sans)',
             'font-size': 'clamp(36px, min(17vw, 38vh), 140px)',
             'font-weight': '700',
             'font-variant-numeric': 'tabular-nums',
+            'font-feature-settings': '"tnum"',
             'letter-spacing': '0.02em',
             'line-height': '1',
             color: 'var(--fd-text-primary)',

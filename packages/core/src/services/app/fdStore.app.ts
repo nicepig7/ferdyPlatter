@@ -20,6 +20,8 @@ export interface ResolvedDesktopShortcut {
   y?: number;
   width?: number;
   height?: number;
+  minWidth?: number;
+  minHeight?: number;
 }
 
 interface AppStoreState {
@@ -114,6 +116,8 @@ export function resolveShortcut(
     y: shortcut.y ?? manifest?.defaultWindow?.y,
     width: shortcut.width ?? manifest?.defaultWindow?.width,
     height: shortcut.height ?? manifest?.defaultWindow?.height,
+    minWidth: shortcut.minWidth ?? manifest?.defaultWindow?.minWidth,
+    minHeight: shortcut.minHeight ?? manifest?.defaultWindow?.minHeight,
   };
 }
 
@@ -143,6 +147,8 @@ export function launchApp(appId: string, options?: LaunchAppOptions): void {
     y: options?.y ?? manifest?.defaultWindow?.y,
     width: options?.width ?? manifest?.defaultWindow?.width,
     height: options?.height ?? manifest?.defaultWindow?.height,
+    minWidth: options?.minWidth ?? manifest?.defaultWindow?.minWidth,
+    minHeight: options?.minHeight ?? manifest?.defaultWindow?.minHeight,
   });
 }
 
@@ -163,6 +169,8 @@ export function openShortcut(shortcut: DesktopShortcut): void {
     y: resolved.y,
     width: resolved.width,
     height: resolved.height,
+    minWidth: resolved.minWidth,
+    minHeight: resolved.minHeight,
   });
 }
 

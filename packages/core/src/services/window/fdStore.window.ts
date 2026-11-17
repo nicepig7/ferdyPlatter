@@ -8,6 +8,8 @@ interface WindowStoreState {
 }
 
 const BASE_Z_INDEX = 100;
+export const WINDOW_TITLEBAR_HEIGHT = 38;
+export const WINDOW_FRAME_BORDER = 2;
 export const MIN_WINDOW_WIDTH = 320;
 export const MIN_WINDOW_HEIGHT = 220;
 
@@ -67,6 +69,8 @@ export function openWindow(payload: CreateWindowPayload) {
   const nextZ = state.topZIndex + 1;
   const offset = (state.windows.length % 6) * 32;
   const id = payload.id ?? `win-${Date.now()}`;
+  const minW = payload.minWidth ?? MIN_WINDOW_WIDTH;
+  const minH = payload.minHeight ?? MIN_WINDOW_HEIGHT;
 
   setState(
     produce((draft) => {
@@ -82,8 +86,10 @@ export function openWindow(payload: CreateWindowPayload) {
         icon: payload.icon,
         x: payload.x ?? 100 + offset,
         y: payload.y ?? 70 + offset,
-        width: payload.width ?? 640,
-        height: payload.height ?? 440,
+        width: Math.max(minW, payload.width ?? 640),
+        height: Math.max(minH, payload.height ?? 440),
+        minWidth: payload.minWidth,
+        minHeight: payload.minHeight,
         zIndex: nextZ,
         isFocused: true,
         isMinimized: false,
@@ -217,8 +223,10 @@ export function resizeWindow(
     'windows',
     (w) => w.id === id,
     produce((w) => {
-      w.width = Math.max(MIN_WINDOW_WIDTH, rect.width);
-      w.height = Math.max(MIN_WINDOW_HEIGHT, rect.height);
+      const minW = w.minWidth ?? MIN_WINDOW_WIDTH;
+      const minH = w.minHeight ?? MIN_WINDOW_HEIGHT;
+      w.width = Math.max(minW, rect.width);
+      w.height = Math.max(minH, rect.height);
       if (rect.x !== undefined) w.x = rect.x;
       if (rect.y !== undefined) w.y = rect.y;
     })

@@ -17,6 +17,10 @@ export interface WindowInstance {
   width: number;
   /** 창 높이 (px) */
   height: number;
+  /** 최소 창 너비 (px, 미지정 시 OS 기본값 사용) */
+  minWidth?: number;
+  /** 최소 창 높이 (px, 미지정 시 OS 기본값 사용) */
+  minHeight?: number;
   /** 쌓임 순서 (클수록 상단에 위치) */
   zIndex: number;
   /** 현재 활성(포커스) 상태 여부 */
@@ -37,4 +41,6 @@ export interface CreateWindowPayload {
   y?: number;
   width?: number;
   height?: number;
+  minWidth?: number;
+  minHeight?: number;
 }

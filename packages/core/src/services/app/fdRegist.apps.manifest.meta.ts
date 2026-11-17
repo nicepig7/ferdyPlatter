@@ -1,5 +1,6 @@
 import { FERDY_ASSETS } from '@ferdy/assets';
 import type { AppManifest } from '../../types/fdType.app';
+import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdStore.window';
 
 /**
  * FerdyOS에 기본 설치된 도메인 애플리케이션 매니페스트(App Manifest) 초기 메타데이터 목록
@@ -43,6 +44,20 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     defaultWindow: {
       width: 480,
       height: 360,
+    },
+  },
+  {
+    appId: 'app-calendar',
+    title: 'Calendar',
+    icon: FERDY_ASSETS.icons.calendar,
+    tone: 'primary',
+    appUrl: '/apps/app-calendar/',
+    description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
+    defaultWindow: {
+      width: 420,
+      height: 460,
+      minWidth: 280 + WINDOW_FRAME_BORDER,
+      minHeight: 280 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
     },
   },
 ];

@@ -28,4 +28,8 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     id: 'app-hello',
     appId: 'app-hello',
   },
+  {
+    id: 'calendar-app-1',
+    appId: 'app-calendar',
+  },
 ];

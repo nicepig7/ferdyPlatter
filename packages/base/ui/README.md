@@ -17,7 +17,7 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
      - `fdStyle.base.css` (`@layer base`): `html, body, #root`, `code` 등 기본 요소 스타일
      - `fdStyle.layout.css` (`@layer layout`): `.fd-app-shell`, `.fd-app-header`, `.fd-app-title` 등 도메인 앱 표준 레이아웃 헬퍼
      - `fdStyle.components.css` (`@layer components`): 모든 UI 컴포넌트가 공통으로 공유하는 베이스 규칙(`:focus-visible`, `:disabled`, 기본 폰트/박스 모델)
-     - `fdStyle.utilities.css` (`@layer utilities`): 최상위 우선순위 유틸리티 클래스 영역
+     - `fdStyle.utilities.css` (`@layer utilities`): 최상위 우선순위 유틸리티 클래스 영역 (`.fd-tabular-nums`: `tabular-nums` / `'tnum'` 고정폭 숫자 정렬)
 2. **SolidJS UI Primitives (`src/components/<name>/fdCompo.<name>.tsx` & `.css`)**:
    - 각 컴포넌트는 `src/components/<name>/` 하위 폴더에 격리되며, `fdCompo.<name>.tsx`와 전용 스타일 `fdCompo.<name>.css` (`@layer components`)가 한 쌍으로 배치됩니다:
      - `components/button/` (`fdCompo.button.tsx`, `fdCompo.button.css`)

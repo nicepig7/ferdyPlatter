@@ -116,6 +116,8 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
 
     const startX = e.clientX;
     const startY = e.clientY;
+    const minWidth = props.window.minWidth ?? MIN_WINDOW_WIDTH;
+    const minHeight = props.window.minHeight ?? MIN_WINDOW_HEIGHT;
     const startRect = {
       x: props.window.x,
       y: props.window.y,
@@ -133,21 +135,21 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
       let newHeight = startRect.height;
 
       if (dir.includes('e')) {
-        newWidth = Math.max(MIN_WINDOW_WIDTH, startRect.width + dx);
+        newWidth = Math.max(minWidth, startRect.width + dx);
       }
       if (dir.includes('s')) {
-        newHeight = Math.max(MIN_WINDOW_HEIGHT, startRect.height + dy);
+        newHeight = Math.max(minHeight, startRect.height + dy);
       }
       if (dir.includes('w')) {
         const proposedWidth = startRect.width - dx;
-        if (proposedWidth >= MIN_WINDOW_WIDTH) {
+        if (proposedWidth >= minWidth) {
           newWidth = proposedWidth;
           newX = Math.max(0, startRect.x + dx);
         }
       }
       if (dir.includes('n')) {
         const proposedHeight = startRect.height - dy;
-        if (proposedHeight >= MIN_WINDOW_HEIGHT) {
+        if (proposedHeight >= minHeight) {
           newHeight = proposedHeight;
           newY = Math.max(0, startRect.y + dy);
         }
