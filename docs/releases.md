@@ -8,13 +8,14 @@
 
 ### Added
 - **월간 달력 도메인 앱 (`@ferdy/app-calendar`) 신설**:
-  - `packages/domains/app-calendar/` 패키지 생성 (`420x460` 기본 창 크기, `/apps/app-calendar/` 경로 서빙)
+  - `packages/domains/app-calendar/` 패키지 생성 (`420x490` 기본 창 크기, `/apps/app-calendar/` 경로 서빙)
   - 7열 × 6행(42셀) 월간 달력 그리드 렌더링, 이전/다음 달 탐색 및 `Today` 즉시 복귀 기능 구현
   - 선택 날짜(`YYYY-MM-DD (DAY)`) 및 오늘 기준 상대 D-Day 배지(`TODAY`, `D-N`, `D+N`) 표시
+  - 날짜별 한 줄 메모 입력/삭제 및 `ferdy:calendar:memos` Draft `localStorage` 헬퍼 연동, 메모 보유 날짜 셀(`.has-memo`) 하단 도트(dot) 인디케이터 및 툴팁 표시
   - `FERDY_ASSETS.icons.calendar` (`'calendar'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
 - **앱별 최소 창 크기(`minWidth`, `minHeight`) 지원 (`@ferdy/core`)**:
   - `AppManifest.defaultWindow`, `DesktopShortcut`, `LaunchAppOptions`, `WindowInstance`에 `minWidth` / `minHeight` 옵션을 추가해 앱별로 OS 기본값(`320x220`) 외의 최소 크기 제한을 지정할 수 있도록 확장
-  - `@ferdy/app-calendar`에 본문(컨텐츠 영역) 기준 최소 `280x280`(`창 전체 282x320`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함) 최소 크기 제약 적용
+  - `@ferdy/app-calendar`에 본문(컨텐츠 영역) 기준 최소 `280x310`(`창 전체 282x350`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함) 최소 크기 제약 적용
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.5` → `0.1.6`)**:

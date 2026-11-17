@@ -1,4 +1,4 @@
-import { Component, For, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+import { Component, For, Show, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 import { fd } from '@ferdy/ui';
 import './appCalendar.css';
 
@@ -20,13 +20,17 @@ const MONTH_NAMES = [
 
 const TOTAL_GRID_CELLS = 42;
 const MS_PER_DAY = 86_400_000;
+const CALENDAR_MEMO_STORAGE_KEY = 'ferdy:calendar:memos';
+const MAX_MEMO_LENGTH = 80;
 
 interface CalendarCell {
   date: Date;
+  dateKey: string;
   dayNumber: number;
   isCurrentMonth: boolean;
   isToday: boolean;
   isSelected: boolean;
+  hasMemo: boolean;
   dayOfWeek: number;
 }
 
@@ -44,13 +48,53 @@ function isSameDay(a: Date, b: Date): boolean {
   );
 }
 
-/** YYYY-MM-DD (DAY) 형식의 문자열로 포맷팅합니다. */
-function formatSelectedDate(date: Date): string {
+/** YYYY-MM-DD 형식의 날짜 저장소 키 문자열을 반환합니다. */
+function toDateKey(date: Date): string {
   const yyyy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+/** YYYY-MM-DD (DAY) 형식의 문자열로 포맷팅합니다. */
+function formatSelectedDate(date: Date): string {
   const day = WEEKDAYS[date.getDay()];
-  return `${yyyy}-${mm}-${dd} (${day})`;
+  return `${toDateKey(date)} (${day})`;
+}
+
+/**
+ * Draft 스토리지 헬퍼: localStorage에서 날짜별 메모 맵을 불러옵니다.
+ * 추후 공용 스토리지/OPFS 계층으로 교체하기 쉽도록 컴포넌트와 분리해 유지합니다.
+ */
+function loadCalendarMemos(): Record<string, string> {
+  try {
+    const raw = window.localStorage.getItem(CALENDAR_MEMO_STORAGE_KEY);
+    if (!raw) return {};
+
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      return {};
+    }
+
+    const result: Record<string, string> = {};
+    for (const [key, value] of Object.entries(parsed)) {
+      if (typeof value === 'string' && value.trim().length > 0) {
+        result[key] = value.slice(0, MAX_MEMO_LENGTH);
+      }
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
+
+/** Draft 스토리지 헬퍼: 날짜별 메모 맵을 localStorage에 저장합니다. */
+function saveCalendarMemos(memos: Record<string, string>): void {
+  try {
+    window.localStorage.setItem(CALENDAR_MEMO_STORAGE_KEY, JSON.stringify(memos));
+  } catch {
+    // 스토리지 접근 제한 또는 용량 초과 시 UI 동작은 유지합니다.
+  }
 }
 
 /** 오늘 기준 상대 D-Day 라벨과 배지 변형을 계산합니다. */
@@ -78,6 +122,9 @@ export const AppCalendar: Component = () => {
     new Date(today().getFullYear(), today().getMonth(), 1)
   );
   const [selectedDate, setSelectedDate] = createSignal<Date>(today());
+  const [memos, setMemos] = createSignal<Record<string, string>>(loadCalendarMemos());
+
+  let memoInputRef: HTMLInputElement | undefined;
 
   onMount(() => {
     const timer = window.setInterval(() => {
@@ -118,6 +165,32 @@ export const AppCalendar: Component = () => {
     }
   };
 
+  const selectedDateKey = createMemo(() => toDateKey(selectedDate()));
+  const selectedMemo = createMemo(() => memos()[selectedDateKey()] ?? '');
+
+  const updateSelectedMemo = (rawValue: string) => {
+    const value = rawValue.slice(0, MAX_MEMO_LENGTH);
+    const key = selectedDateKey();
+    setMemos((prev) => {
+      const next = { ...prev };
+      if (value.trim().length === 0) {
+        delete next[key];
+      } else {
+        next[key] = value;
+      }
+      saveCalendarMemos(next);
+      return next;
+    });
+  };
+
+  const clearSelectedMemo = () => {
+    updateSelectedMemo('');
+    if (memoInputRef) {
+      memoInputRef.value = '';
+      memoInputRef.focus();
+    }
+  };
+
   const calendarCells = createMemo<CalendarCell[]>(() => {
     const year = viewYear();
     const month = viewMonth();
@@ -125,16 +198,21 @@ export const AppCalendar: Component = () => {
     const startOffset = firstDayOfMonth.getDay();
     const currentToday = today();
     const currentSelected = selectedDate();
+    const currentMemos = memos();
 
     const cells: CalendarCell[] = [];
     for (let i = 0; i < TOTAL_GRID_CELLS; i++) {
       const cellDate = new Date(year, month, 1 - startOffset + i);
+      const dateKey = toDateKey(cellDate);
+      const memoText = currentMemos[dateKey];
       cells.push({
         date: cellDate,
+        dateKey,
         dayNumber: cellDate.getDate(),
         isCurrentMonth: cellDate.getFullYear() === year && cellDate.getMonth() === month,
         isToday: isSameDay(cellDate, currentToday),
         isSelected: isSameDay(cellDate, currentSelected),
+        hasMemo: Boolean(memoText?.trim()),
         dayOfWeek: cellDate.getDay(),
       });
     }
@@ -208,11 +286,17 @@ export const AppCalendar: Component = () => {
                 'is-other-month': !cell.isCurrentMonth,
                 'is-today': cell.isToday,
                 'is-selected': cell.isSelected,
+                'has-memo': cell.hasMemo,
                 'is-sun': cell.dayOfWeek === 0,
                 'is-sat': cell.dayOfWeek === 6,
               }}
-              aria-label={formatSelectedDate(cell.date)}
+              aria-label={
+                cell.hasMemo
+                  ? `${formatSelectedDate(cell.date)} - ${memos()[cell.dateKey]}`
+                  : formatSelectedDate(cell.date)
+              }
               aria-pressed={cell.isSelected}
+              title={memos()[cell.dateKey] || undefined}
               onClick={() => handleSelectCell(cell)}
             >
               <span class="cal-cell-day">{cell.dayNumber}</span>
@@ -222,13 +306,50 @@ export const AppCalendar: Component = () => {
       </div>
 
       <footer class="cal-footer">
-        <div class="cal-selected-info">
-          <span class="cal-selected-label">SELECTED</span>
-          <span class="cal-selected-date">{formatSelectedDate(selectedDate())}</span>
+        <div class="cal-footer-top">
+          <div class="cal-selected-info">
+            <span class="cal-selected-label">SELECTED</span>
+            <span class="cal-selected-date">{formatSelectedDate(selectedDate())}</span>
+          </div>
+          <fd.Badge variant={dDayMeta().variant} class="cal-dday-badge">
+            {dDayMeta().label}
+          </fd.Badge>
         </div>
-        <fd.Badge variant={dDayMeta().variant} class="cal-dday-badge">
-          {dDayMeta().label}
-        </fd.Badge>
+
+        <div class="cal-memo-row">
+          <fd.Icon name="pencil" size="xs" class="cal-memo-icon" />
+          <input
+            ref={memoInputRef}
+            type="text"
+            class="cal-memo-input"
+            placeholder="선택한 날짜에 한 줄 메모..."
+            aria-label="선택한 날짜 한 줄 메모"
+            maxLength={MAX_MEMO_LENGTH}
+            value={selectedMemo()}
+            onInput={(e) => updateSelectedMemo(e.currentTarget.value)}
+            onBlur={(e) => {
+              const trimmed = e.currentTarget.value.trim();
+              updateSelectedMemo(trimmed);
+              e.currentTarget.value = trimmed;
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
+            }}
+          />
+          <Show when={selectedMemo().length > 0}>
+            <button
+              type="button"
+              class="cal-memo-clear"
+              aria-label="메모 지우기"
+              title="메모 지우기"
+              onClick={clearSelectedMemo}
+            >
+              <fd.Icon name="x" size="xs" />
+            </button>
+          </Show>
+        </div>
       </footer>
     </div>
   );

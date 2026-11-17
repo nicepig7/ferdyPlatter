@@ -55,9 +55,9 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
     defaultWindow: {
       width: 420,
-      height: 460,
+      height: 490,
       minWidth: 280 + WINDOW_FRAME_BORDER,
-      minHeight: 280 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
+      minHeight: 310 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
     },
   },
 ];

@@ -39,7 +39,7 @@
 - [ ] **키보드 단축키 지원**: `Alt + Tab` 유사 창 전환 또는 활성 창 닫기/최소화 단축키
 
 ### 🧩 `packages/domains/*` (신규 도메인 앱 아이디어)
-- [ ] **`@ferdy/app-calendar` 일정/메모 입력 및 저장 기능 확장**: 달력에서 선택한 날짜별로 간단한 메모/일정을 입력·편집하고 `localStorage`(또는 추후 OPFS)에 저장 및 달력 셀에 일정 유무 도트(dot) 배지 표시
+- [x] **`@ferdy/app-calendar` 일정/메모 입력 및 저장 기능 확장**: 달력에서 선택한 날짜별로 한 줄 메모를 입력·편집·삭제하고 `localStorage`(`ferdy:calendar:memos` Draft 헬퍼)에 저장 및 달력 셀에 도트(dot) 인디케이터 표시 (추후 OPFS/공용 스토리지로 확장 가능)
 - [ ] **`@ferdy/app-notes`**: 마크다운/텍스트 빠른 메모장 (`localStorage` 자동 저장)
 - [ ] **`@ferdy/app-monitor`**: `@ferdy/bridge`를 오가는 실시간 `postMessage` 이벤트 로그 및 현재 열린 창 상태 인스펙터
 - [ ] **`@ferdy/app-settings`**: OS 배경화면, 컬러 테마, 시스템 환경설정을 제어하는 설정 앱
