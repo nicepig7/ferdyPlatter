@@ -2,7 +2,7 @@
 
 다음 작업 세션에서 진행할 단기 **Action Items (TODO)**와 자유롭게 떠오르는 **아이디어(Backlog / Brainstorming)**를 가볍게 기록하고 관리하는 문서입니다.
 
-> **참고**: 큰 단위의 공식 마일스톤과 완료된 기능 명세는 [docs/features.md](../features.md)에서 관리하며, 이곳의 항목이 구현 완료되면 `features.md` 및 [docs/releases.md](../releases.md)에 반영한 뒤 정리합니다.
+> **참고**: 큰 단위의 공식 마일스톤과 완료된 기능 명세는 [docs/features.md](../features.md)에서 관리하며, 이곳의 항목이 구현 완료되면 `features.md` 및 [docs/releases/releases.md](../releases/releases.md)에 반영한 뒤 정리합니다.
 > 주제별 상세 브레인스토밍 문서는 `docs/todo/todo.<topic>.md` 형태로 함께 관리합니다 (예: [todo.opfs.md](./todo.opfs.md)).
 
 ---

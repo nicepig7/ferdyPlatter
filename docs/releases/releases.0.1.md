@@ -1,6 +1,8 @@
-# Release Notes
+# Release Notes — 0.1.x
 
-**Ferdy Platter (FerdyOS)**의 버전별 주요 변경 사항과 이력을 기록합니다.
+[← 전체 릴리즈 목차 (`releases.md`)](./releases.md)
+
+**Ferdy Platter (FerdyOS)** `0.1.x` 마이너 버전 시리즈의 상세 변경 이력입니다.
 
 ---
 
@@ -26,6 +28,13 @@
   - 상단 툴바 `Edit` ↔ `Preview` 모드 전환 토글, `Tab` 2칸 들여쓰기 및 자체 경량 마크다운 렌더러(제목, 코드 블록, 인라인 코드, 강조/취소선, 인용구, 목록, 체크리스트, 구분선, 안전 링크) 구현
   - `Edit` 모드 글자 크기 조절(`11px ~ 28px`, 하단 `-` / `14px` / `+` 컨트롤 및 `Ctrl/Cmd + +/-/0` 단축키) 및 `ferdy:notes:font-size` `localStorage` 저장 지원
   - `FERDY_ASSETS.icons.notes` (`'notebook-pen'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
+- **반응형 바탕화면 아이콘 그리드 및 드래그 앤 드롭 배치 (`@ferdy/core`)**:
+  - `ResizeObserver` 기반 정사각형 그리드 자동 분할(`fdStore.desktop.ts`, `fdType.desktop.ts`) 및 셀 크기에 비례한 아이콘 타일·글리프·라벨 스케일링 구현
+  - 바탕화면 `Ctrl + Wheel`로 짧은 변 기준 셀 개수(`3 ~ 14`, `localStorage` 저장) 조절, Ghost 격자 오버레이 및 배율 배지 표시
+  - 포인터 드래그 시 드롭 대상 셀 하이라이트 및 빈 셀 이동·기존 아이콘과 위치 교환(`localStorage` 저장) 지원
+- **바탕화면 아이콘 컬러 톤 프리셋 시스템 (`@ferdy/core`)**:
+  - `fdRegist.apps.tones.meta.ts`에 8종 컬러 톤 프리셋(`neutral`, `primary`, `secondary`, `blue`, `amber`, `rose`, `violet`, `teal`) 신설 및 CSS 변수 기반 스쿼클 타일 테마 적용
+  - 앱 매니페스트(`AppManifest.tone`) 및 바로가기(`DesktopShortcut.tone`)별 개별 컬러 톤 지정 지원
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.5` → `0.1.6`)**:
@@ -34,6 +43,11 @@
   - `@ferdy/ui`의 `fdStyle.utilities.css`에 `.fd-tabular-nums` (`font-variant-numeric: tabular-nums; font-feature-settings: 'tnum';`) 유틸리티 추가
   - `@ferdy/app-clock` 및 `@ferdy/app-calendar`의 숫자 표기 폰트를 `D2Coding`(`--fd-font-mono`)에서 `Pretendard Variable` (`--fd-font-sans`)로 변경하고 `tabular-nums` + `'tnum'` 적용으로 고정 너비 숫자 정렬 유지
   - `@ferdy/app-calendar` 날짜·헤더·푸터 폰트 크기에 창 크기(`vw`, `vh`) 연동 `clamp()` 반응형 스케일링 적용
+
+### Fixed
+- **비활성 `iframe` 창 첫 클릭 포커스 전환 및 드래그 클린업 보강 (`@ferdy/core`)**:
+  - 포커스되지 않은 Same-origin 도메인 앱 창(`iframe`) 내부를 처음 클릭할 때 즉시 해당 창으로 포커스가 전환되도록 개선 (`fdShell.windowWrapper.tsx`, `fdStore.window.ts`)
+  - 창 드래그 및 리사이징 인터랙션 종료 시 이벤트/상태 정리(Cleanup) 로직 보강
 
 ---
 
@@ -146,7 +160,7 @@
 
 ### Documentation & DX
 - **정보 관리 체계 수립**:
-  - 루트 [README.md](../README.md) 및 패키지별 상세 `README.md` 작성
+  - 루트 [README.md](../../README.md) 및 패키지별 상세 `README.md` 작성
   - `docs/` 지식 베이스 신설 (`architecture.md`, `features.md`, `releases.md`)
   - AI 에이전트 협업을 위한 `AGENTS.md` 및 `.agents/` (규칙 및 신규 앱 생성 스킬) 구성
 

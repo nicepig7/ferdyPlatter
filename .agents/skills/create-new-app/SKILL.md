@@ -60,4 +60,4 @@ description: >-
 ## 4. 검증 및 문서 업데이트
 
 1. 루트에서 `npm install` (새 워크스페이스 심볼릭 링크 연결) 후 `npm run typecheck`를 실행하여 타입 에러가 없는지 확인합니다.
-2. `README.md`, `docs/features.md`, `docs/releases.md`에 새 앱 추가 내역을 반영합니다.
+2. `README.md`, `docs/features.md`, `docs/releases/releases.md`(및 해당 마이너 버전 파일 `docs/releases/releases.<major>.<minor>.md`)에 새 앱 추가 내역을 반영합니다.

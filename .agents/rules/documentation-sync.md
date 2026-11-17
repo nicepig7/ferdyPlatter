@@ -14,11 +14,11 @@
 3. **`docs/` 폴더**:
    - `docs/architecture.md`: A-B-C-D-E 계층, Single-Server MPA, Vite 게이트웨이, `@ferdy/ui`, `@ferdy/bridge` 등 **구현된 시스템 설계**
    - `docs/features.md`: **구현 완료 기능** 체크리스트 및 **로드맵**
-   - `docs/releases.md`: 버전별 변경 이력 (`Added`, `Changed`, `Fixed`)
+   - `docs/releases/`: 전체 릴리즈 인덱스(`releases.md`) 및 마이너 버전별 상세 변경 이력(`releases.<major>.<minor>.md`, `Added`, `Changed`, `Fixed`)
    - `docs/todo/`: 단기 할 일·아이디어(`todo.md`) 및 주제별 브레인스토밍(`todo.<topic>.md`)
 
 ## `docs/` 수정 규칙
-- **기존 체계 우선**: 새 문서를 임의로 만들지 말고 위 4개 영역 중 맞는 위치에 작성합니다. (주제별 메모는 `docs/todo/todo.<topic>.md`)
-- **사실과 계획 분리**: 구현 완료된 내용만 `architecture.md`, `features.md`(Current), `releases.md`에 적고, 미구현 아이디어는 `docs/todo/` 또는 로드맵에 분리합니다.
-- **생명주기 동기화**: `docs/todo/` 항목을 구현하면 `features.md`·`releases.md`에 반영하고 `todo.md`에서 정리합니다. 구조·프로토콜 변경 시 `architecture.md`도 함께 갱신합니다.
+- **기존 체계 우선**: 새 문서를 임의로 만들지 말고 위 4개 영역 중 맞는 위치에 작성합니다. (주제별 메모는 `docs/todo/todo.<topic>.md`, 마이너 버전별 릴리즈 노트는 `docs/releases/releases.<major>.<minor>.md`)
+- **사실과 계획 분리**: 구현 완료된 내용만 `architecture.md`, `features.md`(Current), `docs/releases/`에 적고, 미구현 아이디어는 `docs/todo/` 또는 로드맵에 분리합니다.
+- **생명주기 동기화**: `docs/todo/` 항목을 구현하면 `features.md`·`docs/releases/`에 반영하고 `todo.md`에서 정리합니다. 구조·프로토콜 변경 시 `architecture.md`도 함께 갱신합니다.
 - **허브 동기화**: `docs/` 하위 파일을 추가·이동·삭제하면 루트 `README.md`의 구조/링크도 함께 수정합니다.
