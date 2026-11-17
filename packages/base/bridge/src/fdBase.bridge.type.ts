@@ -36,13 +36,3 @@ export type FerdyEventHandler<K extends FerdyEventType> = (
   payload: FerdyEventMap[K],
   rawEvent: MessageEvent
 ) => void;
-
-export function isFerdyMessage(data: unknown): data is FerdyMessage {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'type' in data &&
-    typeof (data as { type: unknown }).type === 'string' &&
-    (data as { type: string }).type.startsWith('FERDY_')
-  );
-}

@@ -5,6 +5,18 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 각 도메인 앱(`packages/doma
 
 ---
 
+## 디렉토리 구조
+
+```text
+src/
+├── index.ts                # 패키지 진입점 (fdBase.bridge, fdBase.bridge.type re-export)
+├── fdBase.bridge.ts        # ferdyBridge Pub/Sub API 구현
+├── fdBase.bridge.type.ts   # 이벤트 맵 및 메시지 핸들러 순수 타입 정의
+└── fdBase.bridge.util.ts   # 내부 전용 유틸리티 (isFerdyMessage 등, 외부 비공개)
+```
+
+---
+
 ## 주요 기능
 
 1. **타입 안전 프로토콜 (`FerdyEventMap`)**:
