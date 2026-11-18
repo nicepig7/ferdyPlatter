@@ -17,6 +17,10 @@
   - `fdCore.window.store.ts`에 `ferdy.window.session` 기반 열린 창 세션 자동 저장(드래그·리사이징 인터랙션 종료 시점 및 창 상태 변경 시점) 및 새로고침 시 위치·크기·최소화/최대화/스냅·포커스·Z-Index 정규화 복원(`loadInitialWindowSession`) 구현
   - 화면에 보이는 창들을 격자로 빈틈없이 분할 배치하는 바둑판식 정렬(`tileWindows`), 좌상단부터 대각선으로 배치하는 계단식 정렬(`cascadeWindows`), 열린 창 전체 최소화 및 이전 상태 복원 토글(`toggleMinimizeAllWindows`) 액션 추가
   - 태스크바 우측 트레이(`fdShell.taskbar.tsx`)에 바둑판식 정렬(`layout-grid`), 계단식 정렬(`layers`), 모두 최소화/복원(`minimize-2`) 빠른 실행 아이콘 버튼 추가
+- **시작 메뉴 / 앱 런처 팝업 (`StartMenu`, `@ferdy/core`)**:
+  - 좌측 하단 `fdPlatter` 시작 버튼 클릭 시 등록된 `builtin` / `sample` 도메인 앱을 탐색·실행할 수 있는 글래스모피즘 시작 메뉴 패널(`fdShell.taskbar.start.tsx`, `fdShell.taskbar.start.css`) 오픈
+  - `<fd.TextField>` 기반 실시간 앱 검색(`Enter` 입력 시 첫 번째 결과 즉시 실행) 및 카테고리 필터 탭(`All` / `Builtin` / `Sample`), 앱별 실행 중인 창 개수 인디케이터, 기본 실행/포커스 및 우측 `+` 새 인스턴스 창 열기 버튼 지원
+  - 하단 푸터에 열린 창 일괄 제어 퀵 액션(바둑판 정렬, 계단식 정렬, 모두 최소화/복원, 모두 닫기 `closeAllWindows`) 제공 및 외부 클릭·`Escape`·`iframe` 포커스 전환 시 자동 닫힘 처리
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:

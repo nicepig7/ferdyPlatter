@@ -20,7 +20,7 @@
 - [x] **2. 창 상태 `localStorage` 세션 유지 & 레이아웃 정렬**
   - 새로고침 시에도 열려 있던 창들의 위치(`x`, `y`), 크기(`width`, `height`), 최소화/최대화 상태 복원
   - 열린 창 일괄 정렬 액션(바둑판식 Tile / 계단식 Cascade / 모두 최소화) 지원
-- [ ] **3. Start Menu (시작 메뉴 / 앱 런처 팝업)**
+- [x] **3. Start Menu (시작 메뉴 / 앱 런처 팝업)**
   - 좌측 하단 `fdPlatter` 버튼 클릭 시 하드코딩된 샘플 앱 즉시 실행 대신, 등록된 `builtin` / `sample` 앱 목록을 탐색·실행하고 창 제어 액션을 제공하는 시작 메뉴 패널 오픈
 - [ ] **4. App ↔ Window 양방향 제어 확장 (`@ferdy/bridge` & `AppManifest`)**
   - 도메인 앱이 자신의 창 제목을 동적으로 변경(`FERDY_SET_WINDOW_TITLE`, 예: `@ferdy/builtin-notes`에서 선택된 메모 제목 반영)하거나 창 닫기·최소화를 요청하는 브릿지 이벤트 추가

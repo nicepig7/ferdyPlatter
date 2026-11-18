@@ -8,6 +8,7 @@ import type {
   WindowViewportSize,
 } from '../../types/fdCore.window.type';
 import {
+  BASE_Z_INDEX,
   MIN_WINDOW_HEIGHT,
   MIN_WINDOW_WIDTH,
   WINDOW_FRAME_BORDER,
@@ -554,6 +555,19 @@ export function toggleMinimizeAllWindows() {
   );
 }
 
+/**
+ * 열려 있는 모든 창을 닫고 세션을 초기화합니다.
+ */
+export function closeAllWindows() {
+  if (state.windows.length === 0) return;
+
+  commitWindowMutation((draft) => {
+    draft.windows = [];
+    draft.activeWindowId = null;
+    draft.topZIndex = BASE_Z_INDEX;
+  });
+}
+
 export const windowStore = {
   state,
   openWindow,
@@ -573,4 +587,5 @@ export const windowStore = {
   tileWindows,
   cascadeWindows,
   toggleMinimizeAllWindows,
+  closeAllWindows,
 };

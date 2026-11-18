@@ -1,10 +1,10 @@
 import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
 import { fd } from '@ferdy/ui';
-import { appStore } from '../../services/app/fdCore.app.store';
 import { desktopStore } from '../../services/desktop/fdCore.desktop.store';
 import { windowStore } from '../../services/window/fdCore.window.store';
 import { AppIcon } from '../common/fdShell.app.icon';
+import { StartMenu } from './components/fdShell.taskbar.start';
 import './fdShell.taskbar.css';
 
 function formatTaskbarTime(): string {
@@ -12,7 +12,9 @@ function formatTaskbarTime(): string {
 }
 
 export const Taskbar: Component = () => {
+  let startBtnRef: HTMLButtonElement | undefined;
   const [timeString, setTimeString] = createSignal(formatTaskbarTime());
+  const [isStartOpen, setIsStartOpen] = createSignal(false);
 
   const timer = setInterval(() => {
     setTimeString(formatTaskbarTime());
@@ -28,24 +30,27 @@ export const Taskbar: Component = () => {
     height: desktopStore.state.viewportHeight || window.innerHeight - 48,
   });
 
-  const handleLauncherClick = () => {
-    const nextIdx = windowStore.state.windows.length + 1;
-    appStore.launchApp('sample-app', {
-      windowId: `sample-app-${Date.now()}`,
-      title: `Sample App (${nextIdx})`,
-      queryParams: { instance: nextIdx },
-    });
+  const toggleStartMenu = () => {
+    setIsStartOpen((prev) => !prev);
   };
 
   return (
     <footer class="os-taskbar">
-      {/* 좌측 시작/앱 런처 버튼 */}
+      {/* 좌측 시작/앱 런처 버튼 및 시작 메뉴 팝업 */}
       <div class="os-taskbar-start">
+        <StartMenu
+          isOpen={isStartOpen()}
+          onClose={() => setIsStartOpen(false)}
+          triggerRef={() => startBtnRef}
+        />
         <button
+          ref={startBtnRef}
           type="button"
           class="os-start-btn"
-          onClick={handleLauncherClick}
-          title="Launch new Sample App instance"
+          classList={{ 'is-active': isStartOpen() }}
+          aria-expanded={isStartOpen()}
+          onClick={toggleStartMenu}
+          title="시작 메뉴 열기 (앱 런처)"
         >
           <span class="os-start-logo">
             <AppIcon icon={FERDY_ASSETS.paths.logoSvg} size={18} />
