@@ -4,22 +4,29 @@ import type {
   WindowInstance,
   WindowRestoreRect,
   WindowSnapZone,
+  WindowStoreState,
+  WindowViewportSize,
 } from '../../types/fdCore.window.type';
+import {
+  MIN_WINDOW_HEIGHT,
+  MIN_WINDOW_WIDTH,
+  WINDOW_FRAME_BORDER,
+  WINDOW_TITLEBAR_HEIGHT,
+  captureRestoreRect,
+  computeCascadeRect,
+  computeSnapRect,
+  computeTileRect,
+  getWindowMinSize,
+  loadInitialWindowSession,
+  saveWindowSession,
+} from './fdCore.window.service';
 
-interface WindowStoreState {
-  windows: WindowInstance[];
-  activeWindowId: string | null;
-  topZIndex: number;
-  isInteracting: boolean;
-  snapPreview: WindowSnapZone | null;
-}
-
-const BASE_Z_INDEX = 100;
-const WINDOW_SESSION_STORAGE_KEY = 'ferdy.window.session';
-export const WINDOW_TITLEBAR_HEIGHT = 38;
-export const WINDOW_FRAME_BORDER = 2;
-export const MIN_WINDOW_WIDTH = 320;
-export const MIN_WINDOW_HEIGHT = 220;
+export {
+  MIN_WINDOW_HEIGHT,
+  MIN_WINDOW_WIDTH,
+  WINDOW_FRAME_BORDER,
+  WINDOW_TITLEBAR_HEIGHT,
+};
 
 let stashedMinimizeIds: string[] = [];
 let stashedActiveWindowId: string | null = null;
@@ -27,177 +34,6 @@ let stashedActiveWindowId: string | null = null;
 function clearStashedMinimize(): void {
   stashedMinimizeIds = [];
   stashedActiveWindowId = null;
-}
-
-function sanitizeRestoreRect(
-  raw: unknown,
-  minWidth: number,
-  minHeight: number
-): WindowRestoreRect | undefined {
-  if (!raw || typeof raw !== 'object') return undefined;
-  const candidate = raw as Record<string, unknown>;
-  if (
-    typeof candidate.x !== 'number' ||
-    !Number.isFinite(candidate.x) ||
-    typeof candidate.y !== 'number' ||
-    !Number.isFinite(candidate.y) ||
-    typeof candidate.width !== 'number' ||
-    !Number.isFinite(candidate.width) ||
-    typeof candidate.height !== 'number' ||
-    !Number.isFinite(candidate.height)
-  ) {
-    return undefined;
-  }
-
-  return {
-    x: Math.max(0, candidate.x),
-    y: Math.max(0, candidate.y),
-    width: Math.max(minWidth, candidate.width),
-    height: Math.max(minHeight, candidate.height),
-  };
-}
-
-interface InitialWindowSession {
-  windows: WindowInstance[];
-  activeWindowId: string | null;
-  topZIndex: number;
-}
-
-/**
- * localStorage에서 이전 창 세션 상태를 불러와 검증 및 Z-Index/포커스 정합성을 정규화합니다.
- */
-function loadInitialWindowSession(): InitialWindowSession {
-  const emptySession: InitialWindowSession = {
-    windows: [],
-    activeWindowId: null,
-    topZIndex: BASE_Z_INDEX,
-  };
-
-  if (typeof window === 'undefined') return emptySession;
-
-  try {
-    const raw = window.localStorage.getItem(WINDOW_SESSION_STORAGE_KEY);
-    if (!raw) return emptySession;
-
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return emptySession;
-
-    const seenIds = new Set<string>();
-    const sanitized: WindowInstance[] = [];
-
-    for (const item of parsed) {
-      if (!item || typeof item !== 'object') continue;
-      const candidate = item as Record<string, unknown>;
-      if (
-        typeof candidate.id !== 'string' ||
-        !candidate.id ||
-        seenIds.has(candidate.id) ||
-        typeof candidate.title !== 'string' ||
-        typeof candidate.appUrl !== 'string'
-      ) {
-        continue;
-      }
-
-      seenIds.add(candidate.id);
-
-      const minWidth =
-        typeof candidate.minWidth === 'number' &&
-        Number.isFinite(candidate.minWidth) &&
-        candidate.minWidth > 0
-          ? candidate.minWidth
-          : undefined;
-      const minHeight =
-        typeof candidate.minHeight === 'number' &&
-        Number.isFinite(candidate.minHeight) &&
-        candidate.minHeight > 0
-          ? candidate.minHeight
-          : undefined;
-      const minW = minWidth ?? MIN_WINDOW_WIDTH;
-      const minH = minHeight ?? MIN_WINDOW_HEIGHT;
-
-      const x =
-        typeof candidate.x === 'number' && Number.isFinite(candidate.x)
-          ? Math.max(0, candidate.x)
-          : 100;
-      const y =
-        typeof candidate.y === 'number' && Number.isFinite(candidate.y)
-          ? Math.max(0, candidate.y)
-          : 70;
-      const width =
-        typeof candidate.width === 'number' && Number.isFinite(candidate.width)
-          ? Math.max(minW, candidate.width)
-          : Math.max(minW, 640);
-      const height =
-        typeof candidate.height === 'number' && Number.isFinite(candidate.height)
-          ? Math.max(minH, candidate.height)
-          : Math.max(minH, 440);
-      const zIndex =
-        typeof candidate.zIndex === 'number' && Number.isFinite(candidate.zIndex)
-          ? candidate.zIndex
-          : BASE_Z_INDEX + sanitized.length + 1;
-
-      const snapZone =
-        candidate.snapZone === 'left' || candidate.snapZone === 'right'
-          ? candidate.snapZone
-          : null;
-
-      sanitized.push({
-        id: candidate.id,
-        appId: typeof candidate.appId === 'string' ? candidate.appId : undefined,
-        title: candidate.title,
-        appUrl: candidate.appUrl,
-        icon: typeof candidate.icon === 'string' ? candidate.icon : undefined,
-        x,
-        y,
-        width,
-        height,
-        minWidth,
-        minHeight,
-        zIndex,
-        isFocused: Boolean(candidate.isFocused),
-        isMinimized: Boolean(candidate.isMinimized),
-        isMaximized: Boolean(candidate.isMaximized),
-        snapZone,
-        restoreRect: sanitizeRestoreRect(candidate.restoreRect, minW, minH),
-      });
-    }
-
-    if (sanitized.length === 0) return emptySession;
-
-    // 기존 쌓임 순서를 유지하면서 zIndex를 BASE_Z_INDEX + 1부터 정규화 (태스크바 순서 유지)
-    const sortedByZ = sanitized
-      .map((win, idx) => ({ idx, zIndex: win.zIndex }))
-      .sort((a, b) => a.zIndex - b.zIndex);
-    sortedByZ.forEach((entry, rank) => {
-      sanitized[entry.idx].zIndex = BASE_Z_INDEX + 1 + rank;
-    });
-
-    const visibleWindows = sanitized.filter((w) => !w.isMinimized);
-    let activeWindowId: string | null = null;
-    if (visibleWindows.length > 0) {
-      const focusedWin =
-        visibleWindows.find((w) => w.isFocused) ??
-        visibleWindows.reduce((prev, curr) =>
-          curr.zIndex > prev.zIndex ? curr : prev
-        );
-      activeWindowId = focusedWin.id;
-      sanitized.forEach((w) => {
-        w.isFocused = w.id === activeWindowId;
-      });
-    } else {
-      sanitized.forEach((w) => {
-        w.isFocused = false;
-      });
-    }
-
-    return {
-      windows: sanitized,
-      activeWindowId,
-      topZIndex: BASE_Z_INDEX + sanitized.length,
-    };
-  } catch {
-    return emptySession;
-  }
 }
 
 const initialSession = loadInitialWindowSession();
@@ -211,15 +47,27 @@ const [state, setState] = createStore<WindowStoreState>({
 });
 
 function persistWindowSession(): void {
-  if (typeof window === 'undefined') return;
-  try {
-    window.localStorage.setItem(
-      WINDOW_SESSION_STORAGE_KEY,
-      JSON.stringify(unwrap(state.windows))
-    );
-  } catch {
-    // localStorage 접근 불가 또는 저장 한도 초과 무시
+  saveWindowSession(unwrap(state.windows));
+}
+
+function commitWindowMutation(
+  recipe: (draft: WindowStoreState) => void,
+  options?: { clearStash?: boolean; persist?: boolean }
+): void {
+  if (options?.clearStash ?? true) {
+    clearStashedMinimize();
   }
+  setState(produce(recipe));
+  if (options?.persist ?? true) {
+    persistWindowSession();
+  }
+}
+
+function applyWindowRect(win: WindowInstance, rect: WindowRestoreRect): void {
+  win.x = rect.x;
+  win.y = rect.y;
+  win.width = rect.width;
+  win.height = rect.height;
 }
 
 /**
@@ -269,46 +117,40 @@ export function openWindow(payload: CreateWindowPayload) {
     return;
   }
 
-  clearStashedMinimize();
-
-  const nextZ = state.topZIndex + 1;
   const offset = (state.windows.length % 6) * 32;
   const id = payload.id ?? `win-${Date.now()}`;
-  const minW = payload.minWidth ?? MIN_WINDOW_WIDTH;
-  const minH = payload.minHeight ?? MIN_WINDOW_HEIGHT;
+  const { minW, minH } = getWindowMinSize(payload);
 
-  setState(
-    produce((draft) => {
-      draft.windows.forEach((w) => {
-        w.isFocused = false;
-      });
+  commitWindowMutation((draft) => {
+    const nextZ = draft.topZIndex + 1;
 
-      draft.windows.push({
-        id,
-        appId: payload.appId,
-        title: payload.title,
-        appUrl: payload.appUrl,
-        icon: payload.icon,
-        x: payload.x ?? 100 + offset,
-        y: payload.y ?? 70 + offset,
-        width: Math.max(minW, payload.width ?? 640),
-        height: Math.max(minH, payload.height ?? 440),
-        minWidth: payload.minWidth,
-        minHeight: payload.minHeight,
-        zIndex: nextZ,
-        isFocused: true,
-        isMinimized: false,
-        isMaximized: false,
-        snapZone: null,
-        restoreRect: undefined,
-      });
+    draft.windows.forEach((w) => {
+      w.isFocused = false;
+    });
 
-      draft.activeWindowId = id;
-      draft.topZIndex = nextZ;
-    })
-  );
+    draft.windows.push({
+      id,
+      appId: payload.appId,
+      title: payload.title,
+      appUrl: payload.appUrl,
+      icon: payload.icon,
+      x: payload.x ?? 100 + offset,
+      y: payload.y ?? 70 + offset,
+      width: Math.max(minW, payload.width ?? 640),
+      height: Math.max(minH, payload.height ?? 440),
+      minWidth: payload.minWidth,
+      minHeight: payload.minHeight,
+      zIndex: nextZ,
+      isFocused: true,
+      isMinimized: false,
+      isMaximized: false,
+      snapZone: null,
+      restoreRect: undefined,
+    });
 
-  persistWindowSession();
+    draft.activeWindowId = id;
+    draft.topZIndex = nextZ;
+  });
 }
 
 /**
@@ -317,15 +159,9 @@ export function openWindow(payload: CreateWindowPayload) {
 export function focusWindow(id: string) {
   if (!state.windows.some((w) => w.id === id)) return;
 
-  clearStashedMinimize();
-
-  setState(
-    produce((draft) => {
-      focusWindowInDraft(draft, id);
-    })
-  );
-
-  persistWindowSession();
+  commitWindowMutation((draft) => {
+    focusWindowInDraft(draft, id);
+  });
 }
 
 /**
@@ -334,16 +170,15 @@ export function focusWindow(id: string) {
 export function blurAllWindows() {
   if (!state.activeWindowId) return;
 
-  setState(
-    produce((draft) => {
+  commitWindowMutation(
+    (draft) => {
       draft.windows.forEach((w) => {
         w.isFocused = false;
       });
       draft.activeWindowId = null;
-    })
+    },
+    { clearStash: false }
   );
-
-  persistWindowSession();
 }
 
 /**
@@ -352,19 +187,13 @@ export function blurAllWindows() {
 export function closeWindow(id: string) {
   if (!state.windows.some((w) => w.id === id)) return;
 
-  clearStashedMinimize();
+  commitWindowMutation((draft) => {
+    draft.windows = draft.windows.filter((w) => w.id !== id);
 
-  setState(
-    produce((draft) => {
-      draft.windows = draft.windows.filter((w) => w.id !== id);
-
-      if (draft.activeWindowId === id) {
-        focusNextTopWindowInDraft(draft);
-      }
-    })
-  );
-
-  persistWindowSession();
+    if (draft.activeWindowId === id) {
+      focusNextTopWindowInDraft(draft);
+    }
+  });
 }
 
 /**
@@ -373,23 +202,17 @@ export function closeWindow(id: string) {
 export function minimizeWindow(id: string) {
   if (!state.windows.some((w) => w.id === id)) return;
 
-  clearStashedMinimize();
+  commitWindowMutation((draft) => {
+    const target = draft.windows.find((w) => w.id === id);
+    if (!target) return;
 
-  setState(
-    produce((draft) => {
-      const target = draft.windows.find((w) => w.id === id);
-      if (!target) return;
+    target.isMinimized = true;
+    target.isFocused = false;
 
-      target.isMinimized = true;
-      target.isFocused = false;
-
-      if (draft.activeWindowId === id) {
-        focusNextTopWindowInDraft(draft);
-      }
-    })
-  );
-
-  persistWindowSession();
+    if (draft.activeWindowId === id) {
+      focusNextTopWindowInDraft(draft);
+    }
+  });
 }
 
 /**
@@ -398,41 +221,27 @@ export function minimizeWindow(id: string) {
 export function toggleMaximizeWindow(id: string) {
   if (!state.windows.some((w) => w.id === id)) return;
 
-  clearStashedMinimize();
+  commitWindowMutation((draft) => {
+    const target = draft.windows.find((w) => w.id === id);
+    if (!target) return;
 
-  setState(
-    produce((draft) => {
-      const target = draft.windows.find((w) => w.id === id);
-      if (!target) return;
-
-      if (!target.isMaximized) {
-        if (!target.restoreRect) {
-          target.restoreRect = {
-            x: target.x,
-            y: target.y,
-            width: target.width,
-            height: target.height,
-          };
-        }
-        target.isMaximized = true;
-        target.snapZone = null;
-      } else {
-        target.isMaximized = false;
-        target.snapZone = null;
-        if (target.restoreRect) {
-          target.x = target.restoreRect.x;
-          target.y = target.restoreRect.y;
-          target.width = target.restoreRect.width;
-          target.height = target.restoreRect.height;
-          target.restoreRect = undefined;
-        }
+    if (!target.isMaximized) {
+      if (!target.restoreRect) {
+        target.restoreRect = captureRestoreRect(target);
       }
+      target.isMaximized = true;
+      target.snapZone = null;
+    } else {
+      target.isMaximized = false;
+      target.snapZone = null;
+      if (target.restoreRect) {
+        applyWindowRect(target, target.restoreRect);
+        target.restoreRect = undefined;
+      }
+    }
 
-      focusWindowInDraft(draft, id);
-    })
-  );
-
-  persistWindowSession();
+    focusWindowInDraft(draft, id);
+  });
 }
 
 /**
@@ -479,8 +288,7 @@ export function resizeWindow(
     'windows',
     (w) => w.id === id,
     produce((w) => {
-      const minW = w.minWidth ?? MIN_WINDOW_WIDTH;
-      const minH = w.minHeight ?? MIN_WINDOW_HEIGHT;
+      const { minW, minH } = getWindowMinSize(w);
       w.width = Math.max(minW, rect.width);
       w.height = Math.max(minH, rect.height);
       if (rect.x !== undefined) w.x = rect.x;
@@ -498,18 +306,18 @@ export function resizeWindow(
 export function setInteracting(interacting: boolean) {
   const wasInteracting = state.isInteracting;
 
-  setState(
-    produce((draft) => {
+  commitWindowMutation(
+    (draft) => {
       draft.isInteracting = interacting;
       if (!interacting) {
         draft.snapPreview = null;
       }
-    })
+    },
+    {
+      clearStash: false,
+      persist: wasInteracting && !interacting,
+    }
   );
-
-  if (wasInteracting && !interacting) {
-    persistWindowSession();
-  }
 }
 
 /**
@@ -521,84 +329,44 @@ export function setSnapPreview(zone: WindowSnapZone | null) {
 }
 
 /**
- * 좌/우 스냅 영역에 맞는 창 좌표와 크기를 계산합니다.
- */
-function computeSnapRect(
-  zone: 'left' | 'right',
-  viewportWidth: number,
-  viewportHeight: number,
-  minWidth: number,
-  minHeight: number
-): WindowRestoreRect {
-  const halfW = Math.round(viewportWidth / 2);
-  if (zone === 'left') {
-    return {
-      x: 0,
-      y: 0,
-      width: Math.max(minWidth, halfW),
-      height: Math.max(minHeight, viewportHeight),
-    };
-  }
-  return {
-    x: halfW,
-    y: 0,
-    width: Math.max(minWidth, viewportWidth - halfW),
-    height: Math.max(minHeight, viewportHeight),
-  };
-}
-
-/**
  * 창을 지정된 스냅 영역(좌/우 50% 분할 또는 상단 최대화)으로 배치합니다.
  */
 export function snapWindow(
   id: string,
   zone: WindowSnapZone,
-  viewport: { width: number; height: number },
+  viewport: WindowViewportSize,
   fallbackRestoreRect?: WindowRestoreRect
 ) {
-  clearStashedMinimize();
-
-  setState(
-    produce((draft) => {
-      const target = draft.windows.find((w) => w.id === id);
-      if (!target) {
-        draft.snapPreview = null;
-        return;
-      }
-
-      target.restoreRect =
-        target.restoreRect ??
-        fallbackRestoreRect ?? {
-          x: target.x,
-          y: target.y,
-          width: target.width,
-          height: target.height,
-        };
-
-      if (zone === 'top') {
-        target.isMaximized = true;
-        target.snapZone = null;
-        target.x = target.restoreRect.x;
-        target.y = target.restoreRect.y;
-        target.width = target.restoreRect.width;
-        target.height = target.restoreRect.height;
-      } else {
-        const minW = target.minWidth ?? MIN_WINDOW_WIDTH;
-        const minH = target.minHeight ?? MIN_WINDOW_HEIGHT;
-        const rect = computeSnapRect(zone, viewport.width, viewport.height, minW, minH);
-        target.isMaximized = false;
-        target.snapZone = zone;
-        target.x = rect.x;
-        target.y = rect.y;
-        target.width = rect.width;
-        target.height = rect.height;
-      }
-
+  commitWindowMutation((draft) => {
+    const target = draft.windows.find((w) => w.id === id);
+    if (!target) {
       draft.snapPreview = null;
-    })
-  );
+      return;
+    }
 
-  persistWindowSession();
+    target.restoreRect =
+      target.restoreRect ?? fallbackRestoreRect ?? captureRestoreRect(target);
+
+    if (zone === 'top') {
+      target.isMaximized = true;
+      target.snapZone = null;
+      applyWindowRect(target, target.restoreRect);
+    } else {
+      const { minW, minH } = getWindowMinSize(target);
+      const rect = computeSnapRect(
+        zone,
+        viewport.width,
+        viewport.height,
+        minW,
+        minH
+      );
+      target.isMaximized = false;
+      target.snapZone = zone;
+      applyWindowRect(target, rect);
+    }
+
+    draft.snapPreview = null;
+  });
 }
 
 /**
@@ -613,10 +381,12 @@ export function unsnapWindow(
 
   clearStashedMinimize();
 
-  const restoredWidth = existing.restoreRect?.width ?? existing.width;
-  const restoredHeight = existing.restoreRect?.height ?? existing.height;
-  const nextX = Math.max(0, nextPosition?.x ?? existing.restoreRect?.x ?? existing.x);
-  const nextY = Math.max(0, nextPosition?.y ?? existing.restoreRect?.y ?? existing.y);
+  const restoredRect: WindowRestoreRect = {
+    x: Math.max(0, nextPosition?.x ?? existing.restoreRect?.x ?? existing.x),
+    y: Math.max(0, nextPosition?.y ?? existing.restoreRect?.y ?? existing.y),
+    width: existing.restoreRect?.width ?? existing.width,
+    height: existing.restoreRect?.height ?? existing.height,
+  };
 
   setState(
     'windows',
@@ -624,22 +394,14 @@ export function unsnapWindow(
     produce((w) => {
       w.isMaximized = false;
       w.snapZone = null;
-      w.x = nextX;
-      w.y = nextY;
-      w.width = restoredWidth;
-      w.height = restoredHeight;
+      applyWindowRect(w, restoredRect);
       w.restoreRect = undefined;
     })
   );
 
   persistWindowSession();
 
-  return {
-    x: nextX,
-    y: nextY,
-    width: restoredWidth,
-    height: restoredHeight,
-  };
+  return restoredRect;
 }
 
 /**
@@ -648,142 +410,88 @@ export function unsnapWindow(
 export function syncSnappedWindows(viewportWidth: number, viewportHeight: number) {
   if (viewportWidth <= 0 || viewportHeight <= 0) return;
 
-  const hasSnapped = state.windows.some((w) => w.snapZone === 'left' || w.snapZone === 'right');
+  const hasSnapped = state.windows.some(
+    (w) => w.snapZone === 'left' || w.snapZone === 'right'
+  );
   if (!hasSnapped) return;
 
-  setState(
-    produce((draft) => {
+  commitWindowMutation(
+    (draft) => {
       draft.windows.forEach((w) => {
         if (w.snapZone !== 'left' && w.snapZone !== 'right') return;
-        const minW = w.minWidth ?? MIN_WINDOW_WIDTH;
-        const minH = w.minHeight ?? MIN_WINDOW_HEIGHT;
-        const rect = computeSnapRect(w.snapZone, viewportWidth, viewportHeight, minW, minH);
-        w.x = rect.x;
-        w.y = rect.y;
-        w.width = rect.width;
-        w.height = rect.height;
+        const { minW, minH } = getWindowMinSize(w);
+        const rect = computeSnapRect(
+          w.snapZone,
+          viewportWidth,
+          viewportHeight,
+          minW,
+          minH
+        );
+        applyWindowRect(w, rect);
       });
-    })
+    },
+    { clearStash: false }
   );
-
-  persistWindowSession();
 }
 
 /**
  * 현재 화면에 보이는(최소화되지 않은) 창들을 격자(Tile) 형태로 균등 분할 배치합니다.
  */
-export function tileWindows(viewport: { width: number; height: number }) {
+export function tileWindows(viewport: WindowViewportSize) {
   const visible = state.windows.filter((w) => !w.isMinimized);
   if (visible.length === 0 || viewport.width <= 0 || viewport.height <= 0) {
     return;
   }
 
-  clearStashedMinimize();
+  commitWindowMutation((draft) => {
+    const draftVisible = draft.windows.filter((w) => !w.isMinimized);
+    const totalCount = draftVisible.length;
 
-  const count = visible.length;
-  const cols = Math.ceil(Math.sqrt(count));
-  const rows = Math.ceil(count / cols);
-  const cellH = Math.floor(viewport.height / rows);
+    draftVisible.forEach((win, idx) => {
+      const { minW, minH } = getWindowMinSize(win);
+      const rect = computeTileRect(idx, totalCount, viewport, minW, minH);
 
-  setState(
-    produce((draft) => {
-      const draftVisible = draft.windows.filter((w) => !w.isMinimized);
-      draftVisible.forEach((win, idx) => {
-        const row = Math.floor(idx / cols);
-        const colInRow = idx % cols;
-        const isLastRow = row === rows - 1;
-        const colsInThisRow = isLastRow ? draftVisible.length - row * cols : cols;
-        const cellW = Math.floor(viewport.width / colsInThisRow);
-        const x = colInRow * cellW;
-        const y = row * cellH;
-        const width = colInRow === colsInThisRow - 1 ? viewport.width - x : cellW;
-        const height = row === rows - 1 ? viewport.height - y : cellH;
-
-        if (!win.restoreRect && !win.isMaximized && !win.snapZone) {
-          win.restoreRect = {
-            x: win.x,
-            y: win.y,
-            width: win.width,
-            height: win.height,
-          };
-        }
-
-        win.isMaximized = false;
-        win.snapZone = null;
-        win.x = Math.max(0, x);
-        win.y = Math.max(0, y);
-        win.width = Math.max(win.minWidth ?? MIN_WINDOW_WIDTH, width);
-        win.height = Math.max(win.minHeight ?? MIN_WINDOW_HEIGHT, height);
-      });
-
-      if (!draft.activeWindowId) {
-        focusNextTopWindowInDraft(draft);
+      if (!win.restoreRect && !win.isMaximized && !win.snapZone) {
+        win.restoreRect = captureRestoreRect(win);
       }
-    })
-  );
 
-  persistWindowSession();
+      win.isMaximized = false;
+      win.snapZone = null;
+      applyWindowRect(win, rect);
+    });
+
+    if (!draft.activeWindowId) {
+      focusNextTopWindowInDraft(draft);
+    }
+  });
 }
 
 /**
  * 현재 화면에 보이는(최소화되지 않은) 창들을 좌상단부터 계단식(Cascade)으로 정렬합니다.
  */
-export function cascadeWindows(viewport: { width: number; height: number }) {
+export function cascadeWindows(viewport: WindowViewportSize) {
   const visible = state.windows.filter((w) => !w.isMinimized);
   if (visible.length === 0 || viewport.width <= 0 || viewport.height <= 0) {
     return;
   }
 
-  clearStashedMinimize();
+  commitWindowMutation((draft) => {
+    const draftVisible = draft.windows.filter((w) => !w.isMinimized);
+    draftVisible.forEach((win, idx) => {
+      const rect = computeCascadeRect(idx, win, viewport);
+      applyWindowRect(win, rect);
+      win.isMaximized = false;
+      win.snapZone = null;
+      win.restoreRect = undefined;
 
-  const startX = 40;
-  const startY = 32;
-  const step = 32;
-  const maxCascadeSteps = 8;
+      draft.topZIndex += 1;
+      win.zIndex = draft.topZIndex;
+      win.isFocused = idx === draftVisible.length - 1;
+    });
 
-  setState(
-    produce((draft) => {
-      const draftVisible = draft.windows.filter((w) => !w.isMinimized);
-      draftVisible.forEach((win, idx) => {
-        const offsetIdx = idx % maxCascadeSteps;
-        const minW = win.minWidth ?? MIN_WINDOW_WIDTH;
-        const minH = win.minHeight ?? MIN_WINDOW_HEIGHT;
-        const baseW =
-          win.restoreRect?.width ??
-          Math.min(win.width, Math.round(viewport.width * 0.65));
-        const baseH =
-          win.restoreRect?.height ??
-          Math.min(win.height, Math.round(viewport.height * 0.68));
-        const width = Math.max(
-          minW,
-          Math.min(baseW, Math.max(minW, viewport.width - startX - 40))
-        );
-        const height = Math.max(
-          minH,
-          Math.min(baseH, Math.max(minH, viewport.height - startY - 40))
-        );
-        const maxX = Math.max(0, viewport.width - width);
-        const maxY = Math.max(0, viewport.height - height);
-
-        win.x = Math.min(startX + offsetIdx * step, maxX);
-        win.y = Math.min(startY + offsetIdx * step, maxY);
-        win.width = width;
-        win.height = height;
-        win.isMaximized = false;
-        win.snapZone = null;
-        win.restoreRect = undefined;
-
-        draft.topZIndex += 1;
-        win.zIndex = draft.topZIndex;
-        win.isFocused = idx === draftVisible.length - 1;
-      });
-
-      const lastWin = draftVisible[draftVisible.length - 1];
-      draft.activeWindowId = lastWin ? lastWin.id : null;
-    })
-  );
-
-  persistWindowSession();
+    const lastWin = draftVisible[draftVisible.length - 1];
+    draft.activeWindowId = lastWin ? lastWin.id : null;
+  });
 }
 
 /**
@@ -797,54 +505,53 @@ export function toggleMinimizeAllWindows() {
     stashedMinimizeIds = visibleWindows.map((w) => w.id);
     stashedActiveWindowId = state.activeWindowId;
 
-    setState(
-      produce((draft) => {
+    commitWindowMutation(
+      (draft) => {
         draft.windows.forEach((w) => {
           w.isMinimized = true;
           w.isFocused = false;
         });
         draft.activeWindowId = null;
-      })
+      },
+      { clearStash: false }
     );
-  } else {
-    const targetIds =
-      stashedMinimizeIds.length > 0
-        ? new Set(stashedMinimizeIds)
-        : new Set(state.windows.map((w) => w.id));
-    const preferredActiveId = stashedActiveWindowId;
-    clearStashedMinimize();
-
-    setState(
-      produce((draft) => {
-        let restoredCount = 0;
-        draft.windows.forEach((w) => {
-          if (targetIds.has(w.id)) {
-            w.isMinimized = false;
-            restoredCount += 1;
-          }
-        });
-
-        if (restoredCount === 0) {
-          draft.windows.forEach((w) => {
-            w.isMinimized = false;
-          });
-        }
-
-        if (
-          preferredActiveId &&
-          draft.windows.some(
-            (w) => w.id === preferredActiveId && !w.isMinimized
-          )
-        ) {
-          focusWindowInDraft(draft, preferredActiveId);
-        } else {
-          focusNextTopWindowInDraft(draft);
-        }
-      })
-    );
+    return;
   }
 
-  persistWindowSession();
+  const targetIds =
+    stashedMinimizeIds.length > 0
+      ? new Set(stashedMinimizeIds)
+      : new Set(state.windows.map((w) => w.id));
+  const preferredActiveId = stashedActiveWindowId;
+  clearStashedMinimize();
+
+  commitWindowMutation(
+    (draft) => {
+      let restoredCount = 0;
+      draft.windows.forEach((w) => {
+        if (targetIds.has(w.id)) {
+          w.isMinimized = false;
+          restoredCount += 1;
+        }
+      });
+
+      if (restoredCount === 0) {
+        draft.windows.forEach((w) => {
+          w.isMinimized = false;
+        });
+      }
+
+      if (
+        preferredActiveId &&
+        draft.windows.some((w) => w.id === preferredActiveId && !w.isMinimized)
+      ) {
+        focusWindowInDraft(draft, preferredActiveId);
+      } else {
+        focusNextTopWindowInDraft(draft);
+      }
+    },
+    { clearStash: false }
+  );
 }
 
 export const windowStore = {

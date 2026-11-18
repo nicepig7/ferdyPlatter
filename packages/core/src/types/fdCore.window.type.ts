@@ -57,3 +57,22 @@ export interface CreateWindowPayload {
   minWidth?: number;
   minHeight?: number;
 }
+
+export interface WindowViewportSize {
+  width: number;
+  height: number;
+}
+
+export interface WindowStoreState {
+  windows: WindowInstance[];
+  activeWindowId: string | null;
+  topZIndex: number;
+  isInteracting: boolean;
+  snapPreview: WindowSnapZone | null;
+}
+
+export interface InitialWindowSession {
+  windows: WindowInstance[];
+  activeWindowId: string | null;
+  topZIndex: number;
+}
