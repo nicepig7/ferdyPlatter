@@ -1,6 +1,6 @@
 import { FERDY_ASSETS } from '@ferdy/assets';
-import type { AppManifest } from '../../types/fdType.app';
-import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdStore.window';
+import type { AppManifest } from '../../types/fdCore.app.type';
+import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdCore.window.store';
 
 /**
  * FerdyOS에 기본 설치된 도메인 애플리케이션 매니페스트(App Manifest) 초기 메타데이터 목록

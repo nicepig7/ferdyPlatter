@@ -1,5 +1,5 @@
 .os-taskbar {
-  height: 48px;
+  height: var(--core-taskbar-height);
   width: 100%;
   padding: 0 12px;
   display: flex;

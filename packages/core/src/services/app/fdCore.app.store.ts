@@ -6,11 +6,11 @@ import type {
   DesktopShortcut,
   LaunchAppOptions,
   ShortcutOpenMode,
-} from '../../types/fdType.app';
-import { windowStore } from '../window/fdStore.window';
-import { INITIAL_APP_MANIFESTS } from './fdRegist.apps.manifest.meta';
-import { INITIAL_DESKTOP_SHORTCUTS } from './fdRegist.apps.shortcuts.meta';
-import { INITIAL_APP_ICON_TONES } from './fdRegist.apps.tones.meta';
+} from '../../types/fdCore.app.type';
+import { windowStore } from '../window/fdCore.window.store';
+import { INITIAL_APP_MANIFESTS } from './fdCore.app.manifest.meta';
+import { INITIAL_DESKTOP_SHORTCUTS } from './fdCore.app.shortcuts.meta';
+import { INITIAL_APP_ICON_TONES } from './fdCore.app.tones.meta';
 
 export interface ResolvedDesktopShortcut {
   id: string;

@@ -1,4 +1,4 @@
-import type { AppIconToneMeta } from '../../types/fdType.app';
+import type { AppIconToneMeta } from '../../types/fdCore.app.type';
 
 /**
  * 바탕화면 아이콘 타일에 사용할 프리셋 컬러 톤(Color Tones) 초기 메타데이터 목록

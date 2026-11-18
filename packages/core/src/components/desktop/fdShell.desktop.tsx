@@ -1,39 +1,24 @@
-import {
-  Component,
-  For,
-  Show,
-  createMemo,
-  createSignal,
-  onCleanup,
-  onMount,
-} from 'solid-js';
-import { appStore } from '../../services/app/fdStore.app';
+import { Component, For, Show, createMemo } from 'solid-js';
+import { appStore } from '../../services/app/fdCore.app.store';
 import {
   desktopStore,
   resolveGridPlacements,
-} from '../../services/desktop/fdStore.desktop';
-import { windowStore } from '../../services/window/fdStore.window';
-import { WindowWrapper } from '../window/fdShell.windowWrapper';
-import { DesktopIcon } from './fdShell.desktopIcon';
+} from '../../services/desktop/fdCore.desktop.store';
+import { windowStore } from '../../services/window/fdCore.window.store';
+import { WindowWrapper } from '../window/fdShell.window';
+import { DesktopGhost } from './components/fdShell.desktop.ghost';
+import {
+  useDesktopIconDrag,
+  useDesktopViewport,
+} from './hooks/fdShell.desktop.hooks';
+import { DesktopIcon } from './components/fdShell.desktop.icon';
 import './fdShell.desktop.css';
 
 const NEW_WINDOW_ICON_ID = '__new-window__';
-const DRAG_THRESHOLD_PX = 6;
-
-interface DragState {
-  itemId: string;
-  dx: number;
-  dy: number;
-  targetCol: number;
-  targetRow: number;
-}
 
 export const Desktop: Component = () => {
   let desktopRef: HTMLElement | undefined;
   let instanceCounter = 3;
-  let suppressNextClick = false;
-
-  const [dragState, setDragState] = createSignal<DragState | null>(null);
 
   const layout = desktopStore.gridLayout;
   const allItemIds = createMemo(() => [
@@ -51,17 +36,6 @@ export const Desktop: Component = () => {
     );
   });
 
-  const ghostCells = createMemo(() => {
-    const { cols, rows } = layout();
-    const cells: Array<{ col: number; row: number }> = [];
-    for (let col = 1; col <= cols; col += 1) {
-      for (let row = 1; row <= rows; row += 1) {
-        cells.push({ col, row });
-      }
-    }
-    return cells;
-  });
-
   const gridStyle = createMemo(() => {
     const current = layout();
     return {
@@ -73,88 +47,18 @@ export const Desktop: Component = () => {
     };
   });
 
-  const computeCellFromPointer = (clientX: number, clientY: number) => {
-    if (!desktopRef) return { col: 1, row: 1 };
-    const rect = desktopRef.getBoundingClientRect();
-    const { cols, rows, cellWidth, cellHeight } = layout();
-    const { padding, gap } = desktopStore.state;
+  const { dragState, startIconDrag, shouldSuppressClick } = useDesktopIconDrag(
+    () => desktopRef,
+    allItemIds
+  );
 
-    const relX = clientX - rect.left - padding;
-    const relY = clientY - rect.top - padding;
-
-    const col = Math.min(
-      cols,
-      Math.max(1, Math.floor(relX / (cellWidth + gap)) + 1)
-    );
-    const row = Math.min(
-      rows,
-      Math.max(1, Math.floor(relY / (cellHeight + gap)) + 1)
-    );
-    return { col, row };
-  };
-
-  const startIconDrag = (itemId: string, e: PointerEvent) => {
-    if (e.button !== 0) return;
-    const startX = e.clientX;
-    const startY = e.clientY;
-    let isDragging = false;
-
-    const handlePointerMove = (moveEvent: PointerEvent) => {
-      const dx = moveEvent.clientX - startX;
-      const dy = moveEvent.clientY - startY;
-
-      if (!isDragging && Math.hypot(dx, dy) < DRAG_THRESHOLD_PX) {
-        return;
-      }
-
-      if (!isDragging) {
-        isDragging = true;
-        desktopStore.setGhostVisible(true);
-      }
-
-      const { col, row } = computeCellFromPointer(
-        moveEvent.clientX,
-        moveEvent.clientY
-      );
-      setDragState({
-        itemId,
-        dx,
-        dy,
-        targetCol: col,
-        targetRow: row,
-      });
-    };
-
-    const handlePointerUp = () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', handlePointerUp);
-      window.removeEventListener('pointercancel', handlePointerUp);
-
-      const currentDrag = dragState();
-      if (isDragging && currentDrag) {
-        suppressNextClick = true;
-        setTimeout(() => {
-          suppressNextClick = false;
-        }, 0);
-        desktopStore.moveItem(
-          itemId,
-          currentDrag.targetCol,
-          currentDrag.targetRow,
-          allItemIds()
-        );
-      }
-
-      setDragState(null);
-      desktopStore.setGhostVisible(false);
-    };
-
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', handlePointerUp);
-    window.addEventListener('pointercancel', handlePointerUp);
-  };
+  useDesktopViewport(
+    () => desktopRef,
+    () => allItemIds().length
+  );
 
   const handleSpawnNewWindow = () => {
-    if (suppressNextClick) return;
+    if (shouldSuppressClick()) return;
     const num = instanceCounter++;
     appStore.launchApp('app-sample', {
       windowId: `sample-app-${num}`,
@@ -162,46 +66,6 @@ export const Desktop: Component = () => {
       queryParams: { instance: num },
     });
   };
-
-  onMount(() => {
-    if (!desktopRef) return;
-
-    const updateSize = () => {
-      if (!desktopRef) return;
-      desktopStore.setViewportSize(desktopRef.clientWidth, desktopRef.clientHeight);
-    };
-
-    updateSize();
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateSize();
-    });
-    resizeObserver.observe(desktopRef);
-
-    const handleWheel = (e: WheelEvent) => {
-      if (!e.ctrlKey) return;
-      const target = e.target as HTMLElement | null;
-      if (target?.closest('.os-window')) return;
-
-      // 바탕화면 위에서의 Ctrl+Wheel은 브라우저 줌 대신 그리드 배율 조절로 처리
-      e.preventDefault();
-
-      if (!desktopStore.state.isDesktopFocused) {
-        desktopStore.setDesktopFocused(true);
-      }
-
-      if (e.deltaY === 0) return;
-      const direction: 1 | -1 = e.deltaY < 0 ? 1 : -1;
-      desktopStore.zoomByStep(direction, allItemIds().length);
-    };
-
-    desktopRef.addEventListener('wheel', handleWheel, { passive: false });
-
-    onCleanup(() => {
-      resizeObserver.disconnect();
-      desktopRef?.removeEventListener('wheel', handleWheel);
-    });
-  });
 
   return (
     <main
@@ -215,41 +79,7 @@ export const Desktop: Component = () => {
         }
       }}
     >
-      {/* Ghost 격자 오버레이 (Ctrl+Wheel 조절 또는 드래그 앤 드롭 시 표시) */}
-      <div
-        class="os-desktop-ghost-grid"
-        classList={{ 'is-visible': desktopStore.state.showGhostGrid }}
-        style={gridStyle()}
-        aria-hidden="true"
-      >
-        <For each={ghostCells()}>
-          {(cell) => {
-            const isDropTarget = () => {
-              const current = dragState();
-              return (
-                current !== null &&
-                current.targetCol === cell.col &&
-                current.targetRow === cell.row
-              );
-            };
-            return (
-              <div
-                class="os-desktop-ghost-cell"
-                classList={{ 'is-drop-target': isDropTarget() }}
-              />
-            );
-          }}
-        </For>
-      </div>
-
-      {/* 그리드 배율 인디케이터 */}
-      <div
-        class="os-desktop-grid-badge"
-        classList={{ 'is-visible': desktopStore.state.showGhostGrid }}
-        aria-hidden="true"
-      >
-        Grid {layout().cols}×{layout().rows} · {Math.round(layout().cellSize)}px
-      </div>
+      <DesktopGhost gridStyle={gridStyle()} dragState={dragState()} />
 
       {/* 바탕화면 바로가기 아이콘 그리드 */}
       <section class="os-desktop-icons" style={gridStyle()}>
@@ -279,7 +109,7 @@ export const Desktop: Component = () => {
                     iconSize={Math.round(Math.min(46, Math.max(20, layout().cellSize * 0.3)))}
                     isExternal={resolved()!.isExternal || resolved()!.openMode === 'new-tab'}
                     onClick={() => {
-                      if (suppressNextClick) return;
+                      if (shouldSuppressClick()) return;
                       appStore.openShortcut(item);
                     }}
                   />

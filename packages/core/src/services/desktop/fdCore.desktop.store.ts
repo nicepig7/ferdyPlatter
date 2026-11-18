@@ -4,7 +4,7 @@ import type {
   DesktopGridConfig,
   DesktopGridLayout,
   DesktopGridPlacement,
-} from '../../types/fdType.desktop';
+} from '../../types/fdCore.desktop.type';
 
 const SHORT_SIDE_COUNT_STORAGE_KEY = 'ferdy.desktop.shortSideCount';
 const PLACEMENTS_STORAGE_KEY = 'ferdy.desktop.placements';

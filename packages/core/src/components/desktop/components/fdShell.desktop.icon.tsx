@@ -1,9 +1,9 @@
 import { Component, JSX, Show, createUniqueId } from 'solid-js';
 import { fd } from '@ferdy/ui';
-import type { AppIconTone } from '../../types/fdType.app';
-import { getIconToneMeta } from '../../services/app/fdStore.app';
-import { AppIcon } from '../common/fdShell.appIcon';
-import './fdShell.desktopIcon.css';
+import type { AppIconTone } from '../../../types/fdCore.app.type';
+import { getIconToneMeta } from '../../../services/app/fdCore.app.store';
+import { AppIcon } from '../../common/fdShell.app.icon';
+import './fdShell.desktop.icon.css';
 
 export type DesktopIconTone = AppIconTone;
 

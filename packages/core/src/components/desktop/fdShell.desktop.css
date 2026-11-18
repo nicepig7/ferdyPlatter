@@ -2,7 +2,7 @@
   position: relative;
   flex: 1;
   width: 100%;
-  height: calc(100vh - 48px);
+  height: calc(100vh - var(--core-taskbar-height));
   background:
     radial-gradient(circle at 18% 22%, rgba(217, 119, 54, 0.16), transparent 48%),
     radial-gradient(circle at 82% 78%, rgba(59, 110, 82, 0.2), transparent 52%),

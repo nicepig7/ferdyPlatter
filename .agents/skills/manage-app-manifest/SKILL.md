@@ -2,20 +2,20 @@
 name: manage-app-manifest
 description: >-
   Use this skill when the user asks to register, update, or remove a Core app
-  manifest (`fdRegist.apps.manifest.meta.ts`) or shared app icon assets
+  manifest (`fdCore.app.manifest.meta.ts`) or shared app icon assets
   (`packages/assets/src/index.ts`) in the Ferdy Platter (`@ferdy/core`) monorepo.
 ---
 
 # Manage Core App Manifest & Icon Assets
 
-이 스킬은 Ferdy Platter Core(`@ferdy/core`)의 앱 메타데이터 레지스트리에 설치된 앱의 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 공용 아이콘 에셋(`@ferdy/assets`)을 등록·수정하는 절차입니다.
+이 스킬은 Ferdy Platter Core(`@ferdy/core`)의 앱 메타데이터 레지스트리에 설치된 앱의 고유 메타정보(`fdCore.app.manifest.meta.ts`)와 공용 아이콘 에셋(`@ferdy/assets`)을 등록·수정하는 절차입니다.
 
 ---
 
 ## 1. `.meta.ts` 관리 원칙
 
 - `packages/core/src/services/app/` 하위의 메타데이터 파일은 반드시 `.meta.ts` 접미사를 사용하며, **한 파일에 한 종류의 데이터만 관리**합니다.
-- **앱 고유 메타정보**(`fdRegist.apps.manifest.meta.ts`)와 **바탕화면 바로가기 목록**(`fdRegist.apps.shortcuts.meta.ts`)은 분리하여 관리합니다.
+- **앱 고유 메타정보**(`fdCore.app.manifest.meta.ts`)와 **바탕화면 바로가기 목록**(`fdCore.app.shortcuts.meta.ts`)은 분리하여 관리합니다.
 
 ---
 
@@ -27,7 +27,7 @@ description: >-
 
 ## 3. 앱 매니페스트 등록/수정
 
-`packages/core/src/services/app/fdRegist.apps.manifest.meta.ts`의 `INITIAL_APP_MANIFESTS` 배열에 앱의 고유 메타정보(`appId`, `title`, `icon`, `tone`, `appUrl`, `defaultWindow` 등)를 추가하거나 수정합니다.
+`packages/core/src/services/app/fdCore.app.manifest.meta.ts`의 `INITIAL_APP_MANIFESTS` 배열에 앱의 고유 메타정보(`appId`, `title`, `icon`, `tone`, `appUrl`, `defaultWindow` 등)를 추가하거나 수정합니다.
 
 ```ts
 {

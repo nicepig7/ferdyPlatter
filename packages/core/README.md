@@ -9,7 +9,7 @@
 
 1. **Desktop & Taskbar UI (`components/`)**: 뷰포트 크기에 맞춰 정사각형에 가깝게 균등 분할되는 반응형 바탕화면 바로가기 아이콘 그리드(`desktopStore` + `appStore.state.shortcuts`), Ghost 격자 오버레이(`Ctrl+Wheel` 배율 조절), 하단 작업 표시줄(앱 런처, 열린 창 목록, 상태 트레이 및 시계)을 렌더링합니다.
 2. **App Registry & Shortcut Service (`services/app/`)**:
-   - `.meta.ts` 파일 규칙(한 파일당 한 종류의 메타데이터 관리)에 따라 설치된 도메인 앱의 고유 메타정보(`fdRegist.apps.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdRegist.apps.shortcuts.meta.ts`)을 분리하여 관리합니다.
+   - `.meta.ts` 파일 규칙(한 파일당 한 종류의 메타데이터 관리)에 따라 설치된 도메인 앱의 고유 메타정보(`fdCore.app.manifest.meta.ts`)와 바탕화면 바로가기 목록(`fdCore.app.shortcuts.meta.ts`)을 분리하여 관리합니다.
    - `appStore.launchApp(appId, options)` 및 `appStore.openShortcut(shortcut)`을 통해 매니페스트 기본값을 기반으로 쿼리 파라미터(`?instance=2`), 창 제목, 위치/크기를 오버라이드하거나 외부 웹 사이트(`appUrl`, `openMode: 'window' | 'new-tab'`)를 바로가기로 실행할 수 있습니다.
 3. **Window Management Service (`services/window/`)**: 다중 창의 열기, 닫기, 최소화, 최대화/복원, Z-Index 포커스(및 바탕화면 클릭 시 포커스 해제), 타이틀바 드래그 이동, 8방향 리사이징(앱별 최소 창 크기 `minWidth`/`minHeight` 지원), 활성 창 단독 새로고침(`F5`, `Ctrl+R`, `Cmd+R`)을 관리합니다.
 4. **iframe Sandbox & Bridge (`@ferdy/bridge`)**: 각 창의 본문 영역에 개별 도메인 앱을 `<iframe sandbox="...">`로 격리 로드하고, `@ferdy/bridge`를 통해 이벤트를 수신·처리합니다.
@@ -32,33 +32,43 @@ packages/core/
     ├── App.tsx               # 최상위 레이아웃 (Desktop + Taskbar) 및 @ferdy/bridge 이벤트 구독
     ├── components/
     │   ├── common/
-    │   │   ├── fdShell.appIcon.tsx         # SVG 에셋 경로 및 Lucide 아이콘(<fd.Icon>) 하이브리드 렌더러
-    │   │   └── fdShell.appIcon.css         # 공통 아이콘 이미지 스타일
+    │   │   ├── fdShell.app.icon.tsx        # SVG 에셋 경로 및 Lucide 아이콘(<fd.Icon>) 하이브리드 렌더러
+    │   │   └── fdShell.app.icon.css        # 공통 아이콘 이미지 스타일
     │   ├── desktop/
     │   │   ├── fdShell.desktop.tsx         # 바탕화면 바로가기 그리드 및 활성 창 레이어 렌더링
     │   │   ├── fdShell.desktop.css         # 바탕화면 배경 및 레이어 스타일
-    │   │   ├── fdShell.desktopIcon.tsx     # 바탕화면 앱 타일(Squircle) + 1줄 말줄임 라벨 + 툴팁 아이콘 버튼
-    │   │   └── fdShell.desktopIcon.css     # 바탕화면 아이콘 타일 및 호버 스타일
+    │   │   ├── components/
+    │   │   │   ├── fdShell.desktop.ghost.tsx   # Ghost 격자 오버레이 및 배율 배지 UI
+    │   │   │   ├── fdShell.desktop.icon.tsx    # 바탕화면 앱 타일(Squircle) + 1줄 말줄임 라벨 + 툴팁 아이콘 버튼
+    │   │   │   └── fdShell.desktop.icon.css    # 바탕화면 아이콘 타일 및 호버 스타일
+    │   │   └── hooks/
+    │   │       └── fdShell.desktop.hooks.ts    # 바탕화면 아이콘 드래그 및 뷰포트/Ctrl+Wheel 줌 훅
     │   ├── window/
-    │   │   ├── fdShell.windowWrapper.tsx   # 개별 창 프레임 (타이틀바 드래그, 8방향 리사이즈, iframe 보호막)
-    │   │   └── fdShell.windowWrapper.css   # 창 프레임, 타이틀바, 리사이즈 핸들 스타일
+    │   │   ├── fdShell.window.tsx          # 개별 창 프레임 (레이아웃, iframe 호스팅, 8방향 리사이즈 핸들)
+    │   │   ├── fdShell.window.css          # 창 프레임, 타이틀바, 리사이즈 핸들 스타일
+    │   │   ├── components/
+    │   │   │   └── fdShell.window.titlebar.tsx # 창 상단 타이틀바 및 컨트롤 버튼 UI
+    │   │   └── hooks/
+    │   │       └── fdShell.window.hooks.ts     # 창 드래그/리사이즈 및 iframe 새로고침/이벤트 가로채기 훅
     │   └── taskbar/
     │       ├── fdShell.taskbar.tsx         # 하단 작업 표시줄 (런처 버튼, 창 토글 탭, 시계)
     │       └── fdShell.taskbar.css         # 작업 표시줄 및 트레이 스타일
     ├── services/
     │   ├── app/
-    │   │   ├── fdRegist.apps.manifest.meta.ts   # 설치된 도메인 앱 매니페스트 초기 메타데이터 (INITIAL_APP_MANIFESTS)
-    │   │   ├── fdRegist.apps.shortcuts.meta.ts  # 바탕화면 바로가기 초기 메타데이터 (INITIAL_DESKTOP_SHORTCUTS)
-    │   │   ├── fdRegist.apps.tones.meta.ts      # 아이콘 타일 컬러 톤 프리셋 초기 메타데이터 (INITIAL_APP_ICON_TONES)
-    │   │   └── fdStore.app.ts                   # 앱 레지스트리 조회/등록, 바로가기 해석 및 앱 실행 스토어
+    │   │   ├── fdCore.app.manifest.meta.ts   # 설치된 도메인 앱 매니페스트 초기 메타데이터 (INITIAL_APP_MANIFESTS)
+    │   │   ├── fdCore.app.shortcuts.meta.ts  # 바탕화면 바로가기 초기 메타데이터 (INITIAL_DESKTOP_SHORTCUTS)
+    │   │   ├── fdCore.app.tones.meta.ts      # 아이콘 타일 컬러 톤 프리셋 초기 메타데이터 (INITIAL_APP_ICON_TONES)
+    │   │   └── fdCore.app.store.ts           # 앱 레지스트리 조회/등록, 바로가기 해석 및 앱 실행 스토어
+    │   ├── bridge/
+    │   │   └── fdCore.bridge.service.ts      # Core 셸 @ferdy/bridge 전역 이벤트 구독 핸들러
     │   ├── desktop/
-    │   │   └── fdStore.desktop.ts               # 바탕화면 반응형 그리드 분할 계산, Ctrl+Wheel 배율 및 Ghost 격자 상태 스토어
+    │   │   └── fdCore.desktop.store.ts       # 바탕화면 반응형 그리드 분할 계산, Ctrl+Wheel 배율 및 Ghost 격자 상태 스토어
     │   └── window/
-    │       └── fdStore.window.ts                # SolidJS createStore 기반 활성 창 상태 및 액션 정의
+    │       └── fdCore.window.store.ts        # SolidJS createStore 기반 활성 창 상태 및 액션 정의
     └── types/
-        ├── fdType.app.ts         # AppManifest, DesktopShortcut, LaunchAppOptions 타입 정의
-        ├── fdType.desktop.ts     # DesktopGridConfig, DesktopGridLayout, DesktopGridPlacement 타입 정의
-        └── fdType.window.ts      # WindowInstance, CreateWindowPayload 타입 정의
+        ├── fdCore.app.type.ts         # AppManifest, DesktopShortcut, LaunchAppOptions 타입 정의
+        ├── fdCore.desktop.type.ts     # DesktopGridConfig, DesktopGridLayout, DesktopGridPlacement 타입 정의
+        └── fdCore.window.type.ts      # WindowInstance, CreateWindowPayload 타입 정의
 ```
 
 ---

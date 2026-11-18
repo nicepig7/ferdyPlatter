@@ -83,15 +83,16 @@ Ferdy Platter는 `packages/core/plugins/monorepoDomainsGateway.ts`의 `createMon
 Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층으로 역할을 분리하고 파일 접두어/접미어 규칙으로 일관성을 유지합니다.
 
 - **UI 셸 계층 (`components/`, `fdShell.*`)**:
-  - `desktop/` (`fdShell.desktop.*`, `fdShell.desktopIcon.*`): 반응형 그리드 바탕화면, 스쿼클 아이콘 타일 및 드래그 오버레이 렌더링
+  - `desktop/` (`fdShell.desktop.*`): 반응형 그리드 바탕화면, 스쿼클 아이콘 타일(`icon`), Ghost 격자(`ghost`) 및 드래그/줌 훅(`hooks`) 렌더링
   - `taskbar/` (`fdShell.taskbar.*`): 런처 버튼, 열린 창 탭 목록, 시스템 트레이 렌더링
-  - `window/` (`fdShell.windowWrapper.*`): 각 앱 창 프레임, 타이틀바 컨트롤, 8방향 리사이즈 핸들 및 `<iframe sandbox>` 호스팅
-  - `common/` (`fdShell.appIcon.*`): 정적 SVG 경로와 Lucide 아이콘 이름을 통합 분기하는 공용 아이콘 렌더러
-- **서비스 · 레지스트리 계층 (`services/`, `fdStore.*` & `fdRegist.*.meta.ts`)**:
-  - `app/`: `fdStore.app.ts`가 앱 실행을 총괄하며, 초기 메타데이터는 단일 목적 원칙에 따라 `manifest` / `shortcuts` / `tones` `.meta.ts` 파일로 분리 관리
-  - `desktop/`: `fdStore.desktop.ts`가 그리드 레이아웃 계산, 배율, 아이콘 좌표 배치(`localStorage` 영속화) 관리
-  - `window/`: `fdStore.window.ts`가 창 목록, Z-Index 포커스 스택, 최소 크기, 드래그·리사이즈 상태 관리
-- **타입 정의 계층 (`types/`, `fdType.*`)**: `fdType.app.ts`, `fdType.desktop.ts`, `fdType.window.ts`
+  - `window/` (`fdShell.window.*`): 각 앱 창 프레임, 타이틀바(`titlebar`), 드래그/리사이즈·iframe 제어 훅(`hooks`) 및 `<iframe sandbox>` 호스팅
+  - `common/` (`fdShell.app.icon.*`): 정적 SVG 경로와 Lucide 아이콘 이름을 통합 분기하는 공용 아이콘 렌더러
+- **Core 엔진 계층 (`services/` · `types/`, `fdCore.*`)**:
+  - `services/app/`: `fdCore.app.store.ts`가 앱 실행을 총괄하며, 초기 메타데이터는 단일 목적 원칙에 따라 `manifest` / `shortcuts` / `tones` `.meta.ts` 파일로 분리 관리
+  - `services/bridge/`: `fdCore.bridge.service.ts`가 도메인 앱과의 `@ferdy/bridge` 전역 이벤트 구독 처리
+  - `services/desktop/`: `fdCore.desktop.store.ts`가 그리드 레이아웃 계산, 배율, 아이콘 좌표 배치(`localStorage` 영속화) 관리
+  - `services/window/`: `fdCore.window.store.ts`가 창 목록, Z-Index 포커스 스택, 최소 크기, 드래그·리사이즈 상태 관리
+  - `types/`: `fdCore.app.type.ts`, `fdCore.desktop.type.ts`, `fdCore.window.type.ts`
 - **격리 원칙**: 개별 도메인 앱(`packages/domains/*`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import하지 않으며, 모든 OS 상호작용은 `@ferdy/bridge`를 경유합니다.
 
 ---

@@ -1,8 +1,8 @@
 import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
-import { appStore } from '../../services/app/fdStore.app';
-import { windowStore } from '../../services/window/fdStore.window';
-import { AppIcon } from '../common/fdShell.appIcon';
+import { appStore } from '../../services/app/fdCore.app.store';
+import { windowStore } from '../../services/window/fdCore.window.store';
+import { AppIcon } from '../common/fdShell.app.icon';
 import './fdShell.taskbar.css';
 
 function formatTaskbarTime(): string {

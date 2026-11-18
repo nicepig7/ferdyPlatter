@@ -51,9 +51,9 @@ description: >-
 도메인 앱 파일 생성이 끝나면, 목적에 따라 아래 독립 스킬을 조합하여 Core(`@ferdy/core`)에 등록합니다.
 
 1. **Core 앱 매니페스트 및 아이콘 등록 (필수)**:
-   - [manage-app-manifest](../manage-app-manifest/SKILL.md) 스킬의 절차에 따라 `fdRegist.apps.manifest.meta.ts`에 앱 매니페스트를 등록합니다.
+   - [manage-app-manifest](../manage-app-manifest/SKILL.md) 스킬의 절차에 따라 `fdCore.app.manifest.meta.ts`에 앱 매니페스트를 등록합니다.
 2. **바탕화면 바로가기 등록 (선택/요청 시)**:
-   - 바탕화면 아이콘 그리드 배치가 필요한 경우 [manage-desktop-shortcut](../manage-desktop-shortcut/SKILL.md) 스킬의 절차에 따라 `fdRegist.apps.shortcuts.meta.ts`에 바로가기를 추가합니다.
+   - 바탕화면 아이콘 그리드 배치가 필요한 경우 [manage-desktop-shortcut](../manage-desktop-shortcut/SKILL.md) 스킬의 절차에 따라 `fdCore.app.shortcuts.meta.ts`에 바로가기를 추가합니다.
 
 ---
 

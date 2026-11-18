@@ -1,6 +1,6 @@
 import { Component, Show } from 'solid-js';
 import { fd, type FdIconSize } from '@ferdy/ui';
-import './fdShell.appIcon.css';
+import './fdShell.app.icon.css';
 
 export interface AppIconProps {
   /** SVG 에셋 경로 ('/assets/...svg') 또는 Lucide 아이콘 이름 ('clock', 'rocket' 등) */
