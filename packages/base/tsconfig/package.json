@@ -2,7 +2,12 @@
   "name": "@ferdy/tsconfig",
   "version": "0.1.6",
   "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./node.json": "./node.json"
+  },
   "files": [
-    "base.json"
+    "base.json",
+    "node.json"
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "${configDir}/node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "isolatedModules": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}

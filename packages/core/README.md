@@ -27,6 +27,7 @@ packages/core/
 ├── index.html                # Core 메인 HTML 엔트리
 ├── package.json              # @ferdy/core 패키지 매니페스트 및 스크립트
 ├── tsconfig.json             # TypeScript 설정 (@ferdy/tsconfig/base.json 확장 및 ~/ 별칭)
+├── tsconfig.node.json        # Node/Vite 번들 설정용 TypeScript 설정 (@ferdy/tsconfig/node.json 확장)
 ├── vite.config.ts            # Vite 서버·빌드 설정 및 도메인 게이트웨이 플러그인 연동
 ├── plugins/
 │   └── monorepoDomainsGateway.ts # 도메인 앱 게이트웨이 미들웨어 및 재귀 MPA 엔트리 스캔 플러그인
