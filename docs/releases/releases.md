@@ -10,7 +10,7 @@
 
 ## Latest Release
 
-- **[0.1.6] — Builtin Apps (Calendar & Notes), Desktop Grid & Tones, UI/Core/Domains Architecture Standardization**: 달력·메모장 내장 앱 신설, 앱별 최소 창 크기, 외부 바로가기, 반응형 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` 신설 및 UI/Core/Domains 구조 표준화 → [상세 보기](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)
+- **[0.1.7] — App & Window Management (WIP)**: 앱 및 윈도우 관리 기능 고도화 (작업 진행 중) → [상세 보기](./releases.0.1.md#017---app--window-management-wip)
 
 ---
 
@@ -18,12 +18,13 @@
 
 | 시리즈 | 포함 버전 | 주요 테마 | 상세 문서 |
 | :--- | :--- | :--- | :--- |
-| **0.1.x** | `0.1.0` ~ `0.1.6` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` & `@ferdy/bridge`, Core 레지스트리, 기본 도메인 앱 | [releases.0.1.md](./releases.0.1.md) |
+| **0.1.x** | `0.1.0` ~ `0.1.7` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` & `@ferdy/bridge`, Core 레지스트리, 기본 도메인 앱, App/Window 고도화 | [releases.0.1.md](./releases.0.1.md) |
 
 ---
 
 ## Version Index (`0.1.x`)
 
+- **[0.1.7](./releases.0.1.md#017---app--window-management-wip)** — App & Window Management (작업 진행 중)
 - **[0.1.6](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)** — Calendar·Notes Builtin 앱 신설, 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` & UI/Core/Domains 구조 표준화
 - **[0.1.5](./releases.0.1.md#015---app-manifest-registry-servicesapp-metats-convention--brand-identity-fdplatter)** — App Manifest Registry (`services/app/`), `.meta.ts` 규칙, 브랜드 로고(`fdPlatter`), 활성 창 새로고침
 - **[0.1.4](./releases.0.1.md#014---desktop-squircle-icons-typography-pretendard--d2coding--core-component-refactoring)** — SVG 스쿼클 아이콘, `Pretendard` + `D2Coding` 웹폰트, Core 컴포넌트 폴더화 및 `fdShell.*` 접두어

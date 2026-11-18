@@ -6,6 +6,20 @@
 
 ---
 
+## [0.1.7] - App & Window Management (WIP)
+
+### Added
+- *(작업을 진행하며 추가될 기능 기록)*
+
+### Changed
+- **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:
+  - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 버전을 `0.1.7`로 일괄 업데이트
+
+### Fixed
+- *(작업을 진행하며 수정될 사항 기록)*
+
+---
+
 ## [0.1.6] - Builtin Apps (Calendar & Notes), Desktop Grid & Tones, UI/Core/Domains Architecture Standardization
 
 ### Added
