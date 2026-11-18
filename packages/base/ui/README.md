@@ -40,11 +40,13 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
 
 - `fdCompo.style.css` (`@layer components`): 모든 `.fd-compo` 컴포넌트가 공유하는 포커스(`:focus-visible`) 및 비활성화(`:disabled`, `[aria-disabled='true']`) 규칙
 - 각 컴포넌트는 `src/components/<name>/` 폴더에 `fdCompo.<name>.tsx`와 전용 스타일 `fdCompo.<name>.css`(`@layer components`) 한 쌍으로 격리됩니다.
-- 소문자 `fd` 네임스페이스(`<fd.Button>`, `<fd.Badge>`, `<fd.Card>`, `<fd.Icon>`)와 개별 컴포넌트/별칭(`<Button>` / `<FdButton>`, `<Badge>` / `<FdBadge>`, `<Card>` / `<FdCard>`, `<Icon>` / `<FdIcon>`)을 모두 지원합니다.
+- 소문자 `fd` 네임스페이스(`<fd.Button>`, `<fd.Badge>`, `<fd.Card>`, `<fd.Icon>`, `<fd.Input>`, `<fd.TextField>`)와 개별 컴포넌트/별칭(`<Button>` / `<FdButton>`, `<Badge>` / `<FdBadge>`, `<Card>` / `<FdCard>`, `<Icon>` / `<FdIcon>`, `<Input>` / `<FdInput>`, `<TextField>` / `<FdTextField>`)을 모두 지원합니다.
   - `components/button/`: `variant` (`primary`, `secondary`, `neutral`, `accent-ghost`, `secondary-ghost`, `purple`, `danger`), `size` (`sm`, `md`)
   - `components/badge/`: `variant` (`primary`, `secondary`, `accent`, `neutral`, `purple`) 캡슐형 상태 배지
   - `components/card/`: 반투명 서피스 패널 컨테이너
   - `components/icon/`: `lucide-static` 웹폰트 기반 아이콘 (`name`, `size`: `'inherit' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number`, `spin`, `label`)
+  - `components/input/`: `variant` (`default`, `ghost`), `size` (`sm`, `md`) 기본 텍스트 입력 필드 (`InputProps` / `FdInputProps`)
+  - `components/text-field/`: 좌측 아이콘(`leftIcon`), 지우기 버튼(`clearable`, `clearLabel`, `onClear`), 크기(`sm`, `md`)를 제공하는 복합 입력 필드 (`TextFieldProps` / `FdTextFieldProps`)
 
 ---
 

@@ -55,4 +55,4 @@
 
 - **테마 시스템 고도화**: `FERDY_THEME_CHANGE` 브로드캐스트 기반 런타임 다크/라이트 테마 전환 및 추가 테마 세트 지원
 - **Window Manager UX 고도화**: 창 스냅(Window Snapping), 시작 메뉴(Start Menu) 앱 런처, 창 위치·크기·열린 상태 `localStorage` 세션 복원
-- **시스템 · 유틸리티 도메인 앱 확장**: 브릿지 이벤트/창 인스펙터(`app-monitor`), OS 환경설정(`app-settings`) 등 실용 앱 추가
+- **시스템 · 유틸리티 도메인 앱 확장**: 브릿지 이벤트/창 인스펙터(`builtin-monitor`), OS 환경설정(`builtin-settings`) 등 실용 앱 추가

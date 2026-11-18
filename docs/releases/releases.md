@@ -10,7 +10,7 @@
 
 ## Latest Release
 
-- **[0.1.6] — Calendar & Notes Domain Apps, Desktop Grid & Tone Presets**: 달력·메모장 도메인 앱 신설, 앱별 최소 창 크기, 외부 바로가기, 반응형 바탕화면 그리드·드래그 배치 및 아이콘 컬러 톤 프리셋 → [상세 보기](./releases.0.1.md#016---calendar-domain-app-ferdyapp-calendar)
+- **[0.1.6] — Builtin Apps (Calendar & Notes), Desktop Grid & Tones, UI/Core/Domains Architecture Standardization**: 달력·메모장 내장 앱 신설, 앱별 최소 창 크기, 외부 바로가기, 반응형 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` 신설 및 UI/Core/Domains 구조 표준화 → [상세 보기](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## Version Index (`0.1.x`)
 
-- **[0.1.6](./releases.0.1.md#016---calendar-domain-app-ferdyapp-calendar)** — Calendar·Notes Domain Apps, 앱별 최소 창 크기, 외부 바로가기, 반응형 바탕화면 그리드 & 아이콘 컬러 톤
+- **[0.1.6](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)** — Calendar·Notes Builtin 앱 신설, 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` & UI/Core/Domains 구조 표준화
 - **[0.1.5](./releases.0.1.md#015---app-manifest-registry-servicesapp-metats-convention--brand-identity-fdplatter)** — App Manifest Registry (`services/app/`), `.meta.ts` 규칙, 브랜드 로고(`fdPlatter`), 활성 창 새로고침
 - **[0.1.4](./releases.0.1.md#014---desktop-squircle-icons-typography-pretendard--d2coding--core-component-refactoring)** — SVG 스쿼클 아이콘, `Pretendard` + `D2Coding` 웹폰트, Core 컴포넌트 폴더화 및 `fdShell.*` 접두어
 - **[0.1.3](./releases.0.1.md#013---ferdyui-design-system-layer-architecture--icon-system)** — `@ferdy/ui` CSS `@layer` 아키텍처, `fd.Icon`, 테라코타/포레스트 그린 컬러 테마

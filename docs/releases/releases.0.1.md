@@ -6,47 +6,65 @@
 
 ---
 
-## [0.1.6] - Calendar Domain App (`@ferdy/app-calendar`)
+## [0.1.6] - Builtin Apps (Calendar & Notes), Desktop Grid & Tones, UI/Core/Domains Architecture Standardization
 
 ### Added
-- **월간 달력 도메인 앱 (`@ferdy/app-calendar`) 신설**:
-  - `packages/domains/app-calendar/` 패키지 생성 (`420x490` 기본 창 크기, `/apps/app-calendar/` 경로 서빙)
+- **월간 달력 도메인 앱 (`@ferdy/builtin-calendar`) 신설**:
+  - `packages/domains/builtin/calendar/` 패키지 생성 (`420x490` 기본 창 크기, `/domains/builtin/calendar/` 경로 서빙)
   - 7열 × 6행(42셀) 월간 달력 그리드 렌더링, 이전/다음 달 탐색 및 `Today` 즉시 복귀 기능 구현
   - 선택 날짜(`YYYY-MM-DD (DAY)`) 및 오늘 기준 상대 D-Day 배지(`TODAY`, `D-N`, `D+N`) 표시
-  - 날짜별 한 줄 메모 입력/삭제 및 `ferdy:calendar:memos` Draft `localStorage` 헬퍼 연동, 메모 보유 날짜 셀(`.has-memo`) 하단 도트(dot) 인디케이터 및 툴팁 표시
-  - `FERDY_ASSETS.icons.calendar` (`'calendar'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
-- **앱별 최소 창 크기(`minWidth`, `minHeight`) 지원 (`@ferdy/core`)**:
-  - `AppManifest.defaultWindow`, `DesktopShortcut`, `LaunchAppOptions`, `WindowInstance`에 `minWidth` / `minHeight` 옵션을 추가해 앱별로 OS 기본값(`320x220`) 외의 최소 크기 제한을 지정할 수 있도록 확장
-  - `@ferdy/app-calendar`에 본문(컨텐츠 영역) 기준 최소 `280x310`(`창 전체 282x350`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함) 최소 크기 제약 적용
-- **외부 웹 사이트 바로가기 지원 (`@ferdy/core`, `@ferdy/assets`)**:
-  - `DesktopShortcut` / `LaunchAppOptions`에 `openMode` (`'window'` | `'new-tab'`) 지원 및 외부 URL(`http://`, `https://`) 판별(`isExternalUrl`)·새 탭 실행(`openInNewTab`) 추가
-  - `DesktopIcon` 외부 링크 배지(`FERDY_ASSETS.icons.externalLink`), `WindowWrapper` 외부 창 타이틀바 '새 탭에서 열기' 액션 버튼 및 Cross-Origin `iframe` 안전 리로드 처리 구현
-  - `@ferdy/assets`에 `globe`, `timer`, `externalLink` 아이콘 상수 추가 및 바탕화면 `Cube Timer` 외부 바로가기 등록
-- **메모장 도메인 앱 (`@ferdy/app-notes`) 신설**:
-  - `packages/domains/app-notes/` 패키지 생성 (`660x460` 기본 창 크기, 최소 `380x280` 본문 기준 `382x320` 창 크기, `/apps/app-notes/` 경로 서빙)
-  - 접기/펼치기 가능한 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제, 마지막 메모 삭제 시 빈 새 메모 자동 생성) 및 `localStorage`(`ferdy:notes:items`, `ferdy:notes:active-id`) Draft 스토리지 헬퍼 연동 실시간 자동 저장 구현
+  - `<fd.TextField>` 기반 날짜별 한 줄 메모 입력/삭제 및 `ferdy:calendar:memos` Draft `localStorage` 헬퍼(`common/calendar.storage.ts`) 연동, 메모 보유 날짜 셀(`.has-memo`) 하단 도트(dot) 인디케이터 및 툴팁 표시
+  - `common/` (`calendar.storage.ts`, `calendar.types.ts`, `calendar.utils.ts`) 및 `components/` (`CalendarHeader`, `CalendarGrid`, `CalendarFooter`) 모듈화 구성
+  - Core 앱 매니페스트(`BUILTIN_APP_MANIFESTS`, 아이콘 `'calendar'`) 및 바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
+- **메모장 도메인 앱 (`@ferdy/builtin-notes`) 신설**:
+  - `packages/domains/builtin/notes/` 패키지 생성 (`660x460` 기본 창 크기, 최소 `380x280` 본문 기준 `382x320` 창 크기, `/domains/builtin/notes/` 경로 서빙)
+  - 접기/펼치기 가능한 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제, 마지막 메모 삭제 시 빈 새 메모 자동 생성) 및 `localStorage`(`ferdy:notes:items`, `ferdy:notes:active-id`) 실시간 자동 저장 구현
   - 상단 툴바 `Edit` ↔ `Preview` 모드 전환 토글, `Tab` 2칸 들여쓰기 및 자체 경량 마크다운 렌더러(제목, 코드 블록, 인라인 코드, 강조/취소선, 인용구, 목록, 체크리스트, 구분선, 안전 링크) 구현
   - `Edit` 모드 글자 크기 조절(`11px ~ 28px`, 하단 `-` / `14px` / `+` 컨트롤 및 `Ctrl/Cmd + +/-/0` 단축키) 및 `ferdy:notes:font-size` `localStorage` 저장 지원
-  - `FERDY_ASSETS.icons.notes` (`'notebook-pen'`) 아이콘 상수 추가 및 Core 앱 매니페스트(`INITIAL_APP_MANIFESTS`)·바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
+  - Core 앱 매니페스트(`BUILTIN_APP_MANIFESTS`, 아이콘 `'notebook-pen'`) 및 바탕화면 바로가기(`INITIAL_DESKTOP_SHORTCUTS`) 등록
+- **`@ferdy/ui` 입력 컴포넌트 (`<fd.Input>`, `<fd.TextField>`) 추가**:
+  - `components/input/` (`fdCompo.input.tsx`, `fdCompo.input.css`)에 `variant` (`'default' | 'ghost'`), `size` (`'sm' | 'md'`)를 지원하는 `<fd.Input>` (`Input` / `FdInput`) 구현
+  - `components/text-field/` (`fdCompo.textField.tsx`, `fdCompo.textField.css`)에 좌측 아이콘(`leftIcon`), 지우기 버튼(`clearable`, `clearLabel`, `onClear`)을 제공하는 복합 입력 필드 `<fd.TextField>` (`TextField` / `FdTextField`) 구현
+- **공유 TypeScript 설정 패키지 (`@ferdy/tsconfig`) 신설**:
+  - `packages/base/tsconfig/`에 브라우저/SolidJS 앱용 `base.json` 및 Node/Vite 설정용 `node.json` 분리 정의
+  - 루트 `@types/node` 추가 및 Core/도메인 앱별 `tsconfig.node.json` 분리 구성
+- **앱별 최소 창 크기(`minWidth`, `minHeight`) 지원 (`@ferdy/core`)**:
+  - `AppManifest.defaultWindow`, `DesktopShortcut`, `LaunchAppOptions`, `WindowInstance`에 `minWidth` / `minHeight` 옵션을 추가해 앱별로 OS 기본값(`320x220`) 외의 최소 크기 제한을 지정할 수 있도록 확장
+  - `@ferdy/builtin-calendar`에 본문 기준 최소 `280x310`(`창 전체 282x350`, 타이틀바 `38px` 및 프레임 보더 `2px` 포함), `@ferdy/builtin-notes`에 본문 기준 최소 `380x280`(`창 전체 382x320`) 최소 크기 제약 적용
+- **외부 웹 사이트 바로가기 지원 (`@ferdy/core`)**:
+  - `DesktopShortcut` / `LaunchAppOptions`에 `openMode` (`'window'` | `'new-tab'`) 지원 및 외부 URL(`http://`, `https://`) 판별(`isExternalUrl`)·새 탭 실행(`openInNewTab`) 추가
+  - `fdShell.desktop.icon.tsx` 외부 링크 배지(`'external-link'`), `fdShell.window.titlebar.tsx` 외부 창 타이틀바 '새 탭에서 열기' 액션 버튼 및 Cross-Origin `iframe` 안전 리로드 처리 구현
+  - 바탕화면 `Cube Timer` 외부 바로가기(`icon: 'timer'`, `tone: 'violet'`) 등록
 - **반응형 바탕화면 아이콘 그리드 및 드래그 앤 드롭 배치 (`@ferdy/core`)**:
-  - `ResizeObserver` 기반 정사각형 그리드 자동 분할(`fdStore.desktop.ts`, `fdType.desktop.ts`) 및 셀 크기에 비례한 아이콘 타일·글리프·라벨 스케일링 구현
-  - 바탕화면 `Ctrl + Wheel`로 짧은 변 기준 셀 개수(`3 ~ 14`, `localStorage` 저장) 조절, Ghost 격자 오버레이 및 배율 배지 표시
+  - `ResizeObserver` 기반 정사각형 그리드 자동 분할(`fdCore.desktop.store.ts`, `fdCore.desktop.type.ts`) 및 셀 크기에 비례한 아이콘 타일·글리프·라벨 스케일링 구현
+  - 바탕화면 `Ctrl + Wheel`로 짧은 변 기준 셀 개수(`3 ~ 14`, `localStorage` 저장) 조절, Ghost 격자 오버레이(`fdShell.desktop.ghost.tsx`) 및 배율 배지 표시
   - 포인터 드래그 시 드롭 대상 셀 하이라이트 및 빈 셀 이동·기존 아이콘과 위치 교환(`localStorage` 저장) 지원
 - **바탕화면 아이콘 컬러 톤 프리셋 시스템 (`@ferdy/core`)**:
-  - `fdRegist.apps.tones.meta.ts`에 8종 컬러 톤 프리셋(`neutral`, `primary`, `secondary`, `blue`, `amber`, `rose`, `violet`, `teal`) 신설 및 CSS 변수 기반 스쿼클 타일 테마 적용
+  - `fdCore.app.tones.meta.ts`에 8종 컬러 톤 프리셋(`neutral`, `primary`, `secondary`, `blue`, `amber`, `rose`, `violet`, `teal`) 신설 및 CSS 변수 기반 스쿼클 타일 테마 적용
   - 앱 매니페스트(`AppManifest.tone`) 및 바로가기(`DesktopShortcut.tone`)별 개별 컬러 톤 지정 지원
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.5` → `0.1.6`)**:
-  - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/app-*`)의 `package.json` 버전을 `0.1.6`으로 일괄 업데이트
-- **시계·달력 앱 타이포그래피 통일 및 반응형 스케일링 (`@ferdy/ui`, `@ferdy/app-clock`, `@ferdy/app-calendar`)**:
-  - `@ferdy/ui`의 `fdStyle.utilities.css`에 `.fd-tabular-nums` (`font-variant-numeric: tabular-nums; font-feature-settings: 'tnum';`) 유틸리티 추가
-  - `@ferdy/app-clock` 및 `@ferdy/app-calendar`의 숫자 표기 폰트를 `D2Coding`(`--fd-font-mono`)에서 `Pretendard Variable` (`--fd-font-sans`)로 변경하고 `tabular-nums` + `'tnum'` 적용으로 고정 너비 숫자 정렬 유지
-  - `@ferdy/app-calendar` 날짜·헤더·푸터 폰트 크기에 창 크기(`vw`, `vh`) 연동 `clamp()` 반응형 스케일링 적용
+  - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 버전을 `0.1.6`으로 일괄 업데이트
+- **도메인 앱 카테고리 계층화 및 엔트리 컨벤션 통일 (`packages/domains/**`, `@ferdy/core`)**:
+  - 도메인 앱을 성격에 따라 `packages/domains/builtin/*` (`calendar`, `clock`, `notes`) 및 `packages/domains/sample/*` (`app`, `hello`)로 카테고리 그룹화하고 패키지명을 `@ferdy/<category>-<name>`으로 전환
+  - 서빙 경로를 `/domains/<category>/<app-name>/`으로 전환하고 `AppManifest.category` (`'builtin' | 'sample'`) 및 `BUILTIN_APP_MANIFESTS` / `SAMPLE_APP_MANIFESTS` 구분 도입
+  - 모든 도메인 앱의 엔트리 및 메인 컴포넌트 파일 구조를 `src/main.tsx` + `src/app<Name>.tsx` / `.css` 컨벤션으로 통일하고 개별 `vite.config.ts`의 하드코딩 포트를 제거
+- **Core 셸/서비스 네이밍 표준화 및 게이트웨이 플러그인 분리 (`@ferdy/core`)**:
+  - Vite 도메인 게이트웨이를 `packages/core/plugins/monorepoDomainsGateway.ts` (`createMonorepoDomainsGateway`)로 분리하고 `/domains/` 마운트 및 재귀 스캔 적용
+  - 파일 네이밍을 UI 셸(`fdShell.<domain>.*`)과 엔진·스토어·서비스·메타·타입(`fdCore.<domain>.store.ts`, `fdCore.<domain>.service.ts`, `fdCore.app.*.meta.ts`, `fdCore.<domain>.type.ts`)으로 통일
+  - `desktop/`과 `window/` 컴포넌트를 서브 컴포넌트(`fdShell.desktop.ghost.tsx`, `fdShell.desktop.icon.*`, `fdShell.window.titlebar.tsx`) 및 훅(`fdShell.desktop.hooks.ts`, `fdShell.window.hooks.ts`)으로 세분화하고 브릿지 수신 로직을 `fdCore.bridge.service.ts`로 분리
+- **`@ferdy/ui` CSS `@layer` 6계층 개편 및 타이포그래피 통일 (`@ferdy/ui`, `@ferdy/builtin-clock`, `@ferdy/builtin-calendar`, `@ferdy/builtin-notes`)**:
+  - CSS Cascade Layers를 `@layer reset, tokens, theme, libraries, base, components;` 6계층으로 재정비 (`fdStyle.token.css`, `fdStyle.reset.css`, `components/fdCompo.style.css` 도입 및 `fdStyle.layout.css` / `fdStyle.utilities.css` 제거)
+  - `@ferdy/builtin-clock`, `@ferdy/builtin-calendar`, `@ferdy/builtin-notes`의 숫자 표기에 `Pretendard Variable` (`--fd-font-sans`)과 `font-variant-numeric: tabular-nums`를 적용하고, 달력 앱에 창 크기 연동 `clamp()` 반응형 스케일링 적용
+- **`@ferdy/bridge` 모듈 분리 (`packages/base/bridge`)**:
+  - `fdBase.bridge.ts`, `fdBase.bridge.type.ts`, `fdBase.bridge.util.ts`, `index.ts`로 구현·타입·유틸리티·진입점 분리
+- **`@ferdy/assets` 정적 파일 경로 전용화 (`packages/assets`, `@ferdy/core`)**:
+  - `FERDY_ASSETS`를 정적 파일 경로 상수(`FERDY_ASSETS.paths`) 전용으로 축소하고, Lucide 아이콘 이름은 Core 매니페스트/컴포넌트에서 직접 문자열로 지정하도록 전환 (기존 `app-sample.svg` → `sample-app.svg` 정리)
 
 ### Fixed
 - **비활성 `iframe` 창 첫 클릭 포커스 전환 및 드래그 클린업 보강 (`@ferdy/core`)**:
-  - 포커스되지 않은 Same-origin 도메인 앱 창(`iframe`) 내부를 처음 클릭할 때 즉시 해당 창으로 포커스가 전환되도록 개선 (`fdShell.windowWrapper.tsx`, `fdStore.window.ts`)
+  - 포커스되지 않은 Same-origin 도메인 앱 창(`iframe`) 내부를 처음 클릭할 때 즉시 해당 창으로 포커스가 전환되도록 개선 (`fdShell.window.hooks.ts`, `fdCore.window.store.ts`)
   - 창 드래그 및 리사이징 인터랙션 종료 시 이벤트/상태 정리(Cleanup) 로직 보강
 
 ---

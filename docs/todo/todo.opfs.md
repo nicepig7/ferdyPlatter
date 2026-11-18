@@ -36,7 +36,7 @@
    - 특히 Web Worker에서는 동기식 핸들(`FileSystemSyncAccessHandle`)을 사용할 수 있어 C/C++/Rust 기반 모듈(SQLite Wasm 등)이 네이티브에 가까운 속도로 동작합니다.
 3. **FerdyOS 아키텍처(Single-Server MPA)와의 시너지**:
    - 브라우저 저장소(`localStorage`, `IndexedDB`, `OPFS`)는 **Same-Origin(동일 프로토콜 + 호스트 + 포트)** 단위로 공유됩니다.
-   - FerdyOS는 Core 데스크탑(`/`)과 모든 도메인 앱(`/apps/<name>/`)이 단일 Vite 게이트웨이 서버에서 동일한 Origin으로 서빙되므로, **별도의 백엔드 서버 없이도 모든 도메인 앱과 Core가 하나의 가상 하드디스크(OPFS)를 즉시 공유**할 수 있습니다.
+   - FerdyOS는 Core 데스크탑(`/`)과 모든 도메인 앱(`/domains/<category>/<app-name>/`)이 단일 Vite 게이트웨이 서버에서 동일한 Origin으로 서빙되므로, **별도의 백엔드 서버 없이도 모든 도메인 앱과 Core가 하나의 가상 하드디스크(OPFS)를 즉시 공유**할 수 있습니다.
 
 ### 기본 사용 예시 (개념 코드)
 ```ts
@@ -65,20 +65,20 @@ const text = await file.text();
 
 ### 📁 아이디어 1: 공용 가상 파일 시스템 패키지 (`@ferdy/fs`) & 파일 탐색기 앱
 - **`packages/base/fs` (`@ferdy/fs`)**: OPFS API를 추상화하여 `mkdir`, `readdir`, `readFile`, `writeFile`, `rm` 등 직관적인 인터페이스를 제공하는 베이스 패키지 구축
-- **`@ferdy/app-explorer` (내 컴퓨터 / 파일 탐색기 앱)**:
+- **`@ferdy/builtin-explorer` (내 컴퓨터 / 파일 탐색기 앱)**:
   - FerdyOS 내부의 가상 폴더 트리(`/Desktop`, `/Documents`, `/Pictures`, `/Music`)를 시각적으로 탐색하고 폴더 생성, 이름 변경, 삭제, 파일 미리보기를 수행하는 앱
 - **바탕화면 드래그 앤 드롭 연동**:
   - 실제 PC(Windows/Mac)의 이미지나 텍스트 파일을 브라우저 바탕화면으로 드래그 앤 드롭하면 OPFS의 `/Desktop` 폴더에 저장되고, 바탕화면에 실제 파일 아이콘이 생성되는 기능
 
 ### 📝 아이디어 2: 앱 간 파일 파이프라인 (OS 생태계 연동)
 단일 앱 내부에서만 데이터를 쓰는 것을 넘어, 여러 도메인 앱이 파일을 매개로 상호작용하는 시나리오입니다.
-1. **`@ferdy/app-notes` (메모장/마크다운 에디터)**에서 문서를 작성하고 `/Documents/todo.md`로 저장
-2. **`@ferdy/app-explorer` (파일 탐색기)**에서 해당 파일을 더블 클릭하면 연결 프로그램(메모장)이 열리며 파일 내용 로드
-3. **`@ferdy/app-paint` (그림판/이미지 편집기)**에서 그림을 그려 `/Pictures/my-bg.png`로 저장한 뒤, **`@ferdy/app-settings` (설정 앱)**에서 해당 이미지를 불러와 FerdyOS 바탕화면 배경으로 지정
+1. **`@ferdy/builtin-notes` (메모장/마크다운 에디터)**에서 문서를 작성하고 `/Documents/todo.md`로 저장
+2. **`@ferdy/builtin-explorer` (파일 탐색기)**에서 해당 파일을 더블 클릭하면 연결 프로그램(메모장)이 열리며 파일 내용 로드
+3. **`@ferdy/builtin-paint` (그림판/이미지 편집기)**에서 그림을 그려 `/Pictures/my-bg.png`로 저장한 뒤, **`@ferdy/builtin-settings` (설정 앱)**에서 해당 이미지를 불러와 FerdyOS 바탕화면 배경으로 지정
 
 ### 🗄️ 아이디어 3: 100% 로컬 SQLite Wasm 데이터베이스 & DB 스튜디오 앱
 - **SQLite Wasm + OPFS**: SQLite 공식 WebAssembly 빌드를 사용하면 OPFS 위에 실제 `.db` 파일(`ferdy.sqlite3`)을 생성하고 영구 보존할 수 있습니다.
-- **`@ferdy/app-db-studio` (미니 DB 매니저 앱)**:
+- **`@ferdy/builtin-db-studio` (미니 DB 매니저 앱)**:
   - 브라우저 안에서 `CREATE TABLE`, `SELECT`, `INSERT` 등 실제 SQL 쿼리를 실행하고 테이블 데이터를 그리드로 확인/편집하는 개발자용 도구 앱
   - 다른 도메인 앱들(가계부, 일정 관리, 북마크 등)이 백엔드 서버 없이도 로컬 SQLite 테이블을 사용하여 복잡한 관계형 데이터를 저장/조회 가능
 - **원클릭 전체 백업 & 복원**:
@@ -86,9 +86,9 @@ const text = await file.text();
 
 ### 🎵 아이디어 4: 멀티미디어 & 스크랩북 앱 (대용량 바이너리 활용)
 `localStorage`(5MB 제한)에는 넣을 수 없는 수십~수백 MB 단위의 미디어 파일을 다루는 앱들입니다.
-- **`@ferdy/app-player` (BGM / 오디오 플레이어)**:
+- **`@ferdy/builtin-player` (BGM / 오디오 플레이어)**:
   - 좋아하는 MP3나 로파이(Lo-Fi) 음원 파일들을 OPFS `/Music` 폴더에 넣어두고, 작은 위젯 창으로 띄워 배경음악으로 재생 (창을 최소화해도 태스크바에서 계속 재생)
-- **`@ferdy/app-scrapbook` (클립보드 이미지 보드)**:
+- **`@ferdy/builtin-scrapbook` (클립보드 이미지 보드)**:
   - 웹서핑 중 복사한 이미지나 스크린샷을 `Ctrl + V`로 바로 붙여넣어 OPFS에 저장하고, 캔버스나 갤러리 형태로 모아보는 레퍼런스 수집 앱
 
 ### 💻 아이디어 5: 실제 내 PC 폴더 마운트 (`File System Access API` 확장)

@@ -23,6 +23,7 @@ packages/domains/builtin/clock/
 ├── index.html          # 앱 엔트리 HTML (/domains/builtin/clock/ 로 서빙됨)
 ├── package.json        # @ferdy/builtin-clock 패키지 정의
 ├── tsconfig.json       # TypeScript 설정
+├── tsconfig.node.json  # Vite 설정용 Node TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
     ├── main.tsx        # SolidJS render 마운트 및 @ferdy/ui 스타일 주입

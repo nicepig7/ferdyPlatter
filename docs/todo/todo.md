@@ -25,9 +25,8 @@
 
 ### 🎨 `@ferdy/ui` (디자인 시스템 & 컴포넌트)
 - [ ] 추가 기본 컴포넌트 확장 후보:
-  - `fd.Input` / `fd.Select` / `fd.Switch` (토글 스위치)
+  - `fd.Select` / `fd.Switch` (토글 스위치) / `fd.Textarea`
   - `fd.Tooltip` / `fd.Modal` / `fd.Tabs`
-- [ ] 바탕화면 아이콘 및 태스크바 런처에도 `<fd.Icon>` 적용 확대
 
 ### 🖥️ `@ferdy/core` (Window Manager & Desktop UX)
 - [ ] **바탕화면 위젯(Widget) 지원**: 그리드 모델(`colSpan` × `rowSpan`) 기반 다중 셀 위젯 배치 (예: 2×1 시계, 2×2 메모/캘린더 요약)
@@ -37,8 +36,8 @@
 - [ ] **키보드 단축키 지원**: `Alt + Tab` 유사 창 전환 또는 활성 창 닫기/최소화 단축키
 
 ### 🧩 `packages/domains/*` (신규 도메인 앱 아이디어)
-- [ ] **`@ferdy/app-monitor`**: `@ferdy/bridge`를 오가는 실시간 `postMessage` 이벤트 로그 및 현재 열린 창 상태 인스펙터
-- [ ] **`@ferdy/app-settings`**: OS 배경화면, 컬러 테마, 시스템 환경설정을 제어하는 설정 앱
+- [ ] **`@ferdy/builtin-monitor`**: `@ferdy/bridge`를 오가는 실시간 `postMessage` 이벤트 로그 및 현재 열린 창 상태 인스펙터
+- [ ] **`@ferdy/builtin-settings`**: OS 배경화면, 컬러 테마, 시스템 환경설정을 제어하는 설정 앱
 
 ---
 

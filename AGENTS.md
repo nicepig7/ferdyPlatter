@@ -25,13 +25,14 @@
 ## 2. 모노레포 및 A-B-C-D-E 아키텍처 규칙 (Single-Server MPA)
 
 1. **워크스페이스 구조 (`packages/` 하위 A-B-C-D-E 계층)**:
-   - **[A] `packages/assets` (`@ferdy/assets`)**: 공용 정적 에셋(`public/assets/...`) 및 에셋 상수 정의.
-   - **[B] `packages/base/*` (`@ferdy/bridge`, `@ferdy/ui`)**:
+   - **[A] `packages/assets` (`@ferdy/assets`)**: 공용 정적 에셋(`public/assets/...`) 및 정적 파일 경로 상수(`FERDY_ASSETS.paths`) 정의.
+   - **[B] `packages/base/*` (`@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`)**:
      - `@ferdy/bridge`: Core와 Domain Apps 간의 타입 안전 `postMessage` Pub/Sub 이벤트 버스.
+     - `@ferdy/tsconfig`: 브라우저/SolidJS 앱(`base.json`) 및 Vite/Node 설정(`node.json`) 공통 TypeScript 설정.
      - `@ferdy/ui`:
        - CSS `@layer` 계층(`@layer reset, tokens, theme, libraries, base, components;`) 및 전역 스타일시트(`fdStyle.*.css`)
-       - 공통 CSS 디자인 토큰(`--fd-*`), Base 리셋/유틸리티 클래스(`.fd-*`)
-       - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`)
+       - 공통 CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`)
+       - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField`)
    - **[C] `packages/core` (`@ferdy/core`)**:
      - OS 데스크탑, 태스크바, 윈도우 매니저, 앱 레지스트리, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.
      - `src/` 최상위 구조는 UI 뷰 계층(`components/`), 상태·레지스트리 서비스 계층(`services/<domain>/`), 타입 정의 계층(`types/`)으로 구분합니다.
@@ -47,7 +48,7 @@
    - 개별 앱(`packages/domains/**`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
    - 앱과 Core 간의 모든 상호작용은 `@ferdy/bridge` (`ferdyBridge`)를 통해 이루어져야 하며, 공통 Look & Feel은 `@ferdy/ui`를 통해 일관되게 유지합니다.
 3. **앱 라우팅 규격**:
-   - 모든 도메인 앱은 `/domains/<category>/<app-name>/` 경로로 서빙됩니다. (`packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`이 `packages/domains/<category>/<app-name>/`을 재귀 스캔하여 자동 매핑)
+   - 모든 도메인 앱은 `/domains/<category>/<app-name>/` 경로로 서빙됩니다. (`packages/core/plugins/monorepoDomainsGateway.ts`의 `createMonorepoDomainsGateway`가 `packages/domains/<category>/<app-name>/`을 재귀 스캔하여 자동 매핑)
 
 ---
 

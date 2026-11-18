@@ -12,7 +12,7 @@
    - 각 창(`iframe`)마다 독립된 실행 컨텍스트와 SolidJS 시그널(`count`)을 가집니다.
    - URL 쿼리 파라미터(`?instance=1`, `?instance=2` 등)를 통해 서로 다른 인스턴스임을 식별합니다.
 2. **공통 디자인 시스템 (`@ferdy/ui`)**:
-   - `<fd.Button>`, `<fd.Badge>` 컴포넌트 및 `.fd-app-shell`, `--fd-*` CSS 토큰을 사용하여 OS 전체와 통일된 Look & Feel을 유지합니다.
+   - `<fd.Button>`, `<fd.Badge>`, `<fd.Icon>` 컴포넌트 및 `--fd-*` CSS 디자인 토큰을 사용하여 OS 전체와 통일된 Look & Feel을 유지합니다.
 3. **타입 안전 브릿지 통신 (`@ferdy/bridge`)**:
    - `ferdyBridge.ping(instanceId)`: 현재 앱 인스턴스 ID와 타임스탬프를 부모 Core로 전송합니다.
    - `ferdyBridge.openWindow(...)`: 앱 내부에서 부모 Core에게 새로운 앱 창을 띄워달라고 요청합니다.
@@ -26,6 +26,7 @@ packages/domains/sample/app/
 ├── index.html          # 앱 엔트리 HTML (/domains/sample/app/ 로 서빙됨)
 ├── package.json        # @ferdy/sample-app 패키지 정의
 ├── tsconfig.json       # TypeScript 설정
+├── tsconfig.node.json  # Vite 설정용 Node TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
     ├── main.tsx        # SolidJS render 마운트 및 @ferdy/ui 스타일 주입

@@ -15,8 +15,8 @@
 
 | 계층 | 디렉토리 | 패키지명 | 역할 |
 | :--- | :--- | :--- | :--- |
-| **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 아이콘·경로 상수(`FERDY_ASSETS`) |
-| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge` | `@ferdy/ui`<br>`@ferdy/bridge` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트) 및 `postMessage` Pub/Sub 브릿지 |
+| **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 정적 파일 경로 상수(`FERDY_ASSETS.paths`) |
+| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트), `postMessage` Pub/Sub 브릿지 및 공통 TypeScript 설정 |
 | **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리, 윈도우 매니저 및 단일 Vite 서버 MPA 게이트웨이 |
 | **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 카테고리별 도메인 웹 애플리케이션 (`builtin`, `sample`) |
 | **[E] Etc** | `packages/etc` | - | 실험적 기능, 외부 연동 어댑터, 기타 보조 스크립트를 위한 확장 공간 |
@@ -25,9 +25,9 @@
 flowchart TB
     subgraph Browser["Browser (Single Origin :3000)"]
         subgraph Core["[C] @ferdy/core (Root Window)"]
-            Shell["UI Shell (fdShell.*: Desktop, Taskbar, WindowWrapper)"]
-            Services["Services (fdStore.*: app, desktop, window)"]
-            Meta["Registry Meta (fdRegist.*.meta.ts)"]
+            Shell["UI Shell (fdShell.*: Desktop, Taskbar, Window)"]
+            Services["Services (fdCore.*.store & service)"]
+            Meta["Registry Meta (fdCore.app.*.meta.ts)"]
         end
 
         subgraph Base["[B] Shared Base Modules"]
@@ -36,14 +36,14 @@ flowchart TB
         end
 
         subgraph Assets["[A] @ferdy/assets"]
-            Static["/assets/* & FERDY_ASSETS"]
+            Static["/assets/* & FERDY_ASSETS.paths"]
         end
 
-        subgraph Window1["[D] WindowWrapper #1 (iframe sandbox)"]
+        subgraph Window1["[D] Window #1 (iframe sandbox)"]
             App1["@ferdy/sample-app (/domains/sample/app/)"]
         end
 
-        subgraph Window2["[D] WindowWrapper #2 (iframe sandbox)"]
+        subgraph Window2["[D] Window #2 (iframe sandbox)"]
             App2["@ferdy/builtin-clock (/domains/builtin/clock/)"]
         end
     end
@@ -101,22 +101,24 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 
 `iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
 
-- **CSS Cascade Layers (`index.css` & `fdStyle.*.css`)**:
-  - `@layer reset, tokens, theme, libraries, base, layout, components, utilities;` 계층 구조로 스타일 우선순위를 제어하며, `index.css`를 제외한 전역 스타일시트는 `fdStyle.` 접두어를 사용합니다.
-  - `fdStyle.reset.css` (`reset`): 전역 Box-sizing/Margin 리셋
-  - `fdStyle.tokens.css` (`tokens`): `--fd-radius-*`, `--fd-font-*` 등 테마 비의존 기본 토큰
-  - `fdStyle.theme.css` (`theme`): `--fd-primary*` (빈티지 오렌지 브라운), `--fd-secondary*` (포레스트 그린), `--fd-bg-*`, `--fd-text-*` 등 테마 시맨틱 토큰
-  - `fdStyle.libraries.css` (`libraries`): 외부 서드파티 CSS(`lucide-static` 등) 전용 계층
-  - `fdStyle.base.css` (`base`), `fdStyle.layout.css` (`layout`), `fdStyle.components.css` (`components`), `fdStyle.utilities.css` (`utilities`)로 역할 분리
+- **CSS Cascade Layers (`styles/index.css`, `fdStyle.*.css` & `fdCompo.style.css`)**:
+  - `@layer reset, tokens, theme, libraries, base, components;` 6계층 구조로 스타일 우선순위를 제어하며, 전역 스타일시트는 `fdStyle.` 접두어를 사용합니다.
+  - `fdStyle.reset.css` (`reset`): 전역 Box-sizing, 타이포그래피, 폼 컨트롤, 테이블 등 기본 요소 리셋
+  - `fdStyle.token.css` (`tokens`): `--fd-palette-*`, `--fd-radius-*`, `--fd-font-*`, `--fd-duration-*` 등 테마 비의존 원시 토큰
+  - `fdStyle.theme.css` (`theme`): `--fd-primary*` (빈티지 오렌지 브라운), `--fd-secondary*` (포레스트 그린), `--fd-bg-*`, `--fd-text-*` 등 시맨틱 테마 토큰
+  - `fdStyle.libraries.css` (`libraries`): 외부 웹폰트(`Pretendard Variable`, `D2Coding`) 및 서드파티 CSS(`lucide-static` 등) 전용 계층
+  - `fdStyle.base.css` (`base`): `html, body, #root`, 인라인 `code`, `:focus-visible`, `::selection`, 스크롤바 기본 스타일
+  - `components/fdCompo.style.css` (`components`): 모든 `.fd-compo` 컴포넌트가 공유하는 포커스·비활성화 공통 규칙
 - **SolidJS Primitives (`src/components/<name>/fdCompo.<name>.*`)**:
-  - `button/`, `badge/`, `card/`, `icon/` 폴더 안에 `fdCompo.<name>.tsx`와 `fdCompo.<name>.css` (`@layer components`)를 Co-location(근접 배치)합니다.
-  - 표준 네임스페이스 `<fd.Button>`, `<fd.Badge>`, `<fd.Card>`, `<fd.Icon>`을 제공하며 `splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙을 준수합니다.
+  - `button/`, `badge/`, `card/`, `icon/`, `input/`, `text-field/` 폴더 안에 `fdCompo.<name>.tsx`와 `fdCompo.<name>.css` (`@layer components`)를 Co-location(근접 배치)합니다.
+  - 표준 네임스페이스 `<fd.Button>`, `<fd.Badge>`, `<fd.Card>`, `<fd.Icon>`, `<fd.Input>`, `<fd.TextField>`를 제공하며 `splitProps` / `mergeProps` 기반으로 SolidJS 반응성 규칙을 준수합니다.
 
 ---
 
 ## 5. Core ↔ Domain App 이벤트 브릿지 (`@ferdy/bridge`)
 
-각 도메인 앱은 Core의 내부 스토어를 직접 참조하지 않고, `@ferdy/bridge`의 `ferdyBridge` 객체를 통해 Pub/Sub 방식으로 통신합니다.
+각 도메인 앱은 Core의 내부 스토어를 직접 참조하지 않고, `@ferdy/bridge`의 `ferdyBridge` 객체를 통해 Pub/Sub 방식으로 통신합니다.  
+패키지 내부는 진입점(`index.ts`), 브릿지 구현(`fdBase.bridge.ts`), 이벤트/핸들러 타입(`fdBase.bridge.type.ts`), 내부 판별 유틸리티(`fdBase.bridge.util.ts`)로 분리되어 있습니다.
 
 ### 정의된 이벤트 규격 (`FerdyEventMap`)
 

@@ -9,7 +9,7 @@
 ## 핵심 특징
 
 - **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`) → `core` → `domains` → `etc` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
-- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), Base 스타일(`.fd-*`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
+- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
 - **타입 안전 이벤트 브릿지 (`@ferdy/bridge`)**: `window.postMessage` 기반의 Pub/Sub 통신(`emit`, `on`, `broadcast`)을 타입 안전하게 추상화합니다.
 - **Single-Server MPA 아키텍처**: `@ferdy/core`의 단일 Vite 서버(`:3000`)가 미들웨어 게이트웨이를 통해 `/domains/<category>/<app-name>/` 경로로 `packages/domains/<category>/<app-name>/` 앱들을 온디맨드 서빙합니다.
 
@@ -34,9 +34,10 @@ ferdyPlatter/
 │       ├── todo.md           # 전체 단기 Action Items 및 아이디어 목록
 │       └── todo.opfs.md      # 브라우저 스토리지 및 OPFS 활용 아이디어
 └── packages/                 # 📦 A-B-C-D-E 워크스페이스 루트
-    ├── assets/               # [A] @ferdy/assets — 공용 정적 리소스(public/assets/) 및 심볼 상수
+    ├── assets/               # [A] @ferdy/assets — 공용 정적 리소스(public/assets/) 및 경로 상수
     ├── base/                 # [B] 기반 공통 모듈
     │   ├── bridge/           #     @ferdy/bridge — postMessage Pub/Sub 이벤트 브릿지
+    │   ├── tsconfig/         #     @ferdy/tsconfig — 워크스페이스 공통 TypeScript 설정
     │   └── ui/               #     @ferdy/ui — 디자인 토큰, Base CSS, 공통 SolidJS 컴포넌트
     ├── core/                 # [C] @ferdy/core — Web OS 데스크탑, 태스크바, 윈도우 매니저, 게이트웨이
     ├── domains/              # [D] 개별 격리 실행 도메인 앱 (iframe 샌드박스)
@@ -90,6 +91,7 @@ npm run preview
 | **Release Notes** | [docs/releases/releases.md](./docs/releases/releases.md) | 버전별 주요 변경 사항 요약 및 인덱스 ([0.1.x 상세](./docs/releases/releases.0.1.md)) |
 | **[A] Assets Package** | [packages/assets/README.md](./packages/assets/README.md) | `@ferdy/assets` 정적 리소스 및 상수 설명 |
 | **[B] Bridge Package** | [packages/base/bridge/README.md](./packages/base/bridge/README.md) | `@ferdy/bridge` Pub/Sub 이벤트 통신 규격 설명 |
+| **[B] TSConfig Package** | [packages/base/tsconfig/README.md](./packages/base/tsconfig/README.md) | `@ferdy/tsconfig` 워크스페이스 공통 TypeScript 설정 설명 |
 | **[B] UI Package** | [packages/base/ui/README.md](./packages/base/ui/README.md) | `@ferdy/ui` 디자인 토큰 및 공통 컴포넌트 설명 |
 | **[C] Core Package** | [packages/core/README.md](./packages/core/README.md) | `@ferdy/core` OS 데스크탑 및 윈도우 매니저 설명 |
 | **[D] Builtin — Calendar** | [packages/domains/builtin/calendar/README.md](./packages/domains/builtin/calendar/README.md) | `@ferdy/builtin-calendar` 월간 달력 및 D-Day 위젯 앱 설명 |
