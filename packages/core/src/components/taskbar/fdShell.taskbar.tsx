@@ -25,10 +25,6 @@ export const Taskbar: Component = () => {
   const hasWindows = () => windowStore.state.windows.length > 0;
   const hasVisibleWindows = () => windowStore.state.windows.some((w) => !w.isMinimized);
   const allMinimized = () => hasWindows() && !hasVisibleWindows();
-  const getViewport = () => ({
-    width: desktopStore.state.viewportWidth || window.innerWidth,
-    height: desktopStore.state.viewportHeight || window.innerHeight - 48,
-  });
 
   const toggleStartMenu = () => {
     setIsStartOpen((prev) => !prev);
@@ -96,7 +92,7 @@ export const Taskbar: Component = () => {
             type="button"
             class="os-tray-btn"
             disabled={!hasVisibleWindows()}
-            onClick={() => windowStore.tileWindows(getViewport())}
+            onClick={() => windowStore.tileWindows(desktopStore.getViewportSize())}
             title="바둑판식 창 정렬 (Tile)"
           >
             <fd.Icon name="layout-grid" size={14} />
@@ -105,7 +101,7 @@ export const Taskbar: Component = () => {
             type="button"
             class="os-tray-btn"
             disabled={!hasVisibleWindows()}
-            onClick={() => windowStore.cascadeWindows(getViewport())}
+            onClick={() => windowStore.cascadeWindows(desktopStore.getViewportSize())}
             title="계단식 창 정렬 (Cascade)"
           >
             <fd.Icon name="layers" size={14} />

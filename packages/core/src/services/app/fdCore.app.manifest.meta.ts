@@ -1,6 +1,6 @@
 import { FERDY_ASSETS } from '@ferdy/assets';
 import type { AppManifest } from '../../types/fdCore.app.type';
-import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdCore.window.store';
+import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdCore.window.service';
 
 /**
  * FerdyOS에 기본 설치된 도메인 애플리케이션 매니페스트(App Manifest) 초기 메타데이터 목록
@@ -13,7 +13,7 @@ export const BUILTIN_APP_MANIFESTS: AppManifest[] = [
     category: 'builtin',
     title: 'Clock',
     icon: 'clock',
-    tone: 'blue',
+    tone: 'secondary',
     appUrl: '/domains/builtin/clock/',
     description: '실시간 디지털 시계 및 24H/12H 포맷 전환 위젯 앱',
     defaultWindow: {
@@ -28,7 +28,7 @@ export const BUILTIN_APP_MANIFESTS: AppManifest[] = [
     category: 'builtin',
     title: 'Calendar',
     icon: 'calendar',
-    tone: 'blue',
+    tone: 'secondary',
     appUrl: '/domains/builtin/calendar/',
     description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
     defaultWindow: {
@@ -43,7 +43,7 @@ export const BUILTIN_APP_MANIFESTS: AppManifest[] = [
     category: 'builtin',
     title: 'Notes',
     icon: 'notebook-pen',
-    tone: 'blue',
+    tone: 'secondary',
     appUrl: '/domains/builtin/notes/',
     description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
     defaultWindow: {

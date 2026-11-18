@@ -224,6 +224,17 @@ export const desktopStore = {
   gridLayout,
   config: DEFAULT_GRID_CONFIG,
 
+  getViewportSize(): { width: number; height: number } {
+    return {
+      width:
+        state.viewportWidth ||
+        (typeof window !== 'undefined' ? window.innerWidth : 1280),
+      height:
+        state.viewportHeight ||
+        (typeof window !== 'undefined' ? window.innerHeight - 48 : 720),
+    };
+  },
+
   setViewportSize(width: number, height: number): void {
     if (width <= 0 || height <= 0) return;
     setState({

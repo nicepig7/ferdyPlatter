@@ -10,10 +10,6 @@ import type {
 } from '../../types/fdCore.window.type';
 import {
   BASE_Z_INDEX,
-  MIN_WINDOW_HEIGHT,
-  MIN_WINDOW_WIDTH,
-  WINDOW_FRAME_BORDER,
-  WINDOW_TITLEBAR_HEIGHT,
   captureRestoreRect,
   computeCascadeRect,
   computeSnapRect,
@@ -22,13 +18,6 @@ import {
   loadInitialWindowSession,
   saveWindowSession,
 } from './fdCore.window.service';
-
-export {
-  MIN_WINDOW_HEIGHT,
-  MIN_WINDOW_WIDTH,
-  WINDOW_FRAME_BORDER,
-  WINDOW_TITLEBAR_HEIGHT,
-};
 
 let stashedMinimizeIds: string[] = [];
 let stashedActiveWindowId: string | null = null;

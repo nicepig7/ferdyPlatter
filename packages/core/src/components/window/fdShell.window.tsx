@@ -29,8 +29,6 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         'is-minimized': props.window.isMinimized,
         'is-maximized': props.window.isMaximized,
         'is-snapped': Boolean(props.window.snapZone),
-        'is-snapped-left': props.window.snapZone === 'left',
-        'is-snapped-right': props.window.snapZone === 'right',
       }}
       style={{
         transform: props.window.isMaximized

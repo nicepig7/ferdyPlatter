@@ -5,11 +5,8 @@ import type {
   WindowSnapZone,
 } from '../../../types/fdCore.window.type';
 import { desktopStore } from '../../../services/desktop/fdCore.desktop.store';
-import {
-  MIN_WINDOW_HEIGHT,
-  MIN_WINDOW_WIDTH,
-  windowStore,
-} from '../../../services/window/fdCore.window.store';
+import { getWindowMinSize } from '../../../services/window/fdCore.window.service';
+import { windowStore } from '../../../services/window/fdCore.window.store';
 
 export type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 
@@ -123,7 +120,7 @@ export function useWindowInteraction(getWindow: () => WindowInstance) {
       (moveEvent) => {
         const dx = moveEvent.clientX - startX;
         const dy = moveEvent.clientY - startY;
-        const viewportWidth = desktopStore.state.viewportWidth || window.innerWidth;
+        const viewportWidth = desktopStore.getViewportSize().width;
 
         if (isSnappedOrMaximized) {
           if (Math.hypot(dx, dy) < DRAG_DETACH_THRESHOLD_PX) {
@@ -155,12 +152,10 @@ export function useWindowInteraction(getWindow: () => WindowInstance) {
       () => {
         const activeZone = windowStore.state.snapPreview;
         if (activeZone) {
-          const viewportWidth = desktopStore.state.viewportWidth || window.innerWidth;
-          const viewportHeight = desktopStore.state.viewportHeight || window.innerHeight - 48;
           windowStore.snapWindow(
             win.id,
             activeZone,
-            { width: viewportWidth, height: viewportHeight },
+            desktopStore.getViewportSize(),
             originRestoreRect
           );
         }
@@ -183,8 +178,7 @@ export function useWindowInteraction(getWindow: () => WindowInstance) {
 
     const startX = e.clientX;
     const startY = e.clientY;
-    const minWidth = win.minWidth ?? MIN_WINDOW_WIDTH;
-    const minHeight = win.minHeight ?? MIN_WINDOW_HEIGHT;
+    const { minW: minWidth, minH: minHeight } = getWindowMinSize(win);
     const startRect = {
       x: win.x,
       y: win.y,

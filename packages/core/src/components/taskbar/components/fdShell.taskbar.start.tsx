@@ -147,11 +147,6 @@ export const StartMenu: Component<StartMenuProps> = (props) => {
     windowStore.state.windows.some((win) => !win.isMinimized);
   const allMinimized = () => hasWindows() && !hasVisibleWindows();
 
-  const getViewport = () => ({
-    width: desktopStore.state.viewportWidth || window.innerWidth,
-    height: desktopStore.state.viewportHeight || window.innerHeight - 48,
-  });
-
   const handleLaunchApp = (app: AppManifest) => {
     appStore.launchApp(app.appId);
     props.onClose();
@@ -177,12 +172,12 @@ export const StartMenu: Component<StartMenuProps> = (props) => {
   };
 
   const handleTileWindows = () => {
-    windowStore.tileWindows(getViewport());
+    windowStore.tileWindows(desktopStore.getViewportSize());
     props.onClose();
   };
 
   const handleCascadeWindows = () => {
-    windowStore.cascadeWindows(getViewport());
+    windowStore.cascadeWindows(desktopStore.getViewportSize());
     props.onClose();
   };
 
