@@ -1,5 +1,6 @@
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { desktopStore } from '../../../services/desktop/fdCore.desktop.store';
+import { windowStore } from '../../../services/window/fdCore.window.store';
 
 const DRAG_THRESHOLD_PX = 6;
 
@@ -139,6 +140,7 @@ export function useDesktopViewport(
       const el = getDesktopEl();
       if (!el) return;
       desktopStore.setViewportSize(el.clientWidth, el.clientHeight);
+      windowStore.syncSnappedWindows(el.clientWidth, el.clientHeight);
     };
 
     updateSize();

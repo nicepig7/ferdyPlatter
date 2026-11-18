@@ -1,3 +1,12 @@
+export type WindowSnapZone = 'left' | 'right' | 'top';
+
+export interface WindowRestoreRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface WindowInstance {
   /** 고유 창 식별자 */
   id: string;
@@ -29,6 +38,10 @@ export interface WindowInstance {
   isMinimized: boolean;
   /** 전체화면 최대화 여부 */
   isMaximized: boolean;
+  /** 현재 창 분할 스냅 상태 (좌/우 50% 스냅 여부) */
+  snapZone?: 'left' | 'right' | null;
+  /** 스냅 또는 최대화 이전의 원래 창 좌표 및 크기 */
+  restoreRect?: WindowRestoreRect;
 }
 
 export interface CreateWindowPayload {

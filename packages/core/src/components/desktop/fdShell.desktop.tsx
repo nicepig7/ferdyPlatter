@@ -6,6 +6,7 @@ import {
 } from '../../services/desktop/fdCore.desktop.store';
 import { windowStore } from '../../services/window/fdCore.window.store';
 import { WindowWrapper } from '../window/fdShell.window';
+import { WindowSnapGhost } from '../window/components/fdShell.window.ghost';
 import { DesktopGhost } from './components/fdShell.desktop.ghost';
 import {
   useDesktopIconDrag,
@@ -150,6 +151,7 @@ export const Desktop: Component = () => {
 
       {/* 활성 창 레이어 (Store의 windows 배열을 Fine-grained 구독) */}
       <section class="os-window-layer">
+        <WindowSnapGhost />
         <For each={windowStore.state.windows}>
           {(win) => <WindowWrapper window={win} />}
         </For>

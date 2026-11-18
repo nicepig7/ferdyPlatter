@@ -9,14 +9,19 @@
 ## [0.1.7] - App & Window Management (WIP)
 
 ### Added
-- *(작업을 진행하며 추가될 기능 기록)*
+- **창 스냅 및 분할 가이드 (`Window Snapping`, `@ferdy/core`)**:
+  - 창 타이틀바를 바탕화면 좌/우/상단 가장자리(`20px` 이내)로 드래그할 때 반투명 Ghost 프리뷰 오버레이(`WindowSnapGhost`, `fdShell.window.ghost.tsx`)와 분할 안내 배지 표시
+  - 드롭 시 좌/우 50% 분할(`snapZone: 'left' | 'right'`) 또는 최대화(`isMaximized: true`)로 자동 배치하고, 스냅 이전의 창 좌표·크기(`restoreRect`) 보존
+  - 스냅 또는 최대화된 창을 타이틀바에서 다시 드래그(`4px` 이상 이동)하면 커서 비율에 맞춰 이전 크기(`restoreRect`)로 자연스럽게 분리·복원(`unsnapWindow`), 뷰포트 리사이즈 시 스냅된 창 크기 자동 동기화(`syncSnappedWindows`) 지원
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:
   - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 버전을 `0.1.7`로 일괄 업데이트
 
 ### Fixed
-- *(작업을 진행하며 수정될 사항 기록)*
+- **최대화 창 높이 이중 차감 보정 (`@ferdy/core`)**:
+  - `.os-window-layer`가 이미 태스크바를 제외한 `.os-desktop` 내부에 배치되어 있으므로 `isMaximized` 창의 높이를 `calc(100% - var(--core-taskbar-height))`에서 `100%`로 수정하여 하단 빈 여백 제거
+  - 최대화 버튼/더블클릭 복원 시에도 `restoreRect`를 통해 이전 좌표·크기를 일관되게 복원하도록 보완
 
 ---
 

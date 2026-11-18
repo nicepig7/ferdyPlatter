@@ -1,5 +1,10 @@
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import type { WindowInstance } from '../../../types/fdCore.window.type';
+import type {
+  WindowInstance,
+  WindowRestoreRect,
+  WindowSnapZone,
+} from '../../../types/fdCore.window.type';
+import { desktopStore } from '../../../services/desktop/fdCore.desktop.store';
 import {
   MIN_WINDOW_HEIGHT,
   MIN_WINDOW_WIDTH,
@@ -7,6 +12,9 @@ import {
 } from '../../../services/window/fdCore.window.store';
 
 export type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
+
+const SNAP_EDGE_THRESHOLD_PX = 20;
+const DRAG_DETACH_THRESHOLD_PX = 4;
 
 export const RESIZE_DIRECTIONS: readonly ResizeDirection[] = [
   'n',
@@ -18,6 +26,20 @@ export const RESIZE_DIRECTIONS: readonly ResizeDirection[] = [
   'se',
   'sw',
 ];
+
+/**
+ * 포인터 좌표를 기준으로 창 스냅 프리뷰 영역(좌/우 50% 또는 상단 최대화)을 판별합니다.
+ */
+function detectSnapZone(
+  clientX: number,
+  clientY: number,
+  viewportWidth: number
+): WindowSnapZone | null {
+  if (clientX <= SNAP_EDGE_THRESHOLD_PX) return 'left';
+  if (clientX >= viewportWidth - SNAP_EDGE_THRESHOLD_PX) return 'right';
+  if (clientY <= SNAP_EDGE_THRESHOLD_PX) return 'top';
+  return null;
+}
 
 /**
  * 브라우저 기본 새로고침 단축키(F5, Ctrl+R, Cmd+R, Ctrl+Shift+R 등)인지 판별합니다.
@@ -35,50 +57,119 @@ export function useWindowInteraction(getWindow: () => WindowInstance) {
   let cleanupPointerInteraction: (() => void) | null = null;
 
   // 드래그/리사이징 포인터 추적 시작 및 안전 종료(pointercancel/blur 포함)
-  const startPointerInteraction = (onMove: (moveEvent: PointerEvent) => void) => {
+  const startPointerInteraction = (
+    onMove: (moveEvent: PointerEvent) => void,
+    onEnd?: (upEvent: PointerEvent) => void,
+    onCancel?: () => void
+  ) => {
     cleanupPointerInteraction?.();
     windowStore.setInteracting(true);
 
-    const finishInteraction = () => {
+    const removeListeners = () => {
       windowStore.setInteracting(false);
       window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', finishInteraction);
-      window.removeEventListener('pointercancel', finishInteraction);
-      window.removeEventListener('blur', finishInteraction);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerCancel);
+      window.removeEventListener('blur', handlePointerCancel);
       cleanupPointerInteraction = null;
     };
 
-    cleanupPointerInteraction = finishInteraction;
+    const handlePointerUp = (upEvent: PointerEvent) => {
+      onEnd?.(upEvent);
+      removeListeners();
+    };
+
+    const handlePointerCancel = () => {
+      onCancel?.();
+      removeListeners();
+    };
+
+    cleanupPointerInteraction = handlePointerCancel;
     window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', finishInteraction);
-    window.addEventListener('pointercancel', finishInteraction);
-    window.addEventListener('blur', finishInteraction);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerCancel);
+    window.addEventListener('blur', handlePointerCancel);
   };
 
   onCleanup(() => {
     cleanupPointerInteraction?.();
   });
 
-  // 타이틀바 드래그로 창 이동
+  // 타이틀바 드래그로 창 이동 및 가장자리 스냅 처리
   const handleTitleBarPointerDown = (e: PointerEvent) => {
+    if (e.button !== 0) return;
     const win = getWindow();
-    // 버튼 클릭이거나 최대화 상태면 드래그 무시
+    // 버튼 클릭 시 드래그 무시
     if ((e.target as HTMLElement).closest('button')) return;
-    if (win.isMaximized) return;
 
     e.preventDefault();
     windowStore.focusWindow(win.id);
 
     const startX = e.clientX;
     const startY = e.clientY;
-    const initialX = win.x;
-    const initialY = win.y;
+    const startedMaximized = win.isMaximized;
+    const startWinX = win.x;
+    const startWinWidth = win.width;
+    let isSnappedOrMaximized = win.isMaximized || Boolean(win.snapZone);
 
-    startPointerInteraction((moveEvent) => {
-      const dx = moveEvent.clientX - startX;
-      const dy = moveEvent.clientY - startY;
-      windowStore.moveWindow(win.id, initialX + dx, initialY + dy);
-    });
+    const originRestoreRect: WindowRestoreRect = win.restoreRect
+      ? { ...win.restoreRect }
+      : { x: win.x, y: win.y, width: win.width, height: win.height };
+
+    let initialX = win.x;
+    let initialY = win.y;
+
+    startPointerInteraction(
+      (moveEvent) => {
+        const dx = moveEvent.clientX - startX;
+        const dy = moveEvent.clientY - startY;
+        const viewportWidth = desktopStore.state.viewportWidth || window.innerWidth;
+
+        if (isSnappedOrMaximized) {
+          if (Math.hypot(dx, dy) < DRAG_DETACH_THRESHOLD_PX) {
+            return;
+          }
+
+          const visualLeft = startedMaximized ? 0 : startWinX;
+          const visualWidth = startedMaximized ? viewportWidth : startWinWidth;
+          const ratioX = Math.min(
+            0.85,
+            Math.max(0.15, (startX - visualLeft) / Math.max(1, visualWidth))
+          );
+
+          initialX = Math.round(startX - originRestoreRect.width * ratioX);
+          initialY = 0;
+
+          windowStore.unsnapWindow(win.id, {
+            x: initialX + dx,
+            y: Math.max(0, initialY + dy),
+          });
+          isSnappedOrMaximized = false;
+        } else {
+          windowStore.moveWindow(win.id, initialX + dx, initialY + dy);
+        }
+
+        const zone = detectSnapZone(moveEvent.clientX, moveEvent.clientY, viewportWidth);
+        windowStore.setSnapPreview(zone);
+      },
+      () => {
+        const activeZone = windowStore.state.snapPreview;
+        if (activeZone) {
+          const viewportWidth = desktopStore.state.viewportWidth || window.innerWidth;
+          const viewportHeight = desktopStore.state.viewportHeight || window.innerHeight - 48;
+          windowStore.snapWindow(
+            win.id,
+            activeZone,
+            { width: viewportWidth, height: viewportHeight },
+            originRestoreRect
+          );
+        }
+        windowStore.setSnapPreview(null);
+      },
+      () => {
+        windowStore.setSnapPreview(null);
+      }
+    );
   };
 
   // 8방향 창 리사이징 핸들러

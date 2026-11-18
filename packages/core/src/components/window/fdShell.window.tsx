@@ -26,15 +26,16 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
         'is-focused': props.window.isFocused,
         'is-minimized': props.window.isMinimized,
         'is-maximized': props.window.isMaximized,
+        'is-snapped': Boolean(props.window.snapZone),
+        'is-snapped-left': props.window.snapZone === 'left',
+        'is-snapped-right': props.window.snapZone === 'right',
       }}
       style={{
         transform: props.window.isMaximized
           ? 'translate3d(0px, 0px, 0)'
           : `translate3d(${props.window.x}px, ${props.window.y}px, 0)`,
         width: props.window.isMaximized ? '100%' : `${props.window.width}px`,
-        height: props.window.isMaximized
-          ? 'calc(100% - var(--core-taskbar-height))'
-          : `${props.window.height}px`,
+        height: props.window.isMaximized ? '100%' : `${props.window.height}px`,
         'z-index': props.window.zIndex,
       }}
       onPointerDown={() => {

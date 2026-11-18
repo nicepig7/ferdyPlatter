@@ -1,11 +1,17 @@
 import { createStore, produce } from 'solid-js/store';
-import type { CreateWindowPayload, WindowInstance } from '../../types/fdCore.window.type';
+import type {
+  CreateWindowPayload,
+  WindowInstance,
+  WindowRestoreRect,
+  WindowSnapZone,
+} from '../../types/fdCore.window.type';
 
 interface WindowStoreState {
   windows: WindowInstance[];
   activeWindowId: string | null;
   topZIndex: number;
   isInteracting: boolean;
+  snapPreview: WindowSnapZone | null;
 }
 
 const BASE_Z_INDEX = 100;
@@ -19,6 +25,7 @@ const [state, setState] = createStore<WindowStoreState>({
   activeWindowId: null,
   topZIndex: BASE_Z_INDEX,
   isInteracting: false,
+  snapPreview: null,
 });
 
 /**
@@ -96,6 +103,8 @@ export function openWindow(payload: CreateWindowPayload) {
         isFocused: true,
         isMinimized: false,
         isMaximized: false,
+        snapZone: null,
+        restoreRect: undefined,
       });
 
       draft.activeWindowId = id;
@@ -175,7 +184,30 @@ export function toggleMaximizeWindow(id: string) {
     produce((draft) => {
       const target = draft.windows.find((w) => w.id === id);
       if (!target) return;
-      target.isMaximized = !target.isMaximized;
+
+      if (!target.isMaximized) {
+        if (!target.restoreRect) {
+          target.restoreRect = {
+            x: target.x,
+            y: target.y,
+            width: target.width,
+            height: target.height,
+          };
+        }
+        target.isMaximized = true;
+        target.snapZone = null;
+      } else {
+        target.isMaximized = false;
+        target.snapZone = null;
+        if (target.restoreRect) {
+          target.x = target.restoreRect.x;
+          target.y = target.restoreRect.y;
+          target.width = target.restoreRect.width;
+          target.height = target.restoreRect.height;
+          target.restoreRect = undefined;
+        }
+      }
+
       focusWindowInDraft(draft, id);
     })
   );
@@ -231,6 +263,8 @@ export function resizeWindow(
       w.height = Math.max(minH, rect.height);
       if (rect.x !== undefined) w.x = rect.x;
       if (rect.y !== undefined) w.y = rect.y;
+      w.snapZone = null;
+      w.restoreRect = undefined;
     })
   );
 }
@@ -239,7 +273,161 @@ export function resizeWindow(
  * 창 드래그/리사이즈 등 전역 포인터 인터랙션 진행 여부를 설정합니다.
  */
 export function setInteracting(interacting: boolean) {
-  setState('isInteracting', interacting);
+  setState(
+    produce((draft) => {
+      draft.isInteracting = interacting;
+      if (!interacting) {
+        draft.snapPreview = null;
+      }
+    })
+  );
+}
+
+/**
+ * 드래그 중 창 스냅 프리뷰 영역을 설정합니다.
+ */
+export function setSnapPreview(zone: WindowSnapZone | null) {
+  if (state.snapPreview === zone) return;
+  setState('snapPreview', zone);
+}
+
+/**
+ * 좌/우 스냅 영역에 맞는 창 좌표와 크기를 계산합니다.
+ */
+function computeSnapRect(
+  zone: 'left' | 'right',
+  viewportWidth: number,
+  viewportHeight: number,
+  minWidth: number,
+  minHeight: number
+): WindowRestoreRect {
+  const halfW = Math.round(viewportWidth / 2);
+  if (zone === 'left') {
+    return {
+      x: 0,
+      y: 0,
+      width: Math.max(minWidth, halfW),
+      height: Math.max(minHeight, viewportHeight),
+    };
+  }
+  return {
+    x: halfW,
+    y: 0,
+    width: Math.max(minWidth, viewportWidth - halfW),
+    height: Math.max(minHeight, viewportHeight),
+  };
+}
+
+/**
+ * 창을 지정된 스냅 영역(좌/우 50% 분할 또는 상단 최대화)으로 배치합니다.
+ */
+export function snapWindow(
+  id: string,
+  zone: WindowSnapZone,
+  viewport: { width: number; height: number },
+  fallbackRestoreRect?: WindowRestoreRect
+) {
+  setState(
+    produce((draft) => {
+      const target = draft.windows.find((w) => w.id === id);
+      if (!target) {
+        draft.snapPreview = null;
+        return;
+      }
+
+      target.restoreRect =
+        target.restoreRect ??
+        fallbackRestoreRect ?? {
+          x: target.x,
+          y: target.y,
+          width: target.width,
+          height: target.height,
+        };
+
+      if (zone === 'top') {
+        target.isMaximized = true;
+        target.snapZone = null;
+        target.x = target.restoreRect.x;
+        target.y = target.restoreRect.y;
+        target.width = target.restoreRect.width;
+        target.height = target.restoreRect.height;
+      } else {
+        const minW = target.minWidth ?? MIN_WINDOW_WIDTH;
+        const minH = target.minHeight ?? MIN_WINDOW_HEIGHT;
+        const rect = computeSnapRect(zone, viewport.width, viewport.height, minW, minH);
+        target.isMaximized = false;
+        target.snapZone = zone;
+        target.x = rect.x;
+        target.y = rect.y;
+        target.width = rect.width;
+        target.height = rect.height;
+      }
+
+      draft.snapPreview = null;
+    })
+  );
+}
+
+/**
+ * 스냅 또는 최대화된 창을 해제하고 이전 크기 및 지정 위치로 복원합니다.
+ */
+export function unsnapWindow(
+  id: string,
+  nextPosition?: { x: number; y: number }
+): WindowRestoreRect | null {
+  const existing = state.windows.find((w) => w.id === id);
+  if (!existing) return null;
+
+  const restoredWidth = existing.restoreRect?.width ?? existing.width;
+  const restoredHeight = existing.restoreRect?.height ?? existing.height;
+  const nextX = Math.max(0, nextPosition?.x ?? existing.restoreRect?.x ?? existing.x);
+  const nextY = Math.max(0, nextPosition?.y ?? existing.restoreRect?.y ?? existing.y);
+
+  setState(
+    'windows',
+    (w) => w.id === id,
+    produce((w) => {
+      w.isMaximized = false;
+      w.snapZone = null;
+      w.x = nextX;
+      w.y = nextY;
+      w.width = restoredWidth;
+      w.height = restoredHeight;
+      w.restoreRect = undefined;
+    })
+  );
+
+  return {
+    x: nextX,
+    y: nextY,
+    width: restoredWidth,
+    height: restoredHeight,
+  };
+}
+
+/**
+ * 데스크탑 뷰포트 크기 변경 시 스냅된 창들의 좌표와 크기를 동기화합니다.
+ */
+export function syncSnappedWindows(viewportWidth: number, viewportHeight: number) {
+  if (viewportWidth <= 0 || viewportHeight <= 0) return;
+
+  const hasSnapped = state.windows.some((w) => w.snapZone === 'left' || w.snapZone === 'right');
+  if (!hasSnapped) return;
+
+  setState(
+    produce((draft) => {
+      draft.windows.forEach((w) => {
+        if (w.snapZone !== 'left' && w.snapZone !== 'right') return;
+        const minW = w.minWidth ?? MIN_WINDOW_WIDTH;
+        const minH = w.minHeight ?? MIN_WINDOW_HEIGHT;
+        const rect = computeSnapRect(w.snapZone, viewportWidth, viewportHeight, minW, minH);
+        w.x = rect.x;
+        w.y = rect.y;
+        w.width = rect.width;
+        w.height = rect.height;
+      });
+    })
+  );
 }
 
 export const windowStore = {
@@ -254,4 +442,8 @@ export const windowStore = {
   moveWindow,
   resizeWindow,
   setInteracting,
+  setSnapPreview,
+  snapWindow,
+  unsnapWindow,
+  syncSnappedWindows,
 };
