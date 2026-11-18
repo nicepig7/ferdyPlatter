@@ -25,8 +25,9 @@ packages/domains/builtin/clock/
 ├── tsconfig.json       # TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
-    ├── index.tsx       # SolidJS render 마운트
-    └── App.tsx         # 시계 UI 및 시간 포맷팅 상태 로직
+    ├── main.tsx        # SolidJS render 마운트 및 @ferdy/ui 스타일 주입
+    ├── appClock.tsx    # 시계 UI 및 시간 포맷팅 상태 로직
+    └── appClock.css    # 시계 레이아웃 및 토큰 기반 스타일
 ```
 
 ---

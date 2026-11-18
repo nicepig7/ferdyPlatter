@@ -1,0 +1,73 @@
+.app-clock {
+  height: 100vh;
+  padding: 14px 18px;
+  background: var(--fd-bg-gradient-surface);
+  color: var(--fd-text-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.app-clock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.app-clock-date {
+  font-family: var(--fd-font-sans);
+  font-size: clamp(14px, min(4.8vw, 9vh), 28px);
+  color: var(--fd-text-muted);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.app-clock-toggle {
+  font-size: clamp(11px, min(3.4vw, 6.5vh), 16px);
+  flex-shrink: 0;
+}
+
+.app-clock-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 0;
+}
+
+.app-clock-meridiem {
+  font-size: clamp(14px, min(4.5vw, 10vh), 32px);
+  font-weight: 700;
+  color: var(--fd-accent);
+  letter-spacing: 0.05em;
+  align-self: baseline;
+}
+
+.app-clock-time {
+  font-family: var(--fd-font-sans);
+  font-size: clamp(36px, min(17vw, 38vh), 140px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--fd-text-primary);
+  text-shadow: 0 2px 14px var(--fd-primary-subtle);
+  white-space: nowrap;
+}
+
+.app-clock-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--fd-text-dim);
+  border-top: 1px solid var(--fd-border-subtle);
+  padding-top: 8px;
+}

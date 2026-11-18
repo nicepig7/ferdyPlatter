@@ -28,8 +28,9 @@ packages/domains/sample/app/
 ├── tsconfig.json       # TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
-    ├── index.tsx       # SolidJS render 마운트
-    └── App.tsx         # 샘플 앱 UI (@ferdy/ui) 및 브릿지 발신 로직 (@ferdy/bridge)
+    ├── main.tsx        # SolidJS render 마운트 및 @ferdy/ui 스타일 주입
+    ├── appSample.tsx   # 샘플 앱 UI (@ferdy/ui) 및 브릿지 발신 로직 (@ferdy/bridge)
+    └── appSample.css   # 샘플 앱 레이아웃 및 토큰 기반 스타일
 ```
 
 ---

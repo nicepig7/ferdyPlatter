@@ -69,7 +69,7 @@ Ferdy Platter는 `packages/core/plugins/monorepoDomainsGateway.ts`의 `createMon
 ### 2.1 개발 환경 (On-Demand Dev Gateway)
 1. Core 내부의 `iframe`이 `/domains/<app-rel-path>/` 경로를 요청합니다.
 2. `ferdy-monorepo-domains-gateway` 미들웨어가 요청을 가로채어 `packages/domains/<app-rel-path>/index.html` 파일을 읽어들입니다.
-3. HTML 내부의 상대 스크립트 경로(`./src/index.tsx` 등)를 Vite 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/index.tsx`로 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
+3. HTML 내부의 상대 스크립트 경로(`./src/main.tsx` 등)를 Vite 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/main.tsx`로 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
 4. `publicDir`이 `packages/assets/public`으로 지정되어 있어, Core와 모든 `iframe` 앱이 `/assets/...` 정적 리소스를 동일 오리진에서 즉시 공유합니다.
 
 ### 2.2 프로덕션 빌드 및 코드 공유 (Shared Chunks)

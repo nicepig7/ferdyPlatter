@@ -37,11 +37,11 @@ description: >-
 3. **`vite.config.ts`**:
    - 단독 실행 및 빌드를 위한 기본 `vite-plugin-solid` 설정을 포함합니다.
 4. **`index.html`**:
-   - `<div id="root"></div>`와 `<script type="module" src="./src/index.tsx"></script>` (또는 `./src/main.tsx`)를 포함합니다.
+   - `<div id="root"></div>`와 `<script type="module" src="./src/main.tsx"></script>`를 포함합니다.
    - 기본 CSS Reset과 토큰은 `@ferdy/ui`에서 자동 주입되므로 별도의 인라인 리셋 `<style>`을 중복 작성할 필요가 없습니다.
    - **주의**: Core의 `monorepoDomainsGatewayPlugin`이 `./src/` 또는 `/src/` 경로를 자동 치환하므로 스크립트 경로는 반드시 `./src/...` 형태로 작성합니다.
-5. **`src/index.tsx` (또는 `src/main.tsx`) 및 메인 화면 컴포넌트**:
-   - 엔트리 파일에서 `import '@ferdy/ui/styles.css';`를 호출하여 전역 디자인 토큰과 리셋을 주입합니다.
+5. **`src/main.tsx` 및 메인 화면 컴포넌트 (`src/app<Name>.tsx`, `src/app<Name>.css`)**:
+   - 엔트리 파일(`src/main.tsx`)에서 `import '@ferdy/ui/styles.css';`를 호출하여 전역 디자인 토큰과 리셋을 주입하고, 루트 컴포넌트(`<App<Name> />`)를 마운트합니다.
    - `@ferdy/ui`의 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`) 및 CSS 변수(`var(--fd-*)`), 레이아웃 클래스(`.fd-app-shell`)를 사용하여 일관된 Look & Feel을 유지합니다.
    - 부모 Core와의 통신이 필요할 경우 `@ferdy/bridge`의 `ferdyBridge` (`ferdyBridge.openWindow`, `ferdyBridge.on`, `ferdyBridge.emit` 등)를 사용합니다.
 6. **`README.md`**:

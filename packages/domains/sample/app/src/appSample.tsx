@@ -3,7 +3,7 @@ import { ferdyBridge } from '@ferdy/bridge';
 import { fd } from '@ferdy/ui';
 import './appSample.css';
 
-export const App: Component = () => {
+export const AppSample: Component = () => {
   const [count, setCount] = createSignal(0);
   const instanceId = new URLSearchParams(window.location.search).get('instance') ?? '1';
 
