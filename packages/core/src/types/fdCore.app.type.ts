@@ -47,7 +47,7 @@ export interface AppManifest {
   icon: string;
   /** 바탕화면 타일 등 기본 컬러 톤 */
   tone?: AppIconTone;
-  /** iframe으로 서빙될 기본 경로 (예: '/apps/app-sample/') */
+  /** iframe으로 서빙될 기본 경로 (예: '/domains/app-sample/') */
   appUrl: string;
   /** 앱 설명 (선택) */
   description?: string;

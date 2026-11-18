@@ -13,9 +13,9 @@
    - `appStore.launchApp(appId, options)` 및 `appStore.openShortcut(shortcut)`을 통해 매니페스트 기본값을 기반으로 쿼리 파라미터(`?instance=2`), 창 제목, 위치/크기를 오버라이드하거나 외부 웹 사이트(`appUrl`, `openMode: 'window' | 'new-tab'`)를 바로가기로 실행할 수 있습니다.
 3. **Window Management Service (`services/window/`)**: 다중 창의 열기, 닫기, 최소화, 최대화/복원, Z-Index 포커스(및 바탕화면 클릭 시 포커스 해제), 타이틀바 드래그 이동, 8방향 리사이징(앱별 최소 창 크기 `minWidth`/`minHeight` 지원), 활성 창 단독 새로고침(`F5`, `Ctrl+R`, `Cmd+R`)을 관리합니다.
 4. **iframe Sandbox & Bridge (`@ferdy/bridge`)**: 각 창의 본문 영역에 개별 도메인 앱을 `<iframe sandbox="...">`로 격리 로드하고, `@ferdy/bridge`를 통해 이벤트를 수신·처리합니다.
-5. **Monorepo Domains Gateway (`vite.config.ts`)**:
-   - **Dev**: `/apps/<app-name>/` 요청을 가로채어 `packages/domains/<app-name>/index.html`을 실시간 변환 및 서빙합니다.
-   - **Build**: `packages/domains/*` 디렉토리를 스캔하여 Rollup `input`에 멀티페이지 엔트리로 자동 등록합니다.
+5. **Monorepo Domains Gateway (`vite.config.ts`, `plugins/monorepoDomainsGateway.ts`)**:
+   - **Dev**: `/domains/<app-rel-path>/` 요청을 가로채어 `packages/domains/<app-rel-path>/index.html`을 실시간 변환 및 서빙합니다.
+   - **Build**: `packages/domains/**` 디렉토리를 재귀 스캔하여 중첩된 도메인 앱까지 Rollup `input`에 멀티페이지 엔트리로 자동 등록합니다.
    - **Assets**: `packages/assets/public`을 `publicDir`로 연결하여 모든 정적 에셋을 동일 오리진(`/assets/...`)에서 서빙합니다.
 
 ---
@@ -25,7 +25,11 @@
 ```text
 packages/core/
 ├── index.html                # Core 메인 HTML 엔트리
-├── vite.config.ts            # 단일 서버 도메인 앱 게이트웨이 미들웨어 및 MPA 빌드 설정
+├── package.json              # @ferdy/core 패키지 매니페스트 및 스크립트
+├── tsconfig.json             # TypeScript 설정 (@ferdy/tsconfig/base.json 확장 및 ~/ 별칭)
+├── vite.config.ts            # Vite 서버·빌드 설정 및 도메인 게이트웨이 플러그인 연동
+├── plugins/
+│   └── monorepoDomainsGateway.ts # 도메인 앱 게이트웨이 미들웨어 및 재귀 MPA 엔트리 스캔 플러그인
 └── src/
     ├── index.tsx             # SolidJS 마운트 엔트리 (@ferdy/ui 로드)
     ├── index.css             # OS 쉘 루트(#root, .os-shell-root) 레이아웃 스타일
