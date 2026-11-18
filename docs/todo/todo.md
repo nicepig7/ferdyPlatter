@@ -11,24 +11,14 @@
 
 가장 먼저 착수할 만한 단기 작업 목록입니다.
 
-### 🪟 0.1.7 Focus — App & Window 후보군
-`0.1.7` 마일스톤에서 앱과 창(Window) 경험을 한 단계 끌어올리기 위해 선별한 핵심 후보입니다.
-
-- [x] **1. Window Snapping (창 스냅 & 분할 가이드)**
-  - 창을 화면 좌/우/상단 가장자리로 드래그할 때 반투명 Ghost 프리뷰를 표시하고, 드롭 시 좌/우 50% 분할 또는 최대화로 스냅 배치
-  - 스냅된 창을 다시 드래그할 때 스냅 이전 크기/위치로 자연스럽게 복원
-- [x] **2. 창 상태 `localStorage` 세션 유지 & 레이아웃 정렬**
-  - 새로고침 시에도 열려 있던 창들의 위치(`x`, `y`), 크기(`width`, `height`), 최소화/최대화 상태 복원
-  - 열린 창 일괄 정렬 액션(바둑판식 Tile / 계단식 Cascade / 모두 최소화) 지원
-- [x] **3. Start Menu (시작 메뉴 / 앱 런처 팝업)**
-  - 좌측 하단 `fdPlatter` 버튼 클릭 시 하드코딩된 샘플 앱 즉시 실행 대신, 등록된 `builtin` / `sample` 앱 목록을 탐색·실행하고 창 제어 액션을 제공하는 시작 메뉴 패널 오픈
-- [ ] **4. App ↔ Window 양방향 제어 확장 (`@ferdy/bridge` & `AppManifest`)**
+### 🪟 Window & Bridge 확장 후보군
+- [ ] **App ↔ Window 양방향 제어 확장 (`@ferdy/bridge` & `AppManifest`)**
   - 도메인 앱이 자신의 창 제목을 동적으로 변경(`FERDY_SET_WINDOW_TITLE`, 예: `@ferdy/builtin-notes`에서 선택된 메모 제목 반영)하거나 창 닫기·최소화를 요청하는 브릿지 이벤트 추가
   - `AppManifest`에 단일 인스턴스 정책(`singleton?: boolean`)이나 창 크기 조절 허용 여부(`resizable?: boolean`) 등 앱별 창 정책 옵션 확장
-- [ ] **5. `@ferdy/builtin-monitor` (작업 관리자 / 브릿지 & 윈도우 인스펙터 앱)**
+- [ ] **`@ferdy/builtin-monitor` (작업 관리자 / 브릿지 & 윈도우 인스펙터 앱)**
   - 현재 열린 창 목록(`windowId`, 크기, 좌표, Z-Index, 포커스 전환/강제 종료)과 `@ferdy/bridge` 실시간 `postMessage` 이벤트 로그를 모니터링하는 내장 유틸리티 앱
 
-### 🔮 이후 단기 작업 후보
+### 🎨 테마 시스템 후보군
 - [ ] **런타임 테마 스위처 (`dark` / `light`) 연동**
   - `@ferdy/ui`의 `fdStyle.theme.css`에 라이트 모드(또는 추가 빈티지 테마) 토큰 세트 정의
   - `@ferdy/core`에서 `ferdyBridge.broadcast('FERDY_THEME_CHANGE', { theme })` 발행 및 각 도메인 앱 수신 처리

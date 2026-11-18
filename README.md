@@ -23,7 +23,7 @@ ferdyPlatter/
 ├── AGENTS.md                 # AI 에이전트 핵심 규칙 (SolidJS, A-B-C-D-E 아키텍처, 문서 동기화)
 ├── .agents/                  # AI 에이전트 확장 규칙 및 스킬(런북)
 │   ├── rules/                # 도메인/컨벤션 세부 규칙
-│   └── skills/               # 반복 작업 절차서 (신규 도메인 앱 생성 스킬 등)
+│   └── skills/               # 반복 작업 절차서 (신규 앱 생성, 매니페스트/바로가기 관리, 릴리즈 마감 스킬)
 ├── docs/                     # 프로젝트 지식 베이스
 │   ├── architecture.md       # A-B-C-D-E 아키텍처, Vite 게이트웨이, @ferdy/ui & @ferdy/bridge 설계
 │   ├── features.md           # 구현된 기능 명세 및 로드맵

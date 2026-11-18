@@ -84,14 +84,14 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 
 - **UI 셸 계층 (`components/`, `fdShell.*`)**:
   - `desktop/` (`fdShell.desktop.*`): 반응형 그리드 바탕화면, 스쿼클 아이콘 타일(`icon`), Ghost 격자(`ghost`) 및 드래그/줌 훅(`hooks`) 렌더링
-  - `taskbar/` (`fdShell.taskbar.*`): 런처 버튼, 열린 창 탭 목록, 시스템 트레이 렌더링
-  - `window/` (`fdShell.window.*`): 각 앱 창 프레임, 타이틀바(`titlebar`), 드래그/리사이즈·iframe 제어 훅(`hooks`) 및 `<iframe sandbox>` 호스팅
+  - `taskbar/` (`fdShell.taskbar.*`): 런처 버튼, 시작 메뉴(`start`) 팝업, 열린 창 탭 목록, 시스템 트레이(창 일괄 정렬 및 시계) 렌더링
+  - `window/` (`fdShell.window.*`): 각 앱 창 프레임, 타이틀바(`titlebar`), 스냅 프리뷰(`ghost`), 빈 창 런처(`empty`), 로딩 오버레이(`loading`), 드래그/리사이즈·iframe 제어 훅(`hooks`) 및 `<iframe sandbox>` 호스팅
   - `common/` (`fdShell.app.icon.*`): 정적 SVG 경로와 Lucide 아이콘 이름을 통합 분기하는 공용 아이콘 렌더러
 - **Core 엔진 계층 (`services/` · `types/`, `fdCore.*`)**:
   - `services/app/`: `fdCore.app.store.ts`가 앱 실행을 총괄하며, 초기 메타데이터는 단일 목적 원칙에 따라 `manifest` / `shortcuts` / `tones` `.meta.ts` 파일로 분리 관리
   - `services/bridge/`: `fdCore.bridge.service.ts`가 도메인 앱과의 `@ferdy/bridge` 전역 이벤트 구독 처리
   - `services/desktop/`: `fdCore.desktop.store.ts`가 그리드 레이아웃 계산, 배율, 아이콘 좌표 배치(`localStorage` 영속화) 관리
-  - `services/window/`: `fdCore.window.store.ts`가 창 목록, Z-Index 포커스 스택, 최소 크기, 드래그·리사이즈 상태 관리
+  - `services/window/`: `fdCore.window.store.ts`(창 목록, Z-Index 포커스 스택, 최소 크기, 드래그·리사이즈 및 세션 동기화 상태 관리) 및 `fdCore.window.service.ts`(세션 직렬화/복원, 스냅·타일·캐스케이드 좌표 계산)
   - `types/`: `fdCore.app.type.ts`, `fdCore.desktop.type.ts`, `fdCore.window.type.ts`
 - **격리 원칙**: 개별 도메인 앱(`packages/domains/**`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import하지 않으며, 모든 OS 상호작용은 `@ferdy/bridge`를 경유합니다.
 
@@ -126,4 +126,5 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 | :--- | :--- | :--- | :--- |
 | `FERDY_APP_PING` | App → Core | `instanceId: string`, `timestamp: string` | 자식 앱이 정상 동작 중임을 Core에 알리는 핑 이벤트 |
 | `FERDY_OPEN_WINDOW` | App → Core | `id?`, `appId?`, `title?`, `appUrl?`, `icon?`, `queryParams?`, `x?`, `y?`, `width?`, `height?` | 자식 앱 내부에서 Core에게 새로운 창 생성을 요청 (`appId` 지정 시 레지스트리 기본값 활용) |
+| `FERDY_SET_WINDOW_LOADING` | App → Core | `loading: boolean`, `message?`, `windowId?` | 자식 앱이 속한 부모 창(또는 지정한 `windowId`)의 로딩 오버레이 표시 여부 및 안내 문구 제어 |
 | `FERDY_THEME_CHANGE` | Core → Apps | `theme: 'dark' \| 'light'` | Core에서 열린 모든 `iframe` 앱으로 테마 변경을 브로드캐스트 *(런타임 스위처 연동 예정)* |

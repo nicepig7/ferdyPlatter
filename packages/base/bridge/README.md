@@ -22,12 +22,13 @@ src/
 1. **타입 안전 프로토콜 (`FerdyEventMap`)**:
    - `FERDY_APP_PING`: 자식 앱 상태 핑 전송
    - `FERDY_OPEN_WINDOW`: 자식 앱에서 새 창 생성 요청
+   - `FERDY_SET_WINDOW_LOADING`: 자식 앱에서 부모 창(또는 지정한 `windowId`)의 로딩 오버레이 표시 여부 및 안내 문구 제어
    - `FERDY_THEME_CHANGE`: Core에서 전체 앱으로 테마 변경 브로드캐스트
 2. **Pub/Sub 인터페이스 (`ferdyBridge`)**:
    - `ferdyBridge.emit(type, payload)`: 자식 앱 → 부모 Core로 이벤트 발행
    - `ferdyBridge.broadcast(type, payload)`: 부모 Core → 모든 활성 `iframe`으로 이벤트 브로드캐스트
    - `ferdyBridge.on(type, handler)`: 특정 이벤트 구독 및 해제 함수(`() => void`) 반환 (`onCleanup`과 즉시 연동 가능)
-   - `ferdyBridge.ping(instanceId)`, `ferdyBridge.openWindow(options)` 단축 헬퍼 제공
+   - `ferdyBridge.ping(instanceId)`, `ferdyBridge.openWindow(options)`, `ferdyBridge.setWindowLoading(loading, { message, windowId })` 단축 헬퍼 제공
 
 ---
 
@@ -52,4 +53,5 @@ ferdyBridge.openWindow({
   title: 'New App',
   queryParams: { instance: 2 },
 });
+ferdyBridge.setWindowLoading(true, { message: 'Loading data...' });
 ```

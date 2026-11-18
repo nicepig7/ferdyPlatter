@@ -35,12 +35,12 @@ description: >-
   category: 'builtin',
   title: 'Notes',
   icon: 'notebook-pen',
-  tone: 'blue',
+  tone: 'secondary',
   appUrl: '/domains/builtin/notes/',
-  description: '마크다운 메모장 도메인 앱',
+  description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
   defaultWindow: {
-    width: 520,
-    height: 400,
+    width: 660,
+    height: 460,
   },
 }
 ```

@@ -16,6 +16,7 @@
 3. **타입 안전 브릿지 통신 (`@ferdy/bridge`)**:
    - `ferdyBridge.ping(instanceId)`: 현재 앱 인스턴스 ID와 타임스탬프를 부모 Core로 전송합니다.
    - `ferdyBridge.openWindow(...)`: 앱 내부에서 부모 Core에게 새로운 앱 창을 띄워달라고 요청합니다.
+   - `ferdyBridge.setWindowLoading(true, { message })`: 클릭 시 3초간 부모 창의 로딩 오버레이(`WindowLoadingView`)를 활성화했다가 자동 해제하는 동작을 시연합니다.
 
 ---
 

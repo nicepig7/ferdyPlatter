@@ -6,7 +6,7 @@
 
 ---
 
-## [0.1.7] - App & Window Management (WIP)
+## [0.1.7] - Window Snapping, Session Persistence & Layout Actions, Start Menu, Empty & Loading Window Views
 
 ### Added
 - **창 스냅 및 분할 가이드 (`Window Snapping`, `@ferdy/core`)**:
@@ -34,9 +34,16 @@
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:
   - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 버전을 `0.1.7`로 일괄 업데이트
+- **`window` 서비스 계층 분리 및 뷰포트 헬퍼 통합 (`@ferdy/core`)**:
+  - `fdCore.window.store.ts`에서 세션 직렬화/복원 및 스냅·타일·캐스케이드 좌표 계산 순수 로직을 `fdCore.window.service.ts`로 분리
+  - `desktopStore.getViewportSize()` 헬퍼를 신설해 태스크바·시작 메뉴·창 드래그 훅의 뷰포트 크기 폴백 계산을 단일화
+- **Builtin 앱 아이콘 컬러 톤 통일 (`@ferdy/core`)**:
+  - `fdCore.app.manifest.meta.ts`에서 Builtin 도메인 앱(`Clock`, `Calendar`, `Notes`)의 기본 아이콘 컬러 톤을 `'blue'`에서 `'secondary'`(포레스트 그린)로 통일
 - **태스크바 트레이 및 바탕화면 외부 링크 배지 UI 개선 (`@ferdy/core`)**:
   - 태스크바 우측 트레이의 `Windows: N` 상태 배지를 제거하고 시계 폰트를 `Pretendard` (`--fd-font-sans`)로 변경
   - 바탕화면 아이콘(`fdShell.desktop.icon.tsx`, `fdShell.desktop.icon.css`)의 외부 링크 배지(`.os-desktop-icon-badge`)와 내부 아이콘 크기를 그리드 타일 및 `iconSize`에 비례하여 확대/축소되도록 개선
+- **릴리즈 마감 스킬 신설 (`.agents/skills/finalize-release/SKILL.md`)**:
+  - 버전 정리, `README.md` 및 `docs/` 동기화, 커밋·푸시 절차를 표준화한 에이전트 스킬 추가
 
 ### Fixed
 - **최대화 창 높이 이중 차감 보정 (`@ferdy/core`)**:
