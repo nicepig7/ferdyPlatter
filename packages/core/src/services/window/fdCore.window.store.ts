@@ -1,6 +1,7 @@
 import { createStore, produce, unwrap } from 'solid-js/store';
 import type {
   CreateWindowPayload,
+  ReplaceWindowPayload,
   WindowInstance,
   WindowRestoreRect,
   WindowSnapZone,
@@ -133,7 +134,7 @@ export function openWindow(payload: CreateWindowPayload) {
       id,
       appId: payload.appId,
       title: payload.title,
-      appUrl: payload.appUrl,
+      appUrl: payload.appUrl ?? '',
       icon: payload.icon,
       x: payload.x ?? 100 + offset,
       y: payload.y ?? 70 + offset,
@@ -555,6 +556,67 @@ export function toggleMinimizeAllWindows() {
   );
 }
 
+let emptyWindowSeq = 1;
+
+/**
+ * 앱이 아직 지정되지 않은 빈 창(Empty Window / 새 창 런처)을 생성합니다.
+ */
+export function openEmptyWindow() {
+  while (state.windows.some((w) => w.id === `empty-win-${emptyWindowSeq}`)) {
+    emptyWindowSeq += 1;
+  }
+  const seq = emptyWindowSeq++;
+  openWindow({
+    id: `empty-win-${seq}`,
+    title: seq === 1 ? 'Empty' : `Empty (${seq})`,
+    appUrl: '',
+    width: 580,
+    height: 430,
+  });
+}
+
+/**
+ * 기존 창 인스턴스의 ID, Z-Index, 스냅/최대화 상태를 유지한 채 실행 중인 앱만 교체합니다.
+ */
+export function replaceWindow(id: string, payload: ReplaceWindowPayload) {
+  if (!state.windows.some((w) => w.id === id)) return;
+
+  commitWindowMutation((draft) => {
+    const target = draft.windows.find((w) => w.id === id);
+    if (!target) return;
+
+    const { minW, minH } = getWindowMinSize(payload);
+    const nextWidth = Math.max(minW, payload.width ?? target.width);
+    const nextHeight = Math.max(minH, payload.height ?? target.height);
+
+    target.appId = payload.appId;
+    target.title = payload.title;
+    target.appUrl = payload.appUrl;
+    target.icon = payload.icon;
+    target.minWidth = payload.minWidth;
+    target.minHeight = payload.minHeight;
+
+    if (target.isMaximized || target.snapZone) {
+      if (target.snapZone) {
+        target.width = Math.max(minW, target.width);
+        target.height = Math.max(minH, target.height);
+      }
+      target.restoreRect = {
+        x: target.restoreRect?.x ?? target.x,
+        y: target.restoreRect?.y ?? target.y,
+        width: nextWidth,
+        height: nextHeight,
+      };
+    } else {
+      target.width = nextWidth;
+      target.height = nextHeight;
+      target.restoreRect = undefined;
+    }
+
+    focusWindowInDraft(draft, id);
+  });
+}
+
 /**
  * 열려 있는 모든 창을 닫고 세션을 초기화합니다.
  */
@@ -571,6 +633,8 @@ export function closeAllWindows() {
 export const windowStore = {
   state,
   openWindow,
+  openEmptyWindow,
+  replaceWindow,
   focusWindow,
   blurAllWindows,
   closeWindow,

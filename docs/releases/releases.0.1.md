@@ -21,6 +21,9 @@
   - 좌측 하단 `fdPlatter` 시작 버튼 클릭 시 등록된 `builtin` / `sample` 도메인 앱을 탐색·실행할 수 있는 글래스모피즘 시작 메뉴 패널(`fdShell.taskbar.start.tsx`, `fdShell.taskbar.start.css`) 오픈
   - `<fd.TextField>` 기반 실시간 앱 검색(`Enter` 입력 시 첫 번째 결과 즉시 실행) 및 카테고리 필터 탭(`All` / `Builtin` / `Sample`), 앱별 실행 중인 창 개수 인디케이터, 기본 실행/포커스 및 우측 `+` 새 인스턴스 창 열기 버튼 지원
   - 하단 푸터에 열린 창 일괄 제어 퀵 액션(바둑판 정렬, 계단식 정렬, 모두 최소화/복원, 모두 닫기 `closeAllWindows`) 제공 및 외부 클릭·`Escape`·`iframe` 포커스 전환 시 자동 닫힘 처리
+- **빈 창 런처 및 In-place 창 전환 (`WindowEmptyView` & `replaceWindow`, `@ferdy/core`)**:
+  - 바탕화면 `+ New Window` 클릭 시 `sample-app` 하드코딩 실행 대신 `windowStore.openEmptyWindow()`로 미니멀한 빈 창(`Empty`, `appUrl: ''`)을 생성하고, `WindowWrapper` 내장 뷰(`fdShell.window.empty.tsx`)로 등록된 앱 아이콘 타일을 표시
+  - 빈 창에서 앱 선택 시 `appStore.launchAppInWindow` / `windowStore.replaceWindow`를 통해 창 ID·Z-Index·포커스·스냅/최대화 상태를 유지한 채 해당 앱으로 즉시 전환(일반 창은 위치 유지·앱 기본 크기 적용, 스냅/최대화 창은 현재 배치 유지·`restoreRect` 갱신, 다중 실행 시 인스턴스 제목 및 `?instance=N` 자동 부여)
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:

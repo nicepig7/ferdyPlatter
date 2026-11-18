@@ -19,7 +19,6 @@ const NEW_WINDOW_ICON_ID = '__new-window__';
 
 export const Desktop: Component = () => {
   let desktopRef: HTMLElement | undefined;
-  let instanceCounter = 3;
 
   const layout = desktopStore.gridLayout;
   const allItemIds = createMemo(() => [
@@ -60,15 +59,7 @@ export const Desktop: Component = () => {
 
   const handleSpawnNewWindow = () => {
     if (shouldSuppressClick()) return;
-    while (windowStore.state.windows.some((w) => w.id === `sample-app-${instanceCounter}`)) {
-      instanceCounter += 1;
-    }
-    const num = instanceCounter++;
-    appStore.launchApp('sample-app', {
-      windowId: `sample-app-${num}`,
-      title: `Sample App #${num}`,
-      queryParams: { instance: num },
-    });
+    windowStore.openEmptyWindow();
   };
 
   return (

@@ -48,10 +48,21 @@ export interface CreateWindowPayload {
   id?: string;
   appId?: string;
   title: string;
-  appUrl: string;
+  appUrl?: string;
   icon?: string;
   x?: number;
   y?: number;
+  width?: number;
+  height?: number;
+  minWidth?: number;
+  minHeight?: number;
+}
+
+export interface ReplaceWindowPayload {
+  appId?: string;
+  title: string;
+  appUrl: string;
+  icon?: string;
   width?: number;
   height?: number;
   minWidth?: number;

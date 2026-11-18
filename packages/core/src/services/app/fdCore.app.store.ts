@@ -193,6 +193,40 @@ export function launchApp(appId: string, options?: LaunchAppOptions): void {
 }
 
 /**
+ * 기존 창 인스턴스(`windowId`) 내부에서 지정된 `appId` 앱으로 전환(In-place) 실행합니다.
+ * - 동일한 앱이 다른 창에서 이미 실행 중이면 제목(`App (2)`)과 쿼리 파라미터(`?instance=2`)를 자동 부여합니다.
+ */
+export function launchAppInWindow(windowId: string, appId: string): void {
+  const manifest = state.apps[appId];
+  if (!manifest) {
+    console.warn(`[appStore] Unregistered appId "${appId}".`);
+    return;
+  }
+
+  const existingCount = windowStore.state.windows.filter(
+    (w) => w.id !== windowId && w.appId === appId
+  ).length;
+  const instanceNum = existingCount + 1;
+  const title =
+    instanceNum > 1 ? `${manifest.title} (${instanceNum})` : manifest.title;
+  const appUrl = buildAppUrl(
+    manifest.appUrl,
+    instanceNum > 1 ? { instance: instanceNum } : undefined
+  );
+
+  windowStore.replaceWindow(windowId, {
+    appId: manifest.appId,
+    title,
+    icon: manifest.icon,
+    appUrl,
+    width: manifest.defaultWindow?.width,
+    height: manifest.defaultWindow?.height,
+    minWidth: manifest.defaultWindow?.minWidth,
+    minHeight: manifest.defaultWindow?.minHeight,
+  });
+}
+
+/**
  * 바탕화면 바로가기(Shortcut)를 실행합니다.
  */
 export function openShortcut(shortcut: DesktopShortcut): void {
@@ -260,6 +294,7 @@ export const appStore = {
   registerApp,
   resolveShortcut,
   launchApp,
+  launchAppInWindow,
   openShortcut,
   addShortcut,
 };
