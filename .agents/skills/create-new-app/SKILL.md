@@ -13,10 +13,10 @@ description: >-
 
 ## 1. 디렉토리 및 패키지 이름 규칙
 
-- **디렉토리 경로**: `packages/domains/<app-name>` (예: `packages/domains/app-notes`)
+- **디렉토리 경로**: `packages/domains/<app-rel-path>` (예: `packages/domains/app-notes` 또는 `packages/domains/widgets/clock`)
 - **패키지명 (`package.json`)**: `@ferdy/<app-name>` (예: `@ferdy/app-notes`)
 - **앱 고유 ID (`appId`)**: `<app-name>` (예: `'app-notes'`)
-- **서빙 URL**: `/apps/<app-name>/` (`packages/core/vite.config.ts`가 `packages/domains/*`를 자동으로 스캔하여 개발 서버 라우팅 및 프로덕션 빌드 엔트리에 등록함)
+- **서빙 URL**: `/domains/<app-rel-path>/` (`packages/core/plugins/monorepoDomainsGateway.ts`가 `packages/domains/**`를 재귀 스캔하여 개발 서버 라우팅 및 프로덕션 빌드 엔트리에 등록함)
 
 ---
 
@@ -30,7 +30,7 @@ description: >-
    - `devDependencies`: `"vite": "^6.0.1"`, `"vite-plugin-solid": "^2.11.0"`
    - `scripts`: `dev`, `build`, `preview`, `typecheck` (`tsc --noEmit`)
 2. **`tsconfig.json`**:
-   - `packages/domains/app-sample/tsconfig.json`과 동일한 설정(`"extends": "../../../tsconfig.base.json"`)을 사용합니다.
+   - `packages/domains/app-sample/tsconfig.json`과 동일한 설정(`"extends": "@ferdy/tsconfig/base.json"`)을 사용합니다.
 3. **`vite.config.ts`**:
    - 단독 실행 및 빌드를 위한 기본 `vite-plugin-solid` 설정을 포함합니다.
 4. **`index.html`**:

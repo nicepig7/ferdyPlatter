@@ -35,7 +35,7 @@ description: >-
   title: 'Notes',
   icon: 'notebook-pen',
   tone: 'primary',
-  appUrl: '/apps/app-notes/',
+  appUrl: '/domains/app-notes/',
   description: '마크다운 메모장 도메인 앱',
   defaultWindow: {
     width: 520,
@@ -44,7 +44,7 @@ description: >-
 }
 ```
 
-- **`appUrl`**: 도메인 앱인 경우 반드시 `/apps/<app-name>/` 형식과 일치해야 합니다.
+- **`appUrl`**: 도메인 앱인 경우 반드시 `/domains/<app-rel-path>/` 형식과 일치해야 합니다.
 
 ---
 

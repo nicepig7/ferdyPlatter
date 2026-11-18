@@ -32,7 +32,7 @@ export const App: Component = () => {
         id: payload.id,
         title: payload.title ?? 'Spawned from App',
         icon: payload.icon ?? FERDY_ASSETS.paths.sampleIconSvg,
-        appUrl: payload.appUrl ?? '/apps/app-sample/',
+        appUrl: payload.appUrl ?? '/domains/app-sample/',
         x: payload.x,
         y: payload.y,
         width: payload.width,

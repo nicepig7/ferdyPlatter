@@ -1,0 +1,8 @@
+{
+  "name": "@ferdy/tsconfig",
+  "version": "0.1.6",
+  "private": true,
+  "files": [
+    "base.json"
+  ]
+}

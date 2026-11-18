@@ -7,7 +7,7 @@
     "packages/assets",
     "packages/base/*",
     "packages/core",
-    "packages/domains/*",
+    "packages/domains/**",
     "packages/etc/*"
   ],
   "scripts": {

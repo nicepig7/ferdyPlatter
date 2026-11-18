@@ -40,11 +40,11 @@ flowchart TB
         end
 
         subgraph Window1["[D] WindowWrapper #1 (iframe sandbox)"]
-            App1["@ferdy/app-sample (/apps/app-sample/)"]
+            App1["@ferdy/app-sample (/domains/app-sample/)"]
         end
 
         subgraph Window2["[D] WindowWrapper #2 (iframe sandbox)"]
-            App2["@ferdy/app-clock (/apps/app-clock/)"]
+            App2["@ferdy/app-clock (/domains/app-clock/)"]
         end
     end
 
@@ -61,19 +61,19 @@ flowchart TB
 
 ---
 
-## 2. Single-Server MPA 아키텍처 (`packages/core/vite.config.ts`)
+## 2. Single-Server MPA 아키텍처 (`packages/core/plugins/monorepoDomainsGateway.ts`)
 
 일반적인 마이크로 프론트엔드나 `iframe` 기반 프로젝트는 앱마다 별도의 개발 서버 포트(`:3001`, `:3002`...)를 띄워야 하는 번거로움이 있습니다.  
-Ferdy Platter는 `packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`을 통해 **단일 Vite 서버(`:3000`)에서 모든 도메인 앱과 공용 에셋을 서빙**합니다.
+Ferdy Platter는 `packages/core/plugins/monorepoDomainsGateway.ts`의 `createMonorepoDomainsGateway`를 통해 **단일 Vite 서버(`:3000`)에서 모든 도메인 앱과 공용 에셋을 서빙**합니다.
 
 ### 2.1 개발 환경 (On-Demand Dev Gateway)
-1. Core 내부의 `iframe`이 `/apps/<app-name>/` 경로를 요청합니다.
-2. `monorepoDomainsGatewayPlugin` 미들웨어가 요청을 가로채어 `packages/domains/<app-name>/index.html` 파일을 읽어들입니다.
+1. Core 내부의 `iframe`이 `/domains/<app-rel-path>/` 경로를 요청합니다.
+2. `ferdy-monorepo-domains-gateway` 미들웨어가 요청을 가로채어 `packages/domains/<app-rel-path>/index.html` 파일을 읽어들입니다.
 3. HTML 내부의 상대 스크립트 경로(`./src/index.tsx` 등)를 Vite 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/index.tsx`로 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
 4. `publicDir`이 `packages/assets/public`으로 지정되어 있어, Core와 모든 `iframe` 앱이 `/assets/...` 정적 리소스를 동일 오리진에서 즉시 공유합니다.
 
 ### 2.2 프로덕션 빌드 및 코드 공유 (Shared Chunks)
-1. `npm run build` 실행 시 `packages/domains/*` 하위 폴더들을 자동으로 스캔하여 `dist/apps/<app-name>/index.html` 멀티페이지 엔트리로 번들링합니다.
+1. `npm run build` 실행 시 `packages/domains/**` 하위 폴더들을 재귀 스캔하여 `dist/domains/<app-rel-path>/index.html` 멀티페이지 엔트리로 번들링합니다.
 2. 각 `iframe`은 런타임에 독립된 DOM/JS 인스턴스로 격리 실행되지만, 빌드 시 Rollup이 `solid-js`, `@ferdy/ui`, `@ferdy/bridge`를 **공통 청크(`dist/assets/...`)로 자동 추출**하므로 네트워크 다운로드는 1회(브라우저 캐시 공유)만 발생합니다.
 
 ---

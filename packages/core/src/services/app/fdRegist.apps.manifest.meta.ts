@@ -13,7 +13,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     title: 'Sample App',
     icon: FERDY_ASSETS.paths.sampleIconSvg,
     tone: 'primary',
-    appUrl: '/apps/app-sample/',
+    appUrl: '/domains/app-sample/',
     description: 'FerdyOS 표준 샌드박스 도메인 앱 템플릿 및 @ferdy/bridge 통신 예제',
     defaultWindow: {
       width: 640,
@@ -25,7 +25,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     title: 'Clock',
     icon: 'clock',
     tone: 'blue',
-    appUrl: '/apps/app-clock/',
+    appUrl: '/domains/app-clock/',
     description: '실시간 디지털 시계 및 24H/12H 포맷 전환 위젯 앱',
     defaultWindow: {
       x: 780,
@@ -39,7 +39,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     title: 'Hello World',
     icon: 'hand',
     tone: 'teal',
-    appUrl: '/apps/app-hello/',
+    appUrl: '/domains/app-hello/',
     description: '최소 구성(Minimal) Hello World 도메인 앱',
     defaultWindow: {
       width: 480,
@@ -51,7 +51,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     title: 'Calendar',
     icon: 'calendar',
     tone: 'blue',
-    appUrl: '/apps/app-calendar/',
+    appUrl: '/domains/app-calendar/',
     description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
     defaultWindow: {
       width: 420,
@@ -65,7 +65,7 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     title: 'Notes',
     icon: 'notebook-pen',
     tone: 'blue',
-    appUrl: '/apps/app-notes/',
+    appUrl: '/domains/app-notes/',
     description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
     defaultWindow: {
       width: 660,
