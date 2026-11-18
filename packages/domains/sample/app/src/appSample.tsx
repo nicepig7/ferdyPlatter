@@ -1,4 +1,4 @@
-import { Component, createSignal } from 'solid-js';
+import { Component, createSignal, onCleanup } from 'solid-js';
 import { ferdyBridge } from '@ferdy/bridge';
 import { fd } from '@ferdy/ui';
 import './appSample.css';
@@ -6,6 +6,13 @@ import './appSample.css';
 export const AppSample: Component = () => {
   const [count, setCount] = createSignal(0);
   const instanceId = new URLSearchParams(window.location.search).get('instance') ?? '1';
+  let loadingTimer: ReturnType<typeof setTimeout> | undefined;
+
+  onCleanup(() => {
+    if (loadingTimer !== undefined) {
+      clearTimeout(loadingTimer);
+    }
+  });
 
   const sendPingToCore = () => {
     ferdyBridge.ping(instanceId);
@@ -17,6 +24,19 @@ export const AppSample: Component = () => {
       title: `Spawned by Instance #${instanceId}`,
       queryParams: { instance: Math.floor(Math.random() * 900 + 100) },
     });
+  };
+
+  const triggerWindowLoading = () => {
+    if (loadingTimer !== undefined) {
+      clearTimeout(loadingTimer);
+    }
+    ferdyBridge.setWindowLoading(true, {
+      message: 'Running 3s task in Sample App...',
+    });
+    loadingTimer = setTimeout(() => {
+      loadingTimer = undefined;
+      ferdyBridge.setWindowLoading(false);
+    }, 3000);
   };
 
   return (
@@ -66,6 +86,11 @@ export const AppSample: Component = () => {
         <fd.Button variant="secondary-ghost" onClick={requestNewWindowFromCore}>
           <fd.Icon name="external-link" size="sm" />
           Request Core to Open Window
+        </fd.Button>
+
+        <fd.Button variant="secondary-ghost" onClick={triggerWindowLoading}>
+          <fd.Icon name="refresh-cw" size="sm" />
+          3s Window Loading
         </fd.Button>
       </div>
     </div>

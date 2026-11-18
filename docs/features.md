@@ -33,6 +33,7 @@
 - **창 이동 및 8방향 리사이징**: 드래그 이동 및 8방향 크기 조절(OS 기본 최소 크기 `320×220` 및 앱 매니페스트별 `minWidth`/`minHeight` 지정 지원), 드래그 중 `iframe` 포인터 간섭 방지
 - **창 스냅 & 분할 가이드 (Window Snapping)**: 화면 좌/우/상단 가장자리 드래그 시 반투명 Ghost 프리뷰를 표시해 좌/우 50% 분할 또는 최대화 배치를 지원하며, 스냅·최대화된 창을 다시 드래그하면 이전 크기·위치(`restoreRect`)로 자동 복원
 - **빈 창 런처 & In-place 앱 전환 (`WindowEmptyView` / `replaceWindow`)**: 바탕화면 `+ New Window` 실행 시 미니멀한 빈 창(`appUrl: ''`)이 열리며, 중앙 앱 아이콘을 선택하면 창 ID·Z-Index·포커스·스냅/최대화 배치를 유지한 채 해당 앱으로 즉시 전환
+- **창 로딩 뷰 & 깜빡임(FOUC) 방지 (`WindowLoadingView`)**: 도메인 앱 `iframe` 초기 로드·전환·단독 새로고침 중 다크 에스프레소 배경(`#1a1613`)과 앱 아이콘·스피너 로딩 화면을 표시하고, `@ferdy/bridge`의 `FERDY_SET_WINDOW_LOADING` (`ferdyBridge.setWindowLoading`)으로 앱 내부에서 소속 창의 로딩 상태를 켜고 끌 수 있으며 Core/도메인 HTML `<head>` 인라인 다크 테마 및 초기 뷰포트 동기화로 새로고침 깜빡임 방지
 - **창 세션 유지 (`localStorage`) & 일괄 정렬**: 새로고침 시 열려 있던 창들의 좌표·크기·최소화/최대화/스냅·포커스·Z-Index 상태를 자동 복원(`ferdy.window.session`)하며, 화면에 보이는 창들의 바둑판식(Tile)·계단식(Cascade) 정렬 및 모두 최소화(바탕화면 보기 토글) 지원
 - **활성 창 단독 새로고침 (`F5`, `Ctrl+R`, `Cmd+R`)**: 포커스된 창에서 새로고침 단축키 입력 시 브라우저 전체 리로드를 막고 해당 창 `iframe`만 리로드 (포커스된 창이 없을 때는 기본 브라우저 새로고침 유지)
 
@@ -47,7 +48,7 @@
 | `builtin` | **Clock** | `@ferdy/builtin-clock`<br>`/domains/builtin/clock/` | `@ferdy/ui` 토큰 기반 실시간 디지털 시계 및 `24H` / `12H` 포맷 전환 위젯 앱 |
 | `builtin` | **Calendar** | `@ferdy/builtin-calendar`<br>`/domains/builtin/calendar/` | 월간 캘린더 탐색, 오늘(Today) 이동, 선택 일자 D-Day 표시 및 날짜별 한 줄 메모(`localStorage` 저장·셀 도트 인디케이터) 지원 위젯 앱 |
 | `builtin` | **Notes** | `@ferdy/builtin-notes`<br>`/domains/builtin/notes/` | 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제), `localStorage` 실시간 자동 저장, `Edit` ↔ `Preview` 마크다운 미리보기 전환 및 글꼴 크기 조절(`11px ~ 28px`) 지원 앱 |
-| `sample` | **Sample App** | `@ferdy/sample-app`<br>`/domains/sample/app/` | `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge`(`ping`, `openWindow`) 통신을 시연하는 표준 레퍼런스 앱 |
+| `sample` | **Sample App** | `@ferdy/sample-app`<br>`/domains/sample/app/` | `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge`(`ping`, `openWindow`, `setWindowLoading` 3초 로딩 테스트) 통신을 시연하는 표준 레퍼런스 앱 |
 | `sample` | **Hello World** | `@ferdy/sample-hello`<br>`/domains/sample/hello/` | 최소 구성(Minimal) 도메인 앱 구조 및 공통 스타일시트 연동 검증 앱 |
 
 ---

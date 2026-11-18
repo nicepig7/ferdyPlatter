@@ -4,6 +4,36 @@ import { appStore } from '../app/fdCore.app.store';
 import { windowStore } from '../window/fdCore.window.store';
 
 /**
+ * postMessage 발신자(rawEvent.source) 또는 명시적 windowId를 바탕으로 대상 창 ID를 찾습니다.
+ */
+function resolveSenderWindowId(
+  rawEvent: MessageEvent,
+  explicitWindowId?: string
+): string | null {
+  if (
+    explicitWindowId &&
+    windowStore.state.windows.some((w) => w.id === explicitWindowId)
+  ) {
+    return explicitWindowId;
+  }
+
+  const frames = document.querySelectorAll<HTMLIFrameElement>(
+    'iframe.os-window-iframe[data-window-id]'
+  );
+  for (const frame of frames) {
+    if (frame.contentWindow === rawEvent.source) {
+      return frame.dataset.windowId ?? null;
+    }
+  }
+
+  if (rawEvent.source === window) {
+    return windowStore.state.activeWindowId;
+  }
+
+  return null;
+}
+
+/**
  * Core 셸에서 도메인 앱(@ferdy/bridge) 이벤트를 수신하는 전역 핸들러를 등록합니다.
  * 반환된 함수를 호출하면 등록된 모든 리스너가 해제됩니다.
  */
@@ -40,8 +70,22 @@ export function registerCoreBridgeHandlers(): () => void {
     });
   });
 
+  const unsubLoading = ferdyBridge.on(
+    'FERDY_SET_WINDOW_LOADING',
+    (payload, rawEvent) => {
+      const targetWindowId = resolveSenderWindowId(rawEvent, payload.windowId);
+      if (!targetWindowId) return;
+      windowStore.setWindowLoading(
+        targetWindowId,
+        Boolean(payload.loading),
+        payload.message
+      );
+    }
+  );
+
   return () => {
     unsubPing();
     unsubOpen();
+    unsubLoading();
   };
 }

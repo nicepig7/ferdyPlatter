@@ -24,6 +24,12 @@ export interface FerdyEventMap {
   FERDY_THEME_CHANGE: {
     theme: 'dark' | 'light';
   };
+  /** 자식 앱에서 자신이 속한 부모 창(또는 지정한 windowId)의 로딩 오버레이 표시 여부를 제어하는 이벤트 */
+  FERDY_SET_WINDOW_LOADING: {
+    loading: boolean;
+    message?: string;
+    windowId?: string;
+  };
 }
 
 export type FerdyEventType = keyof FerdyEventMap;

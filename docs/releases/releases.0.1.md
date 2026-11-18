@@ -24,6 +24,12 @@
 - **빈 창 런처 및 In-place 창 전환 (`WindowEmptyView` & `replaceWindow`, `@ferdy/core`)**:
   - 바탕화면 `+ New Window` 클릭 시 `sample-app` 하드코딩 실행 대신 `windowStore.openEmptyWindow()`로 미니멀한 빈 창(`Empty`, `appUrl: ''`)을 생성하고, `WindowWrapper` 내장 뷰(`fdShell.window.empty.tsx`)로 등록된 앱 아이콘 타일을 표시
   - 빈 창에서 앱 선택 시 `appStore.launchAppInWindow` / `windowStore.replaceWindow`를 통해 창 ID·Z-Index·포커스·스냅/최대화 상태를 유지한 채 해당 앱으로 즉시 전환(일반 창은 위치 유지·앱 기본 크기 적용, 스냅/최대화 창은 현재 배치 유지·`restoreRect` 갱신, 다중 실행 시 인스턴스 제목 및 `?instance=N` 자동 부여)
+- **창 로딩 뷰 (`WindowLoadingView`), 브릿지 로딩 제어 및 새로고침 깜빡임(FOUC) 방지 (`@ferdy/bridge`, `@ferdy/core`, `@ferdy/sample-app`)**:
+  - `useWindowIframe` 훅(`fdShell.window.hooks.ts`)에 `isIframeLoading` 상태를 추가하여 창 최초 로드, 빈 창 → 앱 전환, 창 단독 새로고침(`F5` / `Ctrl+R`) 시 앱 아이콘 타일과 스피너 링을 담은 로딩 오버레이(`fdShell.window.loading.tsx`)를 표시하고 로드 완료 후 부드럽게 페이드 전환
+  - `@ferdy/bridge`에 `FERDY_SET_WINDOW_LOADING` 이벤트와 `ferdyBridge.setWindowLoading(loading, { message, windowId })` 헬퍼를 추가하고, Core 브릿지 서비스(`fdCore.bridge.service.ts`)에서 발신 `iframe`(`rawEvent.source`)을 역추적해 해당 창의 로딩 오버레이(`windowStore.setWindowLoading`)와 안내 문구를 동적으로 제어하도록 연동
+  - `@ferdy/sample-app`(`appSample.tsx`)에 클릭 시 3초간 부모 창 로딩 오버레이를 활성화했다가 자동 해제하는 `3s Window Loading` 데모 버튼 추가
+  - Core(`packages/core/index.html`) 및 모든 도메인 앱(`packages/domains/**/index.html`) `<head>`에 `color-scheme: dark` 및 인라인 다크 에스프레소 배경 스타일(`#120f0d` / `#1a1613`)을 적용하고, `createMonorepoDomainsGateway`에서 미지정 HTML에도 프리로드 다크 스타일을 자동 주입해 CSS 로드 전 하얀 화면 깜빡임 제거
+  - `fdCore.desktop.store.ts` 초기 뷰포트 크기를 고정값(`1280×720`) 대신 실제 브라우저 창 크기로 초기화하여 새로고침 직후 바탕화면 아이콘 그리드 재배치 깜빡임 완화
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:

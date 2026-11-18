@@ -166,8 +166,8 @@ interface DesktopStoreState {
 }
 
 const [state, setState] = createStore<DesktopStoreState>({
-  viewportWidth: 1280,
-  viewportHeight: 720,
+  viewportWidth: typeof window !== 'undefined' ? Math.max(1, window.innerWidth) : 1280,
+  viewportHeight: typeof window !== 'undefined' ? Math.max(1, window.innerHeight - 48) : 720,
   shortSideCount: loadInitialShortSideCount(),
   gap: DEFAULT_GRID_CONFIG.gap,
   padding: DEFAULT_GRID_CONFIG.padding,

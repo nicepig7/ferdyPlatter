@@ -42,6 +42,10 @@ export interface WindowInstance {
   snapZone?: 'left' | 'right' | null;
   /** 스냅 또는 최대화 이전의 원래 창 좌표 및 크기 */
   restoreRect?: WindowRestoreRect;
+  /** 도메인 앱 브릿지 신호로 활성화된 창 로딩 상태 여부 (런타임 상태) */
+  isLoading?: boolean;
+  /** 창 로딩 오버레이에 표시할 커스텀 안내 문구 */
+  loadingMessage?: string;
 }
 
 export interface CreateWindowPayload {

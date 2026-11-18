@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, on, onCleanup, onMount } from 'solid-js';
 import type {
   WindowInstance,
   WindowRestoreRect,
@@ -242,7 +242,27 @@ export function useWindowInteraction(getWindow: () => WindowInstance) {
  */
 export function useWindowIframe(getWindow: () => WindowInstance) {
   const [canInterceptIframe, setCanInterceptIframe] = createSignal(false);
+  const [isIframeLoading, setIsIframeLoading] = createSignal(Boolean(getWindow().appUrl));
   let iframeRef: HTMLIFrameElement | undefined;
+  let loadRafId: number | undefined;
+
+  const cancelLoadRaf = () => {
+    if (loadRafId !== undefined) {
+      cancelAnimationFrame(loadRafId);
+      loadRafId = undefined;
+    }
+  };
+
+  createEffect(
+    on(
+      () => getWindow().appUrl,
+      (appUrl) => {
+        cancelLoadRaf();
+        setIsIframeLoading(Boolean(appUrl));
+      },
+      { defer: true }
+    )
+  );
 
   const setIframeRef = (el: HTMLIFrameElement) => {
     iframeRef = el;
@@ -251,6 +271,9 @@ export function useWindowIframe(getWindow: () => WindowInstance) {
   // 현재 창의 iframe만 단독 새로고침
   const reloadIframe = () => {
     if (!iframeRef) return;
+    cancelLoadRaf();
+    windowStore.setWindowLoading(getWindow().id, false);
+    setIsIframeLoading(true);
     try {
       const contentWin = iframeRef.contentWindow;
       if (contentWin) {
@@ -296,6 +319,12 @@ export function useWindowIframe(getWindow: () => WindowInstance) {
     } catch {
       // Cross-origin iframe: ignore SecurityError when attaching inner listeners
       setCanInterceptIframe(false);
+    } finally {
+      cancelLoadRaf();
+      loadRafId = requestAnimationFrame(() => {
+        loadRafId = undefined;
+        setIsIframeLoading(false);
+      });
     }
   };
 
@@ -313,6 +342,7 @@ export function useWindowIframe(getWindow: () => WindowInstance) {
 
     window.addEventListener('keydown', handleHostKeyDown, true);
     onCleanup(() => {
+      cancelLoadRaf();
       window.removeEventListener('keydown', handleHostKeyDown, true);
       try {
         const contentWin = iframeRef?.contentWindow;
@@ -326,6 +356,7 @@ export function useWindowIframe(getWindow: () => WindowInstance) {
 
   return {
     canInterceptIframe,
+    isIframeLoading,
     setIframeRef,
     handleIframeLoad,
   };

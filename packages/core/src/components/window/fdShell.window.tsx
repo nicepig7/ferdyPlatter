@@ -2,6 +2,7 @@ import { Component, For, Show } from 'solid-js';
 import type { WindowInstance } from '../../types/fdCore.window.type';
 import { windowStore } from '../../services/window/fdCore.window.store';
 import { WindowEmptyView } from './components/fdShell.window.empty';
+import { WindowLoadingView } from './components/fdShell.window.loading';
 import { WindowTitlebar } from './components/fdShell.window.titlebar';
 import {
   RESIZE_DIRECTIONS,
@@ -17,7 +18,7 @@ interface WindowWrapperProps {
 export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
   const { handleTitleBarPointerDown, handleResizePointerDown } =
     useWindowInteraction(() => props.window);
-  const { canInterceptIframe, setIframeRef, handleIframeLoad } =
+  const { canInterceptIframe, isIframeLoading, setIframeRef, handleIframeLoad } =
     useWindowIframe(() => props.window);
 
   return (
@@ -74,9 +75,16 @@ export const WindowWrapper: Component<WindowWrapperProps> = (props) => {
             />
           </Show>
 
+          <WindowLoadingView
+            window={props.window}
+            isLoading={isIframeLoading() || Boolean(props.window.isLoading)}
+          />
+
           <iframe
             ref={setIframeRef}
             class="os-window-iframe"
+            classList={{ 'is-loading': isIframeLoading() }}
+            data-window-id={props.window.id}
             src={props.window.appUrl}
             title={props.window.title}
             sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"

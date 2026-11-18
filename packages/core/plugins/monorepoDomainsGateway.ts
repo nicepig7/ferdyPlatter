@@ -88,7 +88,15 @@ export function createMonorepoDomainsGateway(
     const appDirNormalized = normalizePosix(appDir);
     const prefix = isDevServer ? `/@fs/${appDirNormalized}/src/` : `${appDirNormalized}/src/`;
 
-    return html.replace(/(src|href)=["'](\.\/|\/)?src\//g, `$1="${prefix}`);
+    let rewritten = html.replace(/(src|href)=["'](\.\/|\/)?src\//g, `$1="${prefix}`);
+    if (!rewritten.includes('color-scheme') && rewritten.includes('</head>')) {
+      rewritten = rewritten.replace(
+        '</head>',
+        '  <style id="ferdy-preload-theme">html,body,#root{margin:0;width:100%;height:100%;background-color:#1a1613;color:#f6f1ea;color-scheme:dark;}</style>\n  </head>'
+      );
+    }
+
+    return rewritten;
   }
 
   /**

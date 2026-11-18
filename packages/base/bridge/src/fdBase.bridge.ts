@@ -80,10 +80,25 @@ function openWindow(payload: FerdyEventMap['FERDY_OPEN_WINDOW']): void {
   emit('FERDY_OPEN_WINDOW', payload);
 }
 
+/**
+ * 편의 헬퍼: 자식 앱에서 부모 창의 로딩 오버레이 켜기/끄기 요청
+ */
+function setWindowLoading(
+  loading: boolean,
+  options?: { message?: string; windowId?: string }
+): void {
+  emit('FERDY_SET_WINDOW_LOADING', {
+    loading,
+    message: options?.message,
+    windowId: options?.windowId,
+  });
+}
+
 export const ferdyBridge = {
   emit,
   broadcast,
   on,
   ping,
   openWindow,
+  setWindowLoading,
 };

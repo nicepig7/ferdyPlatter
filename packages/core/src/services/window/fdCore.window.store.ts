@@ -302,6 +302,26 @@ export function resizeWindow(
 }
 
 /**
+ * 특정 창의 브릿지/런타임 로딩 오버레이 상태 및 안내 문구를 설정합니다.
+ */
+export function setWindowLoading(
+  id: string,
+  isLoading: boolean,
+  loadingMessage?: string
+) {
+  if (!state.windows.some((w) => w.id === id)) return;
+
+  setState(
+    'windows',
+    (w) => w.id === id,
+    produce((w) => {
+      w.isLoading = isLoading;
+      w.loadingMessage = isLoading ? loadingMessage : undefined;
+    })
+  );
+}
+
+/**
  * 창 드래그/리사이즈 등 전역 포인터 인터랙션 진행 여부를 설정합니다.
  * 인터랙션 종료 시점에 현재 창 세션을 localStorage에 저장합니다.
  */
@@ -595,6 +615,8 @@ export function replaceWindow(id: string, payload: ReplaceWindowPayload) {
     target.icon = payload.icon;
     target.minWidth = payload.minWidth;
     target.minHeight = payload.minHeight;
+    target.isLoading = false;
+    target.loadingMessage = undefined;
 
     if (target.isMaximized || target.snapZone) {
       if (target.snapZone) {
@@ -643,6 +665,7 @@ export const windowStore = {
   toggleTaskbarWindow,
   moveWindow,
   resizeWindow,
+  setWindowLoading,
   setInteracting,
   setSnapPreview,
   snapWindow,
