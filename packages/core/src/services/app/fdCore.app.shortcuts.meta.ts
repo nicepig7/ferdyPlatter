@@ -9,31 +9,31 @@ import type { DesktopShortcut } from '../../types/fdCore.app.type';
 export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
   {
     id: 'sample-app-1',
-    appId: 'app-sample',
+    appId: 'sample-app',
   },
   {
-    id: 'clock-app-1',
-    appId: 'app-clock',
+    id: 'builtin-clock-1',
+    appId: 'builtin-clock',
   },
   {
     id: 'sample-app-2',
-    appId: 'app-sample',
+    appId: 'sample-app',
     title: 'Second Instance',
     icon: 'rocket',
     tone: 'amber',
     queryParams: { instance: 2 },
   },
   {
-    id: 'app-hello',
-    appId: 'app-hello',
+    id: 'sample-hello-1',
+    appId: 'sample-hello',
   },
   {
-    id: 'calendar-app-1',
-    appId: 'app-calendar',
+    id: 'builtin-calendar-1',
+    appId: 'builtin-calendar',
   },
   {
-    id: 'notes-app-1',
-    appId: 'app-notes',
+    id: 'builtin-notes-1',
+    appId: 'builtin-notes',
   },
   {
     id: 'ext-cube-timer',

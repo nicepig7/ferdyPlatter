@@ -1,7 +1,7 @@
 # @ferdy/assets (`packages/assets`)
 
 **Ferdy Platter (FerdyOS)**의 **[A] Assets** 계층 패키지입니다.  
-Core(`@ferdy/core`)와 모든 개별 도메인 앱(`packages/domains/*`)이 공통으로 참조하는 정적 리소스(아이콘, 로고 SVG, 폰트, 배경 이미지 등)와 에셋 경로 상수를 관리합니다.
+Core(`@ferdy/core`)와 모든 개별 도메인 앱(`packages/domains/**`)이 공통으로 참조하는 정적 리소스(아이콘, 로고 SVG, 폰트, 배경 이미지 등)와 에셋 경로 상수를 관리합니다.
 
 ---
 

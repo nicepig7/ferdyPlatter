@@ -35,7 +35,7 @@ function normalizeMountPrefix(prefix: string): string {
  * 단일 Vite 서버(:3000) 및 프로덕션 빌드에서 `<mountPrefix><app-rel-path>/` 경로를
  * `packages/domains/<app-rel-path>/` 실제 파일들로 매핑해주는 게이트웨이 플러그인을 생성합니다.
  *
- * - 임의 깊이의 중첩 폴더(`packages/domains/widgets/clock/index.html` 등)를 재귀 스캔하여 자동 등록합니다.
+ * - 임의 깊이의 중첩 폴더(`packages/domains/builtin/clock/index.html` 등)를 재귀 스캔하여 자동 등록합니다.
  * - 향후 앱별 프레임워크(SolidJS / React / Vue 등)를 분리할 때도 이 게이트웨이의 앱 목록을 기준으로 스코핑할 수 있습니다.
  */
 export function createMonorepoDomainsGateway(
@@ -48,7 +48,7 @@ export function createMonorepoDomainsGateway(
 
   /**
    * `domainsRoot` 하위를 재귀 탐색하여 `index.html`을 포함한 모든 도메인 앱의
-   * 상대 POSIX 경로 목록(예: `['app-calendar', 'widgets/clock']`)을 반환합니다.
+   * 상대 POSIX 경로 목록(예: `['builtin/calendar', 'builtin/clock', 'sample/app']`)을 반환합니다.
    */
   function discoverDomainApps(): string[] {
     const apps: string[] = [];

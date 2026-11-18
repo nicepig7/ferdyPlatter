@@ -41,13 +41,13 @@
        - 브릿지·서비스 (`services/<domain>/`): `fdCore.<domain>.service.ts`
        - 초기 등록 메타데이터 (`services/<domain>/`): `fdCore.<domain>.<kind>.meta.ts` — 메타 정보를 저장하는 파일은 반드시 접미사(postfix)로 `.meta`를 붙이며, **한 파일에 한 종류의 데이터만 관리**합니다.
        - 타입 정의 (`types/`): `fdCore.<domain>.type.ts`
-   - **[D] `packages/domains/*` (`@ferdy/app-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱.
+   - **[D] `packages/domains/<category>/*` (`@ferdy/<category>-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱 (`builtin/*`, `sample/*` 등 카테고리별 그룹화).
    - **[E] `packages/etc`**: 기타 실험적 모듈, 외부 연동 어댑터, 유틸리티 공간.
 2. **Core ↔ Domain App 격리 원칙**:
-   - 개별 앱(`packages/domains/*`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
+   - 개별 앱(`packages/domains/**`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
    - 앱과 Core 간의 모든 상호작용은 `@ferdy/bridge` (`ferdyBridge`)를 통해 이루어져야 하며, 공통 Look & Feel은 `@ferdy/ui`를 통해 일관되게 유지합니다.
 3. **앱 라우팅 규격**:
-   - 모든 도메인 앱은 `/apps/<폴더명>/` 경로로 서빙됩니다. (`packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`이 `packages/domains/<폴더명>/`과 자동 매핑)
+   - 모든 도메인 앱은 `/domains/<category>/<app-name>/` 경로로 서빙됩니다. (`packages/core/vite.config.ts`의 `monorepoDomainsGatewayPlugin`이 `packages/domains/<category>/<app-name>/`을 재귀 스캔하여 자동 매핑)
 
 ---
 

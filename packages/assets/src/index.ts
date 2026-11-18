@@ -5,6 +5,6 @@
 export const FERDY_ASSETS = {
   paths: {
     logoSvg: '/assets/logo/ferdy.svg',
-    sampleIconSvg: '/assets/icons/app-sample.svg',
+    sampleIconSvg: '/assets/icons/sample-app.svg',
   },
 } as const;

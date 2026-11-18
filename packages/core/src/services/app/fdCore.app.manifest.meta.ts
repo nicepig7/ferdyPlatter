@@ -5,27 +5,16 @@ import { WINDOW_FRAME_BORDER, WINDOW_TITLEBAR_HEIGHT } from '../window/fdCore.wi
 /**
  * FerdyOS에 기본 설치된 도메인 애플리케이션 매니페스트(App Manifest) 초기 메타데이터 목록
  * - 규칙: `.meta.ts` 파일은 한 종류의 메타데이터만 관리합니다.
- * - 새로운 도메인 앱(`packages/domains/<app-name>`) 추가 시 이곳에 고유 메타정보를 등록합니다.
+ * - 새로운 도메인 앱(`packages/domains/<category>/<app-name>`) 추가 시 해당하는 카테고리 목록에 고유 메타정보를 등록합니다.
  */
-export const INITIAL_APP_MANIFESTS: AppManifest[] = [
+export const BUILTIN_APP_MANIFESTS: AppManifest[] = [
   {
-    appId: 'app-sample',
-    title: 'Sample App',
-    icon: FERDY_ASSETS.paths.sampleIconSvg,
-    tone: 'primary',
-    appUrl: '/domains/app-sample/',
-    description: 'FerdyOS 표준 샌드박스 도메인 앱 템플릿 및 @ferdy/bridge 통신 예제',
-    defaultWindow: {
-      width: 640,
-      height: 440,
-    },
-  },
-  {
-    appId: 'app-clock',
+    appId: 'builtin-clock',
+    category: 'builtin',
     title: 'Clock',
     icon: 'clock',
     tone: 'blue',
-    appUrl: '/domains/app-clock/',
+    appUrl: '/domains/builtin/clock/',
     description: '실시간 디지털 시계 및 24H/12H 포맷 전환 위젯 앱',
     defaultWindow: {
       x: 780,
@@ -35,23 +24,12 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     },
   },
   {
-    appId: 'app-hello',
-    title: 'Hello World',
-    icon: 'hand',
-    tone: 'teal',
-    appUrl: '/domains/app-hello/',
-    description: '최소 구성(Minimal) Hello World 도메인 앱',
-    defaultWindow: {
-      width: 480,
-      height: 360,
-    },
-  },
-  {
-    appId: 'app-calendar',
+    appId: 'builtin-calendar',
+    category: 'builtin',
     title: 'Calendar',
     icon: 'calendar',
     tone: 'blue',
-    appUrl: '/domains/app-calendar/',
+    appUrl: '/domains/builtin/calendar/',
     description: '월간 달력 조회 및 날짜/D-Day 계산 위젯 도메인 앱',
     defaultWindow: {
       width: 420,
@@ -61,11 +39,12 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
     },
   },
   {
-    appId: 'app-notes',
+    appId: 'builtin-notes',
+    category: 'builtin',
     title: 'Notes',
     icon: 'notebook-pen',
     tone: 'blue',
-    appUrl: '/domains/app-notes/',
+    appUrl: '/domains/builtin/notes/',
     description: '다중 메모 관리 및 마크다운 미리보기를 지원하는 빠른 메모장 도메인 앱',
     defaultWindow: {
       width: 660,
@@ -74,4 +53,38 @@ export const INITIAL_APP_MANIFESTS: AppManifest[] = [
       minHeight: 280 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
     },
   },
+];
+
+export const SAMPLE_APP_MANIFESTS: AppManifest[] = [
+  {
+    appId: 'sample-app',
+    category: 'sample',
+    title: 'Sample App',
+    icon: FERDY_ASSETS.paths.sampleIconSvg,
+    tone: 'primary',
+    appUrl: '/domains/sample/app/',
+    description: 'FerdyOS 표준 샌드박스 도메인 앱 템플릿 및 @ferdy/bridge 통신 예제',
+    defaultWindow: {
+      width: 640,
+      height: 440,
+    },
+  },
+  {
+    appId: 'sample-hello',
+    category: 'sample',
+    title: 'Hello World',
+    icon: 'hand',
+    tone: 'teal',
+    appUrl: '/domains/sample/hello/',
+    description: '최소 구성(Minimal) Hello World 도메인 앱',
+    defaultWindow: {
+      width: 480,
+      height: 360,
+    },
+  },
+];
+
+export const INITIAL_APP_MANIFESTS: AppManifest[] = [
+  ...BUILTIN_APP_MANIFESTS,
+  ...SAMPLE_APP_MANIFESTS,
 ];

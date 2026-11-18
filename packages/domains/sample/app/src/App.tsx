@@ -13,7 +13,7 @@ export const App: Component = () => {
 
   const requestNewWindowFromCore = () => {
     ferdyBridge.openWindow({
-      appId: 'app-sample',
+      appId: 'sample-app',
       title: `Spawned by Instance #${instanceId}`,
       queryParams: { instance: Math.floor(Math.random() * 900 + 100) },
     });
@@ -39,7 +39,7 @@ export const App: Component = () => {
           'line-height': '1.5',
         }}
       >
-        이 앱은 <code>packages/domains/app-sample</code>에 격리된 도메인 패키지이며,{' '}
+        이 앱은 <code>packages/domains/sample/app</code>에 격리된 도메인 패키지이며,{' '}
         <code>@ferdy/ui</code> 디자인 시스템과 <code>@ferdy/bridge</code> 이벤트 버스를 통해
         단일한 Look &amp; Feel과 통신을 공유합니다.
       </p>

@@ -32,7 +32,7 @@ export function registerCoreBridgeHandlers(): () => void {
       id: payload.id,
       title: payload.title ?? 'Spawned from App',
       icon: payload.icon ?? FERDY_ASSETS.paths.sampleIconSvg,
-      appUrl: payload.appUrl ?? '/domains/app-sample/',
+      appUrl: payload.appUrl ?? '/domains/sample/app/',
       x: payload.x,
       y: payload.y,
       width: payload.width,

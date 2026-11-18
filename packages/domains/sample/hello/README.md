@@ -1,6 +1,6 @@
-# @ferdy/app-hello (`packages/domains/app-hello`)
+# @ferdy/sample-hello (`packages/domains/sample/hello`)
 
-**Ferdy Platter (FerdyOS)**의 **[D] Domains** 계층에서 실행되는 최소 구성(Minimal) "Hello World" 도메인 앱 패키지입니다.
+**Ferdy Platter (FerdyOS)**의 **[D] Domains (Sample)** 계층에서 실행되는 최소 구성(Minimal) "Hello World" 도메인 앱 패키지입니다.
 
 ---
 
@@ -17,9 +17,9 @@
 ## 디렉토리 구조
 
 ```text
-packages/domains/app-hello/
-├── index.html          # 앱 엔트리 HTML (/apps/app-hello/ 로 서빙됨)
-├── package.json        # @ferdy/app-hello 패키지 정의
+packages/domains/sample/hello/
+├── index.html          # 앱 엔트리 HTML (/domains/sample/hello/ 로 서빙됨)
+├── package.json        # @ferdy/sample-hello 패키지 정의
 ├── tsconfig.json       # TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
@@ -33,9 +33,9 @@ packages/domains/app-hello/
 ## 실행 방법
 
 ### 1. FerdyOS Core 내부에서 실행
-모노레포 루트에서 `npm run dev`를 실행하면 바탕화면의 **Hello World** 바로가기 아이콘을 통해 `/apps/app-hello/` 경로로 로드됩니다.
+모노레포 루트에서 `npm run dev`를 실행하면 바탕화면의 **Hello World** 바로가기 아이콘을 통해 `/domains/sample/hello/` 경로로 로드됩니다.
 
 ### 2. 패키지 단독 타입 체크
 ```bash
-npm run typecheck --workspace=@ferdy/app-hello
+npm run typecheck --workspace=@ferdy/sample-hello
 ```

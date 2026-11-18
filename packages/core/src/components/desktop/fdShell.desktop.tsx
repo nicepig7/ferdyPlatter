@@ -60,7 +60,7 @@ export const Desktop: Component = () => {
   const handleSpawnNewWindow = () => {
     if (shouldSuppressClick()) return;
     const num = instanceCounter++;
-    appStore.launchApp('app-sample', {
+    appStore.launchApp('sample-app', {
       windowId: `sample-app-${num}`,
       title: `Sample App #${num}`,
       queryParams: { instance: num },

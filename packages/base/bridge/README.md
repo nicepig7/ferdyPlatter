@@ -1,7 +1,7 @@
 # @ferdy/bridge (`packages/base/bridge`)
 
 **Ferdy Platter (FerdyOS)**의 **[B] Base** 계층에 속하는 **이벤트 통신 브릿지(Pub/Sub) 패키지**입니다.  
-Core(`@ferdy/core`)와 `iframe`으로 격리된 각 도메인 앱(`packages/domains/*`) 사이의 `window.postMessage` 통신을 타입 안전하게 추상화합니다.
+Core(`@ferdy/core`)와 `iframe`으로 격리된 각 도메인 앱(`packages/domains/**`) 사이의 `window.postMessage` 통신을 타입 안전하게 추상화합니다.
 
 ---
 
@@ -48,7 +48,7 @@ onMount(() => {
 // 2. 발행 (App → Core)
 ferdyBridge.ping('1');
 ferdyBridge.openWindow({
-  appId: 'app-sample',
+  appId: 'sample-app',
   title: 'New App',
   queryParams: { instance: 2 },
 });

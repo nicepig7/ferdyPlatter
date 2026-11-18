@@ -19,8 +19,8 @@ description: >-
 
 ```ts
 {
-  id: 'notes-app-1',
-  appId: 'app-notes',
+  id: 'builtin-notes-1',
+  appId: 'builtin-notes',
 }
 ```
 

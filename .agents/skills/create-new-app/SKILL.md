@@ -5,32 +5,35 @@ description: >-
   domain application under packages/domains/ in the Ferdy Platter (FerdyOS) monorepo.
 ---
 
-# Create New Domain App in Ferdy Platter (`packages/domains/<app-name>`)
+# Create New Domain App in Ferdy Platter (`packages/domains/<category>/<app-name>`)
 
-이 스킬은 `ferdy-platter` 모노레포의 **[D] Domains** 계층(`packages/domains/<app-name>`)에 새로운 격리형 Web OS 앱을 추가하고 Core(`@ferdy/core`)의 앱 메타데이터 레지스트리(`services/app/fdRegist.apps.*.meta.ts`)에 등록하는 표준 절차입니다.
+이 스킬은 `ferdy-platter` 모노레포의 **[D] Domains** 계층(`packages/domains/<category>/<app-name>`)에 새로운 격리형 Web OS 앱을 추가하고 Core(`@ferdy/core`)의 앱 메타데이터 레지스트리(`services/app/fdCore.app.manifest.meta.ts`)에 등록하는 표준 절차입니다.
 
 ---
 
 ## 1. 디렉토리 및 패키지 이름 규칙
 
-- **디렉토리 경로**: `packages/domains/<app-rel-path>` (예: `packages/domains/app-notes` 또는 `packages/domains/widgets/clock`)
-- **패키지명 (`package.json`)**: `@ferdy/<app-name>` (예: `@ferdy/app-notes`)
-- **앱 고유 ID (`appId`)**: `<app-name>` (예: `'app-notes'`)
-- **서빙 URL**: `/domains/<app-rel-path>/` (`packages/core/plugins/monorepoDomainsGateway.ts`가 `packages/domains/**`를 재귀 스캔하여 개발 서버 라우팅 및 프로덕션 빌드 엔트리에 등록함)
+- **카테고리 (`<category>`)**: 앱 성격에 따라 그룹 폴더를 선택합니다.
+  - `builtin`: OS 기본 내장 앱 (`clock`, `calendar`, `notes` 등)
+  - `sample`: 템플릿·예제·샌드박스 테스트 앱 (`app`, `hello` 등)
+- **디렉토리 경로**: `packages/domains/<category>/<app-name>` (예: `packages/domains/builtin/notes`, `packages/domains/sample/app`)
+- **패키지명 (`package.json`)**: `@ferdy/<category>-<app-name>` (예: `@ferdy/builtin-notes`, `@ferdy/sample-app`)
+- **앱 고유 ID (`appId`)**: `'<category>-<app-name>'` (예: `'builtin-notes'`, `'sample-app'`)
+- **서빙 URL**: `/domains/<category>/<app-name>/` (`packages/core/plugins/monorepoDomainsGateway.ts`가 `packages/domains/**`를 재귀 스캔하여 개발 서버 라우팅 및 프로덕션 빌드 엔트리에 등록함)
 
 ---
 
 ## 2. 필수 생성 파일 목록
 
-새 앱 폴더(`packages/domains/<app-name>/`) 안에 다음 파일들을 생성합니다 (`packages/domains/app-sample/` 또는 `packages/domains/app-hello/` 참고):
+새 앱 폴더(`packages/domains/<category>/<app-name>/`) 안에 다음 파일들을 생성합니다 (`packages/domains/sample/app/` 또는 `packages/domains/sample/hello/` 참고):
 
 1. **`package.json`**:
-   - `name`: `"@ferdy/<app-name>"`
+   - `name`: `"@ferdy/<category>-<app-name>"`
    - `dependencies`: `"@ferdy/bridge": "*"`, `"@ferdy/ui": "*"`, `"solid-js": "^1.9.3"`
    - `devDependencies`: `"vite": "^6.0.1"`, `"vite-plugin-solid": "^2.11.0"`
    - `scripts`: `dev`, `build`, `preview`, `typecheck` (`tsc --noEmit`)
 2. **`tsconfig.json`**:
-   - `packages/domains/app-sample/tsconfig.json`과 동일한 설정(`"extends": "@ferdy/tsconfig/base.json"`)을 사용합니다.
+   - `packages/domains/sample/app/tsconfig.json`과 동일한 설정(`"extends": "@ferdy/tsconfig/base.json"`)을 사용합니다.
 3. **`vite.config.ts`**:
    - 단독 실행 및 빌드를 위한 기본 `vite-plugin-solid` 설정을 포함합니다.
 4. **`index.html`**:

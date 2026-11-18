@@ -1,5 +1,5 @@
 {
-  "name": "@ferdy/app-hello",
+  "name": "@ferdy/builtin-notes",
   "version": "0.1.6",
   "private": true,
   "type": "module",
@@ -10,7 +10,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ferdy/assets": "*",
     "@ferdy/bridge": "*",
     "@ferdy/ui": "*",
     "solid-js": "^1.9.3"

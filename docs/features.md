@@ -12,7 +12,7 @@
 ## 1. OS Shell (`@ferdy/core`)
 
 ### 앱 레지스트리 및 바로가기
-- **메타데이터 분리 관리 (`.meta.ts`)**: 설치된 앱 매니페스트(`manifest`), 바탕화면 바로가기(`shortcuts`), 아이콘 컬러 톤 프리셋(`tones`)을 개별 파일로 분리해 중앙 관리
+- **메타데이터 분리 관리 (`.meta.ts`)**: 설치된 앱 매니페스트(`manifest` — `BUILTIN_APP_MANIFESTS` / `SAMPLE_APP_MANIFESTS` 카테고리 구분), 바탕화면 바로가기(`shortcuts`), 아이콘 컬러 톤 프리셋(`tones`)을 개별 파일로 분리해 중앙 관리
 - **앱 실행 및 인스턴스 오버라이드**: `appId` 참조 기반 실행과 바로가기별 제목, 아이콘, 컬러 톤, 쿼리 파라미터(`queryParams`), 창 좌표·크기 오버라이드 지원
 - **외부 웹 사이트 바로가기**: `http(s)://` 외부 URL을 OS 내부 창(`openMode: 'window'`) 또는 브라우저 새 탭(`openMode: 'new-tab'`)으로 실행하며, 외부 창 타이틀바에 '새 탭에서 열기' 버튼과 Cross-Origin 안전 리로드 제공
 
@@ -35,17 +35,17 @@
 
 ---
 
-## 2. Domain Apps (`packages/domains/*`)
+## 2. Domain Apps (`packages/domains/**`)
 
-모든 도메인 앱은 `<iframe sandbox>` 내부에서 독립 실행되며, `@ferdy/ui`의 디자인 토큰·컴포넌트(`<fd.*>`)와 `@ferdy/bridge` 이벤트 버스를 통해 OS와 일관된 경험 및 통신을 제공합니다.
+모든 도메인 앱은 `<iframe sandbox>` 내부에서 역할별 카테고리(`builtin/`, `sample/`)로 분리되어 독립 실행되며, `@ferdy/ui`의 디자인 토큰·컴포넌트(`<fd.*>`)와 `@ferdy/bridge` 이벤트 버스를 통해 OS와 일관된 경험 및 통신을 제공합니다.
 
-| 앱 이름 | 패키지 / 경로 | 핵심 기능 |
-| :--- | :--- | :--- |
-| **Sample App** | `@ferdy/app-sample`<br>`/apps/app-sample/` | `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge`(`ping`, `openWindow`) 통신을 시연하는 표준 레퍼런스 앱 |
-| **Clock** | `@ferdy/app-clock`<br>`/apps/app-clock/` | `@ferdy/ui` 토큰 기반 실시간 디지털 시계 및 `24H` / `12H` 포맷 전환 위젯 앱 |
-| **Hello World** | `@ferdy/app-hello`<br>`/apps/app-hello/` | 최소 구성(Minimal) 도메인 앱 구조 및 공통 스타일시트 연동 검증 앱 |
-| **Calendar** | `@ferdy/app-calendar`<br>`/apps/app-calendar/` | 월간 캘린더 탐색, 오늘(Today) 이동, 선택 일자 D-Day 표시 및 날짜별 한 줄 메모(`localStorage` 저장·셀 도트 인디케이터) 지원 위젯 앱 |
-| **Notes** | `@ferdy/app-notes`<br>`/apps/app-notes/` | 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제), `localStorage` 실시간 자동 저장, `Edit` ↔ `Preview` 마크다운 미리보기 전환 및 글꼴 크기 조절(`11px ~ 28px`) 지원 앱 |
+| 카테고리 | 앱 이름 | 패키지 / 경로 | 핵심 기능 |
+| :--- | :--- | :--- | :--- |
+| `builtin` | **Clock** | `@ferdy/builtin-clock`<br>`/domains/builtin/clock/` | `@ferdy/ui` 토큰 기반 실시간 디지털 시계 및 `24H` / `12H` 포맷 전환 위젯 앱 |
+| `builtin` | **Calendar** | `@ferdy/builtin-calendar`<br>`/domains/builtin/calendar/` | 월간 캘린더 탐색, 오늘(Today) 이동, 선택 일자 D-Day 표시 및 날짜별 한 줄 메모(`localStorage` 저장·셀 도트 인디케이터) 지원 위젯 앱 |
+| `builtin` | **Notes** | `@ferdy/builtin-notes`<br>`/domains/builtin/notes/` | 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제), `localStorage` 실시간 자동 저장, `Edit` ↔ `Preview` 마크다운 미리보기 전환 및 글꼴 크기 조절(`11px ~ 28px`) 지원 앱 |
+| `sample` | **Sample App** | `@ferdy/sample-app`<br>`/domains/sample/app/` | `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge`(`ping`, `openWindow`) 통신을 시연하는 표준 레퍼런스 앱 |
+| `sample` | **Hello World** | `@ferdy/sample-hello`<br>`/domains/sample/hello/` | 최소 구성(Minimal) 도메인 앱 구조 및 공통 스타일시트 연동 검증 앱 |
 
 ---
 

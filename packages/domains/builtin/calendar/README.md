@@ -1,6 +1,6 @@
-# @ferdy/app-calendar (`packages/domains/app-calendar`)
+# @ferdy/builtin-calendar (`packages/domains/builtin/calendar`)
 
-**Ferdy Platter (FerdyOS)**의 **[D] Domains** 계층에서 동작하는 월간 달력 조회 및 선택 일자 D-Day 계산 위젯 도메인 앱입니다.
+**Ferdy Platter (FerdyOS)**의 **[D] Domains (Builtin)** 계층에서 동작하는 월간 달력 조회 및 선택 일자 D-Day 계산 위젯 도메인 앱입니다.
 
 ---
 
@@ -25,9 +25,9 @@
 ## 디렉토리 구조
 
 ```text
-packages/domains/app-calendar/
-├── index.html            # 앱 엔트리 HTML (/apps/app-calendar/ 로 서빙됨)
-├── package.json          # @ferdy/app-calendar 패키지 정의
+packages/domains/builtin/calendar/
+├── index.html            # 앱 엔트리 HTML (/domains/builtin/calendar/ 로 서빙됨)
+├── package.json          # @ferdy/builtin-calendar 패키지 정의
 ├── tsconfig.json         # TypeScript 설정
 ├── vite.config.ts        # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
@@ -41,9 +41,9 @@ packages/domains/app-calendar/
 ## 실행 및 검증
 
 ### 1. FerdyOS Core 내부에서 실행
-모노레포 루트에서 `npm run dev` 실행 후 바탕화면 **Calendar** 바로가기 아이콘을 클릭하면 `/apps/app-calendar/` 경로로 로드됩니다.
+모노레포 루트에서 `npm run dev` 실행 후 바탕화면 **Calendar** 바로가기 아이콘을 클릭하면 `/domains/builtin/calendar/` 경로로 로드됩니다.
 
 ### 2. 패키지 단독 타입 체크
 ```bash
-npm run typecheck --workspace=@ferdy/app-calendar
+npm run typecheck --workspace=@ferdy/builtin-calendar
 ```

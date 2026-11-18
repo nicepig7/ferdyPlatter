@@ -1,5 +1,5 @@
 {
-  "name": "@ferdy/app-clock",
+  "name": "@ferdy/builtin-clock",
   "version": "0.1.6",
   "private": true,
   "type": "module",

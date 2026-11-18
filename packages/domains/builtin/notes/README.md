@@ -1,6 +1,6 @@
-# @ferdy/app-notes (`packages/domains/app-notes`)
+# @ferdy/builtin-notes (`packages/domains/builtin/notes`)
 
-**Ferdy Platter (FerdyOS)**의 **[D] Domains** 계층에서 동작하는 다중 메모 관리 및 마크다운 미리보기 지원 빠른 메모장 도메인 앱입니다.
+**Ferdy Platter (FerdyOS)**의 **[D] Domains (Builtin)** 계층에서 동작하는 다중 메모 관리 및 마크다운 미리보기 지원 빠른 메모장 도메인 앱입니다.
 
 ---
 
@@ -22,9 +22,9 @@
 ## 디렉토리 구조
 
 ```text
-packages/domains/app-notes/
-├── index.html          # 앱 엔트리 HTML (/apps/app-notes/ 로 서빙됨)
-├── package.json        # @ferdy/app-notes 패키지 정의
+packages/domains/builtin/notes/
+├── index.html          # 앱 엔트리 HTML (/domains/builtin/notes/ 로 서빙됨)
+├── package.json        # @ferdy/builtin-notes 패키지 정의
 ├── tsconfig.json       # TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
@@ -38,9 +38,9 @@ packages/domains/app-notes/
 ## 실행 및 검증
 
 ### 1. FerdyOS Core 내부에서 실행
-모노레포 루트에서 `npm run dev` 실행 후 바탕화면 **Notes** 바로가기 아이콘을 클릭하면 `/apps/app-notes/` 경로로 로드됩니다.
+모노레포 루트에서 `npm run dev` 실행 후 바탕화면 **Notes** 바로가기 아이콘을 클릭하면 `/domains/builtin/notes/` 경로로 로드됩니다.
 
 ### 2. 패키지 단독 타입 체크
 ```bash
-npm run typecheck --workspace=@ferdy/app-notes
+npm run typecheck --workspace=@ferdy/builtin-notes
 ```

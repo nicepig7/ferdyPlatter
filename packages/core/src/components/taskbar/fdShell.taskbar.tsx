@@ -20,7 +20,7 @@ export const Taskbar: Component = () => {
 
   const handleLauncherClick = () => {
     const nextIdx = windowStore.state.windows.length + 1;
-    appStore.launchApp('app-sample', {
+    appStore.launchApp('sample-app', {
       windowId: `sample-app-${Date.now()}`,
       title: `Sample App (${nextIdx})`,
       queryParams: { instance: nextIdx },

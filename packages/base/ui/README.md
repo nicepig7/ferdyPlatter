@@ -1,7 +1,7 @@
 # @ferdy/ui (`packages/base/ui`)
 
 **Ferdy Platter (FerdyOS)**의 **[B] Base** 계층에 속하는 **공통 디자인 시스템 및 SolidJS UI 컴포넌트 패키지**입니다.  
-Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/domains/*`)에 일관된 Look & Feel(CSS Cascade Layers, 디자인 토큰, Base Reset, 공통 컴포넌트)을 제공합니다.
+Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/domains/**`)에 일관된 Look & Feel(CSS Cascade Layers, 디자인 토큰, Base Reset, 공통 컴포넌트)을 제공합니다.
 
 ---
 

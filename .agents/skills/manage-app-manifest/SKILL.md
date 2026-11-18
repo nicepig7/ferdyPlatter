@@ -27,15 +27,16 @@ description: >-
 
 ## 3. 앱 매니페스트 등록/수정
 
-`packages/core/src/services/app/fdCore.app.manifest.meta.ts`의 `INITIAL_APP_MANIFESTS` 배열에 앱의 고유 메타정보(`appId`, `title`, `icon`, `tone`, `appUrl`, `defaultWindow` 등)를 추가하거나 수정합니다.
+`packages/core/src/services/app/fdCore.app.manifest.meta.ts`에서 앱 카테고리에 맞는 배열(`BUILTIN_APP_MANIFESTS` 또는 `SAMPLE_APP_MANIFESTS`)에 고유 메타정보(`appId`, `category`, `title`, `icon`, `tone`, `appUrl`, `defaultWindow` 등)를 추가하거나 수정합니다. (두 배열은 `INITIAL_APP_MANIFESTS`로 병합되어 export 됩니다.)
 
 ```ts
 {
-  appId: 'app-notes',
+  appId: 'builtin-notes',
+  category: 'builtin',
   title: 'Notes',
   icon: 'notebook-pen',
-  tone: 'primary',
-  appUrl: '/domains/app-notes/',
+  tone: 'blue',
+  appUrl: '/domains/builtin/notes/',
   description: '마크다운 메모장 도메인 앱',
   defaultWindow: {
     width: 520,
@@ -44,7 +45,7 @@ description: >-
 }
 ```
 
-- **`appUrl`**: 도메인 앱인 경우 반드시 `/domains/<app-rel-path>/` 형식과 일치해야 합니다.
+- **`appUrl`**: 도메인 앱인 경우 반드시 `/domains/<category>/<app-name>/` 형식과 일치해야 합니다.
 
 ---
 

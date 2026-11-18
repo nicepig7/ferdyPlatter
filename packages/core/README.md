@@ -1,7 +1,7 @@
 # @ferdy/core (`packages/core`)
 
 **Ferdy Platter (FerdyOS)**의 **[C] Core** 계층 패키지로, 메인 OS 환경(Desktop, Taskbar, Window Manager, App Registry)을 담당합니다.  
-또한 개발 환경과 프로덕션 빌드에서 `packages/domains/*` 하위 도메인 앱들과 `packages/assets/public` 정적 에셋을 하나로 묶어 서빙하는 **게이트웨이 호스트** 역할을 수행합니다.
+또한 개발 환경과 프로덕션 빌드에서 `packages/domains/**` 하위 도메인 앱들과 `packages/assets/public` 정적 에셋을 하나로 묶어 서빙하는 **게이트웨이 호스트** 역할을 수행합니다.
 
 ---
 

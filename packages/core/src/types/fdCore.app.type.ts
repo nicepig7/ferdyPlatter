@@ -36,18 +36,27 @@ export interface AppIconToneMeta {
 export type ShortcutOpenMode = 'window' | 'new-tab';
 
 /**
+ * 도메인 애플리케이션 분류 카테고리
+ * - `'builtin'`: OS 기본 탑재 유틸리티/위젯 앱
+ * - `'sample'`: 템플릿, 데모, 샌드박스 테스트용 앱
+ */
+export type AppCategory = 'builtin' | 'sample';
+
+/**
  * OS에 설치/등록된 도메인 애플리케이션의 고유 메타정보 (App Manifest)
  */
 export interface AppManifest {
-  /** 도메인 앱 고유 식별자 (예: 'app-sample', 'app-clock', 'app-hello') */
+  /** 도메인 앱 고유 식별자 (예: 'builtin-clock', 'sample-app', 'sample-hello') */
   appId: string;
+  /** 도메인 앱 카테고리 */
+  category: AppCategory;
   /** 앱 기본 표시 이름 */
   title: string;
   /** 앱 기본 아이콘 (SVG 에셋 경로 또는 Lucide 아이콘 이름) */
   icon: string;
   /** 바탕화면 타일 등 기본 컬러 톤 */
   tone?: AppIconTone;
-  /** iframe으로 서빙될 기본 경로 (예: '/domains/app-sample/') */
+  /** iframe으로 서빙될 기본 경로 (예: '/domains/sample/app/') */
   appUrl: string;
   /** 앱 설명 (선택) */
   description?: string;
@@ -70,7 +79,7 @@ export interface AppManifest {
 export interface DesktopShortcut {
   /** 바로가기 고유 ID (창 열기 시 기본 창 인스턴스 ID로도 사용됨) */
   id: string;
-  /** 연결할 등록 앱 식별자 (예: 'app-sample') */
+  /** 연결할 등록 앱 식별자 (예: 'sample-app') */
   appId?: string;
   /** 바로가기 라벨 및 창 제목 오버라이드 (생략 시 AppManifest.title 사용) */
   title?: string;

@@ -138,7 +138,7 @@ export const App: Component = () => {
         }}
       >
         <span>Local Time</span>
-        <span>@ferdy/app-clock</span>
+        <span>@ferdy/builtin-clock</span>
       </div>
     </div>
   );

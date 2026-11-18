@@ -18,7 +18,7 @@
 | **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 아이콘·경로 상수(`FERDY_ASSETS`) |
 | **[B] Base** | `packages/base/ui`<br>`packages/base/bridge` | `@ferdy/ui`<br>`@ferdy/bridge` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트) 및 `postMessage` Pub/Sub 브릿지 |
 | **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리, 윈도우 매니저 및 단일 Vite 서버 MPA 게이트웨이 |
-| **[D] Domains** | `packages/domains/*` | `@ferdy/app-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 개별 도메인 웹 애플리케이션 |
+| **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 카테고리별 도메인 웹 애플리케이션 (`builtin`, `sample`) |
 | **[E] Etc** | `packages/etc` | - | 실험적 기능, 외부 연동 어댑터, 기타 보조 스크립트를 위한 확장 공간 |
 
 ```mermaid
@@ -40,11 +40,11 @@ flowchart TB
         end
 
         subgraph Window1["[D] WindowWrapper #1 (iframe sandbox)"]
-            App1["@ferdy/app-sample (/domains/app-sample/)"]
+            App1["@ferdy/sample-app (/domains/sample/app/)"]
         end
 
         subgraph Window2["[D] WindowWrapper #2 (iframe sandbox)"]
-            App2["@ferdy/app-clock (/domains/app-clock/)"]
+            App2["@ferdy/builtin-clock (/domains/builtin/clock/)"]
         end
     end
 
@@ -93,13 +93,13 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
   - `services/desktop/`: `fdCore.desktop.store.ts`가 그리드 레이아웃 계산, 배율, 아이콘 좌표 배치(`localStorage` 영속화) 관리
   - `services/window/`: `fdCore.window.store.ts`가 창 목록, Z-Index 포커스 스택, 최소 크기, 드래그·리사이즈 상태 관리
   - `types/`: `fdCore.app.type.ts`, `fdCore.desktop.type.ts`, `fdCore.window.type.ts`
-- **격리 원칙**: 개별 도메인 앱(`packages/domains/*`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import하지 않으며, 모든 OS 상호작용은 `@ferdy/bridge`를 경유합니다.
+- **격리 원칙**: 개별 도메인 앱(`packages/domains/**`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import하지 않으며, 모든 OS 상호작용은 `@ferdy/bridge`를 경유합니다.
 
 ---
 
 ## 4. 중앙 디자인 시스템 (`@ferdy/ui`)
 
-`iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/app-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
+`iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
 
 - **CSS Cascade Layers (`index.css` & `fdStyle.*.css`)**:
   - `@layer reset, tokens, theme, libraries, base, layout, components, utilities;` 계층 구조로 스타일 우선순위를 제어하며, `index.css`를 제외한 전역 스타일시트는 `fdStyle.` 접두어를 사용합니다.

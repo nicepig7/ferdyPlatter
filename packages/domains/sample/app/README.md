@@ -1,8 +1,8 @@
-# @ferdy/app-sample (`packages/domains/app-sample`)
+# @ferdy/sample-app (`packages/domains/sample/app`)
 
-**Ferdy Platter (FerdyOS)**의 **[D] Domains** 계층에서 실행되는 격리된 샌드박스 앱의 **표준 레퍼런스(템플릿) 패키지**입니다.
+**Ferdy Platter (FerdyOS)**의 **[D] Domains (Sample)** 계층에서 실행되는 격리된 샌드박스 앱의 **표준 레퍼런스(템플릿) 패키지**입니다.
 
-새로운 도메인 앱을 `packages/domains/` 하위에 추가할 때 이 패키지의 구조와 `@ferdy/ui`, `@ferdy/bridge` 활용 방식을 기준으로 삼을 수 있습니다.
+새로운 도메인 앱을 `packages/domains/<category>/<name>` 하위에 추가할 때 이 패키지의 구조와 `@ferdy/ui`, `@ferdy/bridge` 활용 방식을 기준으로 삼을 수 있습니다.
 
 ---
 
@@ -22,9 +22,9 @@
 ## 디렉토리 구조
 
 ```text
-packages/domains/app-sample/
-├── index.html          # 앱 엔트리 HTML (/apps/app-sample/ 로 서빙됨)
-├── package.json        # @ferdy/app-sample 패키지 정의
+packages/domains/sample/app/
+├── index.html          # 앱 엔트리 HTML (/domains/sample/app/ 로 서빙됨)
+├── package.json        # @ferdy/sample-app 패키지 정의
 ├── tsconfig.json       # TypeScript 설정
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 Vite 설정
 └── src/
@@ -37,9 +37,9 @@ packages/domains/app-sample/
 ## 실행 방법
 
 ### 1. FerdyOS Core 내부에서 실행 (권장)
-모노레포 루트에서 `npm run dev`를 실행하면 `http://localhost:3000`의 데스크탑 환경 안에서 `/apps/app-sample/` 경로로 자동 로드됩니다.
+모노레포 루트에서 `npm run dev`를 실행하면 `http://localhost:3000`의 데스크탑 환경 안에서 `/domains/sample/app/` 경로로 자동 로드됩니다.
 
 ### 2. 패키지 단독 타입 체크
 ```bash
-npm run typecheck --workspace=@ferdy/app-sample
+npm run typecheck --workspace=@ferdy/sample-app
 ```
