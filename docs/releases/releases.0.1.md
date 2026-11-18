@@ -13,10 +13,17 @@
   - 창 타이틀바를 바탕화면 좌/우/상단 가장자리(`20px` 이내)로 드래그할 때 반투명 Ghost 프리뷰 오버레이(`WindowSnapGhost`, `fdShell.window.ghost.tsx`)와 분할 안내 배지 표시
   - 드롭 시 좌/우 50% 분할(`snapZone: 'left' | 'right'`) 또는 최대화(`isMaximized: true`)로 자동 배치하고, 스냅 이전의 창 좌표·크기(`restoreRect`) 보존
   - 스냅 또는 최대화된 창을 타이틀바에서 다시 드래그(`4px` 이상 이동)하면 커서 비율에 맞춰 이전 크기(`restoreRect`)로 자연스럽게 분리·복원(`unsnapWindow`), 뷰포트 리사이즈 시 스냅된 창 크기 자동 동기화(`syncSnappedWindows`) 지원
+- **창 상태 `localStorage` 세션 유지 및 열린 창 일괄 정렬 (`@ferdy/core`)**:
+  - `fdCore.window.store.ts`에 `ferdy.window.session` 기반 열린 창 세션 자동 저장(드래그·리사이징 인터랙션 종료 시점 및 창 상태 변경 시점) 및 새로고침 시 위치·크기·최소화/최대화/스냅·포커스·Z-Index 정규화 복원(`loadInitialWindowSession`) 구현
+  - 화면에 보이는 창들을 격자로 빈틈없이 분할 배치하는 바둑판식 정렬(`tileWindows`), 좌상단부터 대각선으로 배치하는 계단식 정렬(`cascadeWindows`), 열린 창 전체 최소화 및 이전 상태 복원 토글(`toggleMinimizeAllWindows`) 액션 추가
+  - 태스크바 우측 트레이(`fdShell.taskbar.tsx`)에 바둑판식 정렬(`layout-grid`), 계단식 정렬(`layers`), 모두 최소화/복원(`minimize-2`) 빠른 실행 아이콘 버튼 추가
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.6` → `0.1.7`)**:
   - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 버전을 `0.1.7`로 일괄 업데이트
+- **태스크바 트레이 및 바탕화면 외부 링크 배지 UI 개선 (`@ferdy/core`)**:
+  - 태스크바 우측 트레이의 `Windows: N` 상태 배지를 제거하고 시계 폰트를 `Pretendard` (`--fd-font-sans`)로 변경
+  - 바탕화면 아이콘(`fdShell.desktop.icon.tsx`, `fdShell.desktop.icon.css`)의 외부 링크 배지(`.os-desktop-icon-badge`)와 내부 아이콘 크기를 그리드 타일 및 `iconSize`에 비례하여 확대/축소되도록 개선
 
 ### Fixed
 - **최대화 창 높이 이중 차감 보정 (`@ferdy/core`)**:

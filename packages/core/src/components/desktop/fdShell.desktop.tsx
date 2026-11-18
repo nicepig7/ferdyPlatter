@@ -60,6 +60,9 @@ export const Desktop: Component = () => {
 
   const handleSpawnNewWindow = () => {
     if (shouldSuppressClick()) return;
+    while (windowStore.state.windows.some((w) => w.id === `sample-app-${instanceCounter}`)) {
+      instanceCounter += 1;
+    }
     const num = instanceCounter++;
     appStore.launchApp('sample-app', {
       windowId: `sample-app-${num}`,

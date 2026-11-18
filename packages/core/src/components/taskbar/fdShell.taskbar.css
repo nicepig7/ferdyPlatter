@@ -128,17 +128,47 @@
   color: var(--fd-text-muted);
 }
 
-.os-tray-status {
-  font-family: var(--fd-font-mono);
-  padding: 4px 8px;
+.os-tray-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 8px;
+  border-right: 1px solid var(--fd-border-subtle);
+}
+
+.os-tray-btn {
+  width: 28px;
+  height: 28px;
   border-radius: var(--fd-radius-sm);
-  background: var(--fd-secondary-subtle);
-  border: 1px solid var(--fd-secondary-border);
-  color: var(--fd-secondary-text);
+  border: 1px solid var(--fd-border-subtle);
+  background: rgba(40, 33, 29, 0.65);
+  color: var(--fd-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.os-tray-btn:hover:not(:disabled) {
+  background: rgba(58, 48, 42, 0.85);
+  color: var(--fd-text-primary);
+  border-color: var(--fd-border-strong);
+}
+
+.os-tray-btn.is-active {
+  background: var(--fd-primary-subtle);
+  border-color: var(--fd-primary-focus);
+  color: var(--fd-primary);
+}
+
+.os-tray-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
 }
 
 .os-tray-clock {
-  font-family: var(--fd-font-mono);
+  font-family: var(--fd-font-sans);
   font-weight: 600;
   color: var(--fd-text-secondary);
 }

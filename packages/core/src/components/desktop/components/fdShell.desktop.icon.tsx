@@ -37,6 +37,7 @@ const SQUIRCLE_HIGHLIGHT_PATH =
 export const DesktopIcon: Component<DesktopIconProps> = (props) => {
   const gradId = createUniqueId();
   const toneMeta = () => getIconToneMeta(props.tone);
+  const badgeIconSize = () => Math.max(11, Math.round((props.iconSize ?? 32) * 0.48));
 
   return (
     <button
@@ -87,7 +88,7 @@ export const DesktopIcon: Component<DesktopIconProps> = (props) => {
 
         <Show when={props.isExternal}>
           <span class="os-desktop-icon-badge" aria-hidden="true">
-            <fd.Icon name="external-link" size={10} />
+            <fd.Icon name="external-link" size={badgeIconSize()} />
           </span>
         </Show>
       </span>

@@ -1,6 +1,8 @@
 import { Component, createSignal, For, onCleanup, Show } from 'solid-js';
 import { FERDY_ASSETS } from '@ferdy/assets';
+import { fd } from '@ferdy/ui';
 import { appStore } from '../../services/app/fdCore.app.store';
+import { desktopStore } from '../../services/desktop/fdCore.desktop.store';
 import { windowStore } from '../../services/window/fdCore.window.store';
 import { AppIcon } from '../common/fdShell.app.icon';
 import './fdShell.taskbar.css';
@@ -17,6 +19,14 @@ export const Taskbar: Component = () => {
   }, 10000);
 
   onCleanup(() => clearInterval(timer));
+
+  const hasWindows = () => windowStore.state.windows.length > 0;
+  const hasVisibleWindows = () => windowStore.state.windows.some((w) => !w.isMinimized);
+  const allMinimized = () => hasWindows() && !hasVisibleWindows();
+  const getViewport = () => ({
+    width: desktopStore.state.viewportWidth || window.innerWidth,
+    height: desktopStore.state.viewportHeight || window.innerHeight - 48,
+  });
 
   const handleLauncherClick = () => {
     const nextIdx = windowStore.state.windows.length + 1;
@@ -76,9 +86,40 @@ export const Taskbar: Component = () => {
 
       {/* 우측 시스템 트레이 영역 */}
       <div class="os-taskbar-tray">
-        <span class="os-tray-status">
-          Windows: {windowStore.state.windows.length}
-        </span>
+        <div class="os-tray-actions">
+          <button
+            type="button"
+            class="os-tray-btn"
+            disabled={!hasVisibleWindows()}
+            onClick={() => windowStore.tileWindows(getViewport())}
+            title="바둑판식 창 정렬 (Tile)"
+          >
+            <fd.Icon name="layout-grid" size={14} />
+          </button>
+          <button
+            type="button"
+            class="os-tray-btn"
+            disabled={!hasVisibleWindows()}
+            onClick={() => windowStore.cascadeWindows(getViewport())}
+            title="계단식 창 정렬 (Cascade)"
+          >
+            <fd.Icon name="layers" size={14} />
+          </button>
+          <button
+            type="button"
+            class="os-tray-btn"
+            classList={{ 'is-active': allMinimized() }}
+            disabled={!hasWindows()}
+            onClick={() => windowStore.toggleMinimizeAllWindows()}
+            title={
+              allMinimized()
+                ? '창 복원 (바탕화면 보기 해제)'
+                : '모두 최소화 (바탕화면 보기)'
+            }
+          >
+            <fd.Icon name="minimize-2" size={14} />
+          </button>
+        </div>
         <span class="os-tray-clock">{timeString()}</span>
       </div>
     </footer>
