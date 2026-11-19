@@ -15,13 +15,13 @@ export function TaskHeader({ counts, onCompare }: TaskHeaderProps) {
             <i className="task-icon task-icon--lg icon-kanban" />
           </span>
           <h1 className="task-brand-title">Task Board</h1>
-          <span className="task-fw-badge task-fw-badge--react">React 19</span>
+          <span className="fd-badge task-fw-badge--react">React 19</span>
         </div>
 
         <div className="task-header-actions">
           <button
             type="button"
-            className="task-compare-btn"
+            className="fd-btn fd-btn--sm fd-btn--secondary-ghost"
             onClick={onCompare}
             title="Vue 3 Task Board 창을 열어 실시간 동기화 비교"
           >

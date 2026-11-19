@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import '@ferdy/ui/styles.css';
+import '@ferdy/ui/elements';
 import AppTaskVue from './appTaskVue.vue';
 
 const root = document.getElementById('root');

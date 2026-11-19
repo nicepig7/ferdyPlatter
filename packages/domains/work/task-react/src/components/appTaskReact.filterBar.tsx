@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+import type { FdTabItem } from '@ferdy/ui/elements';
 import {
   CATEGORY_LABEL,
   CATEGORY_OPTIONS,
@@ -29,55 +31,44 @@ export function TaskFilterBar({
   onSearchQueryChange,
   onResetSeed,
 }: TaskFilterBarProps) {
+  const statusTabItems = useMemo<FdTabItem[]>(
+    () =>
+      STATUS_FILTER_OPTIONS.map((option) => ({
+        value: option.value,
+        label: option.label,
+        count: counts[option.value],
+      })),
+    [counts]
+  );
+
   return (
     <section className="task-filter-bar" aria-label="필터 및 검색">
       <div className="task-filter-row">
-        <div className="task-tabs" role="tablist" aria-label="상태 필터">
-          {STATUS_FILTER_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              role="tab"
-              aria-selected={statusFilter === option.value}
-              className={`task-tab${statusFilter === option.value ? ' is-active' : ''}`}
-              onClick={() => onStatusFilterChange(option.value)}
-            >
-              <span>{option.label}</span>
-              <span className="task-tab-count">{counts[option.value]}</span>
-            </button>
-          ))}
-        </div>
+        <fd-tabs
+          items={statusTabItems}
+          value={statusFilter}
+          variant="pill"
+          size="sm"
+          aria-label="상태 필터"
+          onfd-change={(e) => onStatusFilterChange(e.detail.value as StatusFilter)}
+        />
 
         <div className="task-filter-right">
-          <div className="task-search-box">
-            <i
-              className="task-icon task-icon--sm task-search-icon icon-search"
-              aria-hidden="true"
-            />
-            <input
-              type="text"
-              className="task-search-input"
-              placeholder="제목 / 메모 검색..."
-              value={searchQuery}
-              onChange={(e) => onSearchQueryChange(e.target.value)}
-              aria-label="키워드 검색"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                className="task-search-clear"
-                onClick={() => onSearchQueryChange('')}
-                aria-label="검색어 지우기"
-                title="검색어 지우기"
-              >
-                <i className="task-icon task-icon--sm icon-x" aria-hidden="true" />
-              </button>
-            )}
-          </div>
+          <fd-text-field
+            className="task-search-field"
+            size="sm"
+            left-icon="search"
+            clearable
+            placeholder="제목 / 메모 검색..."
+            value={searchQuery}
+            aria-label="키워드 검색"
+            onfd-input={(e) => onSearchQueryChange(e.detail.value)}
+            onfd-clear={() => onSearchQueryChange('')}
+          />
 
           <button
             type="button"
-            className="task-reset-btn"
+            className="fd-btn fd-btn--sm fd-btn--neutral"
             onClick={onResetSeed}
             disabled={isBusy}
             title="초기 시드 데이터로 복원"

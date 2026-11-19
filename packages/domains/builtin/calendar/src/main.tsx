@@ -1,6 +1,7 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 import '@ferdy/ui/styles.css';
+import '@ferdy/ui/elements';
 import { AppCalendar } from './appCalendar';
 
 const root = document.getElementById('root');

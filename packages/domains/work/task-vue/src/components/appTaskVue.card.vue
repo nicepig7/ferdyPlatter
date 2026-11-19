@@ -21,7 +21,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <article :class="['task-card', { 'is-done': task.status === 'done' }]">
+  <article :class="['fd-card task-card', { 'is-done': task.status === 'done' }]">
     <div class="task-card-main">
       <button
         type="button"
@@ -55,10 +55,10 @@ const emit = defineEmits<{
 
     <div class="task-card-meta">
       <div class="task-card-badges">
-        <span :class="['task-priority-badge', `task-priority-badge--${task.priority}`]">
+        <span :class="['fd-badge task-priority-badge', `task-priority-badge--${task.priority}`]">
           {{ PRIORITY_LABEL[task.priority] }}
         </span>
-        <span :class="['task-category-badge', `task-category-badge--${task.category}`]">
+        <span :class="['fd-badge task-category-badge', `task-category-badge--${task.category}`]">
           <i
             :class="['task-icon task-icon--sm', CATEGORY_ICON[task.category]]"
             aria-hidden="true"

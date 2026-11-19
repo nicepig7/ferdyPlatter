@@ -59,16 +59,6 @@
   padding: 4px 7px;
 }
 
-.notes-mode-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.notes-mode-btn {
-  padding: 4px 9px;
-}
-
 .notes-body {
   flex: 1;
   min-width: 0;
@@ -212,25 +202,6 @@
 
 .notes-title-input {
   width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--fd-text-primary);
-  font-family: var(--fd-font-sans);
-  font-size: var(--fd-text-xl);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-  user-select: text;
-}
-
-.notes-title-input::placeholder {
-  color: var(--fd-text-dim);
-  font-weight: 500;
-}
-
-.notes-title-input.is-readonly {
-  cursor: default;
 }
 
 .notes-content-area {

@@ -17,7 +17,7 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onCycleStatus, onDeleteTask }: TaskCardProps) {
   return (
-    <article className={`task-card${task.status === 'done' ? ' is-done' : ''}`}>
+    <article className={`fd-card task-card${task.status === 'done' ? ' is-done' : ''}`}>
       <div className="task-card-main">
         <button
           type="button"
@@ -51,10 +51,10 @@ export function TaskCard({ task, onCycleStatus, onDeleteTask }: TaskCardProps) {
 
       <div className="task-card-meta">
         <div className="task-card-badges">
-          <span className={`task-priority-badge task-priority-badge--${task.priority}`}>
+          <span className={`fd-badge task-priority-badge task-priority-badge--${task.priority}`}>
             {PRIORITY_LABEL[task.priority]}
           </span>
-          <span className={`task-category-badge task-category-badge--${task.category}`}>
+          <span className={`fd-badge task-category-badge task-category-badge--${task.category}`}>
             <i
               className={`task-icon task-icon--sm ${CATEGORY_ICON[task.category]}`}
               aria-hidden="true"

@@ -1,5 +1,6 @@
 import { Component, For, Show, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 import { fd } from '@ferdy/ui';
+import type { FdTabItem, FdTextFieldElement } from '@ferdy/ui/elements';
 import './appNotes.css';
 
 const NOTES_STORAGE_KEY = 'ferdy:notes:items';
@@ -19,6 +20,11 @@ export interface NoteItem {
 }
 
 type ViewMode = 'edit' | 'preview';
+
+const VIEW_MODE_TABS: FdTabItem[] = [
+  { value: 'edit', label: 'Edit', icon: 'pencil' },
+  { value: 'preview', label: 'Preview', icon: 'eye' },
+];
 
 function createNoteId(): string {
   return `note-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -391,7 +397,7 @@ export const AppNotes: Component = () => {
   const [isSidebarOpen, setIsSidebarOpen] = createSignal<boolean>(true);
   const [fontSize, setFontSize] = createSignal<number>(loadFontSize());
 
-  let titleInputRef: HTMLInputElement | undefined;
+  let titleInputRef: FdTextFieldElement | undefined;
   let textareaRef: HTMLTextAreaElement | undefined;
 
   const updateFontSize = (nextSize: number) => {
@@ -564,28 +570,14 @@ export const AppNotes: Component = () => {
         </div>
 
         <div class="notes-header-right">
-          <div class="notes-mode-group" role="group" aria-label="보기 모드 전환">
-            <fd.Button
-              variant={viewMode() === 'edit' ? 'accent-ghost' : 'neutral'}
-              size="sm"
-              class="notes-mode-btn"
-              aria-pressed={viewMode() === 'edit'}
-              onClick={() => setViewMode('edit')}
-            >
-              <fd.Icon name="pencil" size="xs" />
-              <span>Edit</span>
-            </fd.Button>
-            <fd.Button
-              variant={viewMode() === 'preview' ? 'secondary-ghost' : 'neutral'}
-              size="sm"
-              class="notes-mode-btn"
-              aria-pressed={viewMode() === 'preview'}
-              onClick={() => setViewMode('preview')}
-            >
-              <fd.Icon name="eye" size="xs" />
-              <span>Preview</span>
-            </fd.Button>
-          </div>
+          <fd-tabs
+            prop:items={VIEW_MODE_TABS}
+            prop:value={viewMode()}
+            variant="segmented"
+            size="sm"
+            aria-label="보기 모드 전환"
+            on:fd-change={(e) => setViewMode(e.detail.value as ViewMode)}
+          />
 
           <fd.Button
             variant="danger"
@@ -643,18 +635,19 @@ export const AppNotes: Component = () => {
 
         <main class="notes-main">
           <div class="notes-title-bar">
-            <input
+            <fd-text-field
               ref={(el) => {
                 titleInputRef = el;
                 el.value = activeNote().title;
               }}
-              type="text"
               class="notes-title-input"
-              classList={{ 'is-readonly': viewMode() === 'preview' }}
+              size="sm"
+              prop:clearable={viewMode() === 'edit'}
+              prop:readonly={viewMode() === 'preview'}
               placeholder="제목을 입력하세요..."
               aria-label="메모 제목"
-              readOnly={viewMode() === 'preview'}
-              onInput={(e) => updateActiveNote({ title: e.currentTarget.value })}
+              on:fd-input={(e) => updateActiveNote({ title: e.detail.value })}
+              on:fd-clear={() => updateActiveNote({ title: '' })}
             />
           </div>
 

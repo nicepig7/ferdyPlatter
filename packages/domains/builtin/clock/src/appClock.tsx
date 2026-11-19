@@ -1,5 +1,4 @@
 import { Component, Show, createSignal, onCleanup, onMount } from 'solid-js';
-import { fd } from '@ferdy/ui';
 import './appClock.css';
 
 const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
@@ -42,14 +41,14 @@ export const AppClock: Component = () => {
     <div class="app-clock">
       <div class="app-clock-header">
         <span class="app-clock-date">{formattedDate()}</span>
-        <fd.Button
-          variant="accent-ghost"
-          size="sm"
+        <fd-switch
           class="app-clock-toggle"
-          onClick={() => setIs24Hour((prev) => !prev)}
-        >
-          {is24Hour() ? '24H' : '12H'}
-        </fd.Button>
+          size="sm"
+          prop:checked={is24Hour()}
+          label={is24Hour() ? '24H' : '12H'}
+          aria-label="24시간제 전환"
+          on:fd-change={(e) => setIs24Hour(e.detail.checked)}
+        />
       </div>
 
       <div class="app-clock-body">

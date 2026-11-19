@@ -12,6 +12,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
   gap: 7px;
+  align-items: start;
 }
 
 .task-quick-add-controls {
@@ -42,85 +43,12 @@
   white-space: nowrap;
 }
 
-.task-input,
-.task-select {
-  height: var(--fd-control-height-sm);
-  border-radius: var(--fd-radius-sm);
-  border: 1px solid var(--fd-border-subtle);
-  background: var(--fd-bg-elevated);
-  color: var(--fd-text-primary);
-  font-family: var(--fd-font-sans);
-  font-size: var(--fd-text-base);
-  outline: none;
-  transition:
-    border-color var(--fd-duration-normal) var(--fd-ease-default),
-    background-color var(--fd-duration-normal) var(--fd-ease-default);
+.task-quick-add-select {
+  min-width: 104px;
 }
 
-.task-input {
-  width: 100%;
-  min-width: 0;
-  padding: 0 10px;
-  user-select: text;
-}
-
-.task-input::placeholder {
-  color: var(--fd-text-dim);
-}
-
-.task-input:hover:not(:disabled),
-.task-select:hover:not(:disabled) {
-  border-color: var(--fd-border-strong);
-}
-
-.task-input:focus,
-.task-select:focus {
-  border-color: var(--fd-primary-border);
-}
-
-.task-select {
-  padding: 0 8px;
-  font-size: var(--fd-text-sm);
-  cursor: pointer;
-  color-scheme: dark;
-}
-
-.task-add-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  height: var(--fd-control-height-sm);
-  padding: 0 12px;
-  border-radius: var(--fd-radius-sm);
-  border: 1px solid var(--fd-primary);
-  background: var(--fd-primary-strong);
-  color: var(--fd-text-on-primary);
-  font-family: var(--fd-font-sans);
-  font-size: var(--fd-text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background-color var(--fd-duration-normal) var(--fd-ease-default),
-    transform var(--fd-duration-fast) var(--fd-ease-default);
-}
-
-.task-add-btn:hover:not(:disabled) {
-  background: var(--fd-primary-hover);
-}
-
-.task-add-btn:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
-.task-add-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-@media (max-width: 620px) {
+@media (max-width: 560px) {
   .task-quick-add-inputs {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }

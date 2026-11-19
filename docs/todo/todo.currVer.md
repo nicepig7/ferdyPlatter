@@ -125,15 +125,15 @@
 
 ### Phase 7: 기존 도메인 앱 `@ferdy/ui` (Web Component & Style Layer) 적용 갱신
 새로 구축한 1층 Style Layer(`.fd-*`)와 2층 Web Components(`<fd-*>`)를 기존 앱들에 실제 적용하여 중복 코드를 제거하고 UI 일관성을 검증합니다.
-- [ ] **`@ferdy/work-task-react` & `@ferdy/work-task-vue` 갱신**:
+- [x] **`@ferdy/work-task-react` & `@ferdy/work-task-vue` 갱신**:
   - Quick Add 폼의 제목/메모 `<input>`을 `<fd-text-field>`로 교체 (제목 필수 입력 Rule 검증 연동)
   - Quick Add 폼의 Category / Priority `<select>`를 `<fd-select>`로 교체
   - Filter Bar의 자체 구현 검색창(`.task-search-box` + 수동 X 버튼)을 `<fd-text-field left-icon="search" clearable>`로 교체
   - 상태 필터 탭(`All | Todo | In Progress | Done`)에 `<fd-tabs>` 적용 및 공통 버튼/배지에 1층 `.fd-btn`, `.fd-badge` 클래스 적용
-- [ ] **`@ferdy/builtin-calendar` 갱신**:
+- [x] **`@ferdy/builtin-calendar` 갱신**:
   - `CalendarFooter`의 한 줄 메모 입력을 `<fd-text-field>` Web Component 기반으로 전환
-- [ ] **`@ferdy/builtin-clock` & `@ferdy/builtin-notes` 갱신**:
+- [x] **`@ferdy/builtin-clock` & `@ferdy/builtin-notes` 갱신**:
   - `builtin-clock`: `24H / 12H` 포맷 전환에 `<fd-switch>`(또는 `<fd-tabs>`) 적용
   - `builtin-notes`: `Edit / Preview` 모드 전환에 `<fd-tabs>` 적용 및 제목 입력 영역 정비
-- [ ] **통합 검증** *(릴리즈는 이후 수동 진행)*:
+- [x] **통합 검증** *(릴리즈는 이후 수동 진행)*:
   - 루트 `npm run typecheck` 및 `npm run build` 무오류 통과 확인

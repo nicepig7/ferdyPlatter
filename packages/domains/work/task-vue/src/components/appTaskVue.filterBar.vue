@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import type { FdTabItem } from '@ferdy/ui/elements';
 import {
   CATEGORY_LABEL,
   CATEGORY_OPTIONS,
@@ -7,7 +9,7 @@ import {
 import type { CategoryFilter, StatusFilter, TaskCounts } from '../common/appTaskVue.types';
 import './appTaskVue.filterBar.css';
 
-defineProps<{
+const props = defineProps<{
   counts: TaskCounts;
   isBusy: boolean;
 }>();
@@ -19,54 +21,52 @@ const searchQuery = defineModel<string>('searchQuery', { required: true });
 const emit = defineEmits<{
   resetSeed: [];
 }>();
+
+const statusTabItems = computed<FdTabItem[]>(() =>
+  STATUS_FILTER_OPTIONS.map((option) => ({
+    value: option.value,
+    label: option.label,
+    count: props.counts[option.value],
+  }))
+);
+
+const handleStatusTabChange = (event: Event) => {
+  statusFilter.value = (event as CustomEvent<{ value: string }>).detail.value as StatusFilter;
+};
+
+const handleSearchInput = (event: Event) => {
+  searchQuery.value = (event as CustomEvent<{ value: string }>).detail.value;
+};
 </script>
 
 <template>
   <section class="task-filter-bar" aria-label="필터 및 검색">
     <div class="task-filter-row">
-      <div class="task-tabs" role="tablist" aria-label="상태 필터">
-        <button
-          v-for="option in STATUS_FILTER_OPTIONS"
-          :key="option.value"
-          type="button"
-          role="tab"
-          :aria-selected="statusFilter === option.value"
-          :class="['task-tab', { 'is-active': statusFilter === option.value }]"
-          @click="statusFilter = option.value"
-        >
-          <span>{{ option.label }}</span>
-          <span class="task-tab-count">{{ counts[option.value] }}</span>
-        </button>
-      </div>
+      <fd-tabs
+        :items="statusTabItems"
+        :value="statusFilter"
+        variant="pill"
+        size="sm"
+        aria-label="상태 필터"
+        @fd-change="handleStatusTabChange"
+      />
 
       <div class="task-filter-right">
-        <div class="task-search-box">
-          <i
-            class="task-icon task-icon--sm task-search-icon icon-search"
-            aria-hidden="true"
-          ></i>
-          <input
-            v-model="searchQuery"
-            type="text"
-            class="task-search-input"
-            placeholder="제목 / 메모 검색..."
-            aria-label="키워드 검색"
-          />
-          <button
-            v-if="searchQuery"
-            type="button"
-            class="task-search-clear"
-            aria-label="검색어 지우기"
-            title="검색어 지우기"
-            @click="searchQuery = ''"
-          >
-            <i class="task-icon task-icon--sm icon-x" aria-hidden="true"></i>
-          </button>
-        </div>
+        <fd-text-field
+          class="task-search-field"
+          size="sm"
+          left-icon="search"
+          clearable
+          placeholder="제목 / 메모 검색..."
+          :value="searchQuery"
+          aria-label="키워드 검색"
+          @fd-input="handleSearchInput"
+          @fd-clear="searchQuery = ''"
+        />
 
         <button
           type="button"
-          class="task-reset-btn"
+          class="fd-btn fd-btn--sm fd-btn--neutral"
           :disabled="isBusy"
           title="초기 시드 데이터로 복원"
           @click="emit('resetSeed')"

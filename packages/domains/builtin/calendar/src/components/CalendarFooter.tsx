@@ -23,18 +23,18 @@ export const CalendarFooter: Component<CalendarFooterProps> = (props) => {
         </fd.Badge>
       </div>
 
-      <fd.TextField
+      <fd-text-field
+        class="cal-memo-field"
         size="sm"
-        leftIcon="pencil"
-        clearLabel="메모 지우기"
-        containerClass="cal-memo-field"
-        class="cal-memo-input"
+        left-icon="pencil"
+        clear-label="메모 지우기"
+        clearable
         placeholder="선택한 날짜에 한 줄 메모..."
         aria-label="선택한 날짜 한 줄 메모"
-        maxLength={MAX_MEMO_LENGTH}
-        value={props.memo}
-        onInput={(e) => props.onUpdateMemo(e.currentTarget.value)}
-        onClear={() => props.onUpdateMemo('')}
+        maxlength={MAX_MEMO_LENGTH}
+        prop:value={props.memo}
+        on:fd-input={(e) => props.onUpdateMemo(e.detail.value)}
+        on:fd-clear={() => props.onUpdateMemo('')}
         onBlur={(e) => {
           const trimmed = e.currentTarget.value.trim();
           props.onUpdateMemo(trimmed);

@@ -19,13 +19,13 @@ const emit = defineEmits<{
           <i class="task-icon task-icon--lg icon-kanban"></i>
         </span>
         <h1 class="task-brand-title">Task Board</h1>
-        <span class="task-fw-badge task-fw-badge--vue">Vue 3</span>
+        <span class="fd-badge task-fw-badge--vue">Vue 3</span>
       </div>
 
       <div class="task-header-actions">
         <button
           type="button"
-          class="task-compare-btn"
+          class="fd-btn fd-btn--sm fd-btn--secondary-ghost"
           title="React 19 Task Board 창을 열어 실시간 동기화 비교"
           @click="emit('compare')"
         >
