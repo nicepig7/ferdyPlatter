@@ -1,0 +1,7 @@
+{
+  "extends": "@ferdy/tsconfig/react.json",
+  "include": ["src"],
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
+}

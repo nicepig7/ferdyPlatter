@@ -19,6 +19,10 @@
   - `react.json`: `./base.json` 확장 후 `jsx: "react-jsx"`, `jsxImportSource: "react"` 오버라이드
   - `vue.json`: `./base.json` 확장 후 `jsx: "preserve"`, `jsxImportSource: "vue"` 오버라이드
   - `package.json`의 `exports` 및 `files`에 `./react.json`, `./vue.json` 등록
+- **React 19 기반 Task 보드 도메인 앱 (`@ferdy/work-task-react`, `packages/domains/work/task-react/`) 신설**:
+  - `@ferdy/tsconfig/react.json` 및 `@vitejs/plugin-react` 기반 스캐폴딩(`package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `index.html`, `README.md`) 및 `/domains/work/task-react/` 서빙·FOUC 방지 프리로드 적용
+  - `@ferdy/ui/styles.css` 스타일 토큰·웹폰트·아이콘 클래스만 격리 로드하고, SolidJS 컴포넌트 대신 React 19 + `--fd-*` 토큰 기반의 프레임워크 중립 클래스 구조(`src/appTaskReact.tsx`, `src/appTaskReact.css`)로 구현
+  - 상단 `React 19` 배지 및 상태별 요약 카운터(`Total` / `Todo` / `In Progress` / `Done`), `ferdyBridge.openWindow` 기반 `[Compare with Vue]` 비교 창 런처, 빠른 Task 추가 폼, 상태/분류/키워드 다중 필터 및 `[Reset Seed]` 버튼, 원클릭 상태 순환·삭제 및 `taskExternService.subscribe` 실시간 창 간 동기화 지원
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:

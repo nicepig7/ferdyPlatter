@@ -77,13 +77,13 @@
   - `src/components/taskbar/components/fdShell.taskbar.start.tsx`: 시작 메뉴 카테고리 필터 탭 및 섹션 목록에 `Work` (`Work Apps`) 반영
 
 ### Phase 3: React 기반 Task 보드 도메인 앱 (`@ferdy/work-task-react`)
-- [ ] **패키지 스캐폴딩 (`packages/domains/work/task-react/`)**:
+- [x] **패키지 스캐폴딩 (`packages/domains/work/task-react/`)**:
   - `package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `index.html`, `README.md` 작성
   - 서빙 경로: `/domains/work/task-react/` (`<head>` FOUC 방지 다크 프리로드 스타일 포함)
-- [ ] **공통 스타일 및 레이어 연동**:
+- [x] **공통 스타일 및 레이어 연동**:
   - `import '@ferdy/ui/styles.css'`로 디자인 토큰(`--fd-*`), 폰트, 다크 테마 공유
   - `@ferdy/extern-task` (`taskExternService`) 및 `@ferdy/bridge` (`ferdyBridge`) 연동
-- [ ] **UI 및 기능 구현**:
+- [x] **UI 및 기능 구현**:
   - 상단 헤더: `React 19` 프레임워크 배지, 상태별 요약 카운터(`전체` / `할 일` / `진행중` / `완료`), `ferdyBridge.openWindow`로 Vue 앱을 즉시 여는 `[Compare with Vue]` 버튼
   - 빠른 Task 추가 폼: 제목 입력, 분류(`work` / `personal` / `study` / `idea`), 우선순위(`high` / `medium` / `low`) 선택 및 등록
   - 필터 바: 상태 탭(`All` | `Todo` | `In Progress` | `Done`), 분류 필터, 키워드 검색, `[Reset Seed]` 버튼
