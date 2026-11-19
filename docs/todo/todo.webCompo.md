@@ -54,6 +54,7 @@
 | **Form 연동** | 커스텀 태그가 네이티브 `<form>`의 `submit`/`reset`/유효성 검사에 자동 참여하지 않음 | 필요 시 `static formAssociated = true` + `attachInternals()` 연동 또는 `el.validate()` 메서드 노출 |
 | **TypeScript JSX 타입** | `<fd-*>` 태그에 대한 에디터 자동완성 및 타입 체크 누락 | React, Vue, SolidJS 각각의 전역 JSX/템플릿 타입 선언(`.d.ts`) 별도 제공 |
 | **Overlay / Portal** | 모달·드롭다운 등이 `document.body`로 포털 이동 시 Shadow DOM 및 `--fd-*` 스코프 이탈 주의 | 테마 변수 상속 루트 유지 및 `z-index` 스태킹 컨텍스트 규칙 정리 |
+| **데코레이터 & Class Field Shadowing** | TypeScript `target: ESNext`의 기본값(`useDefineForClassFields: true`) 사용 시 클래스 필드 초기화가 `Lit`의 `@property` 반응형 getter/setter를 덮어써서 리렌더링이 동작하지 않음 | 모노레포 최상위 공통 설정인 `@ferdy/tsconfig/base.json`에 `"experimentalDecorators": true`, `"useDefineForClassFields": false`를 명시하여 모든 서브 프로젝트(Solid/React/Vue) 번들링 시 동일한 변환 보장 |
 
 ---
 
@@ -79,6 +80,8 @@
 ---
 
 ## 5. 다음 마이너 버전 작업 TODO
+
+> **v0.1.9 상세 실행 계획**: `<fd-select>`, `<fd-switch>`, `<fd-tabs>` 후보군 확장, `@ferdy/sample-components` 쇼케이스 앱 신설, 기존 도메인 앱(`task-react`, `task-vue`, `builtin-*`) 갱신까지 포함한 7단계 작업 목록은 [todo.currVer.md](./todo.currVer.md)에서 관리합니다.
 
 - [ ] **1단계: `Lit` 패키지 및 엔트리 구조 PoC**
   - [ ] `@ferdy/ui`에 `lit` 의존성 추가 및 Web Component 엔트리(예: `@ferdy/ui/elements`) 설계
