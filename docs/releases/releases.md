@@ -10,7 +10,7 @@
 
 ## Latest Release
 
-- **[0.1.7] — Window Snapping, Session Persistence & Layout Actions, Start Menu, Empty & Loading Window Views**: 창 스냅·세션 유지·일괄 정렬·시작 메뉴·빈 창/로딩 뷰 고도화 → [상세 보기](./releases.0.1.md#017---window-snapping-session-persistence--layout-actions-start-menu-empty--loading-window-views)
+- **[0.1.8] — Multi-Framework MPA (React & Vue) & Externs Layer (WIP)**: 멀티 프레임워크(React·Vue) 도메인 앱 및 `[E] Externs` 외부 연동 추상화 계층 구축 (작업 진행 중) → [상세 보기](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer-wip)
 
 ---
 
@@ -18,11 +18,13 @@
 
 | 시리즈 | 포함 버전 | 주요 테마 | 상세 문서 |
 | :--- | :--- | :--- | :--- |
-| **0.1.x** | `0.1.0` ~ `0.1.7` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` & `@ferdy/bridge`, Core 레지스트리, 기본 도메인 앱, App/Window 고도화 | [releases.0.1.md](./releases.0.1.md) |
+| **0.1.x** | `0.1.0` ~ `0.1.8` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` & `@ferdy/bridge`, Core 레지스트리, 기본 도메인 앱, App/Window 고도화 | [releases.0.1.md](./releases.0.1.md) |
 
 ---
 
 ## Version Index (`0.1.x`)
+
+- **[0.1.8](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer-wip)** — Multi-Framework MPA (React & Vue) & Externs Layer (작업 진행 중)
 
 - **[0.1.7](./releases.0.1.md#017---window-snapping-session-persistence--layout-actions-start-menu-empty--loading-window-views)** — 창 스냅, `localStorage` 세션 유지 및 일괄 정렬, 시작 메뉴, 빈 창 런처 및 로딩 오버레이
 - **[0.1.6](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)** — Calendar·Notes Builtin 앱 신설, 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` & UI/Core/Domains 구조 표준화

@@ -208,7 +208,7 @@ export const StartMenu: Component<StartMenuProps> = (props) => {
               </span>
               <span class="os-start-brand-name">Ferdy Platter</span>
               <fd.Badge variant="primary" class="os-start-version-badge">
-                v0.1.7
+                v0.1.8
               </fd.Badge>
             </div>
             <span class="os-start-window-count">

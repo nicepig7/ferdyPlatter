@@ -6,6 +6,20 @@
 
 ---
 
+## [0.1.8] - Multi-Framework MPA (React & Vue) & Externs Layer (WIP)
+
+### Added
+- *(작업을 진행하며 추가될 기능 기록)*
+
+### Changed
+- **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:
+  - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 및 시작 메뉴 버전 배지를 `0.1.8`로 일괄 업데이트
+
+### Fixed
+- *(작업을 진행하며 수정될 사항 기록)*
+
+---
+
 ## [0.1.7] - Window Snapping, Session Persistence & Layout Actions, Start Menu, Empty & Loading Window Views
 
 ### Added
