@@ -63,16 +63,16 @@
 - [x] **공개 진입점 (`src/index.ts`)**: 외부 앱에는 인터페이스/타입 및 `taskExternService` 싱글턴 인스턴스만 노출 (내부 구현 세부는 비공개 캡슐화)
 
 ### Phase 2: 멀티 프레임워크 빌드·타입 파이프라인 및 `work` 카테고리 확장
-- [ ] **`@ferdy/tsconfig` 확장 (`packages/base/tsconfig/`)**:
+- [x] **`@ferdy/tsconfig` 확장 (`packages/base/tsconfig/`)**:
   - React용 `react.json` (`"jsx": "react-jsx"`, `"jsxImportSource": "react"`) 추가
   - Vue용 `vue.json` (`"jsx": "preserve"`) 추가 및 `package.json` `exports` 등록
-- [ ] **단일 Vite 게이트웨이 멀티 프레임워크 스코핑 (`packages/core/`)**:
+- [x] **단일 Vite 게이트웨이 멀티 프레임워크 스코핑 (`packages/core/`)**:
   - `@vitejs/plugin-react`, `@vitejs/plugin-vue` devDependencies 추가
   - `packages/core/vite.config.ts`에서 플러그인 스코핑 구성:
     - `vite-plugin-solid`: `exclude`로 React/Vue 도메인 앱 경로 제외
     - `@vitejs/plugin-react`: `include`로 React 도메인 앱(`packages/domains/work/task-react/`) 전담
     - `@vitejs/plugin-vue`: `.vue` 파일 전담 처리
-- [ ] **`work` 앱 카테고리 추가 (`packages/core/`)**:
+- [x] **`work` 앱 카테고리 추가 (`packages/core/`)**:
   - `src/types/fdCore.app.type.ts`: `AppCategory`에 `'work'` 추가 (`'builtin' | 'sample' | 'work'`)
   - `src/components/taskbar/components/fdShell.taskbar.start.tsx`: 시작 메뉴 카테고리 필터 탭 및 섹션 목록에 `Work` (`Work Apps`) 반영
 

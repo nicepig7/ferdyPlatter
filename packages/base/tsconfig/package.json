@@ -4,10 +4,14 @@
   "private": true,
   "exports": {
     "./base.json": "./base.json",
-    "./node.json": "./node.json"
+    "./node.json": "./node.json",
+    "./react.json": "./react.json",
+    "./vue.json": "./vue.json"
   },
   "files": [
     "base.json",
-    "node.json"
+    "node.json",
+    "react.json",
+    "vue.json"
   ]
 }

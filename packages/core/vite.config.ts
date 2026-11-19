@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
+import reactPlugin from '@vitejs/plugin-react';
+import vuePlugin from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import { createMonorepoDomainsGateway } from './plugins/monorepoDomainsGateway';
 
@@ -11,7 +13,19 @@ const domainsGateway = createMonorepoDomainsGateway({
 });
 
 export default defineConfig({
-  plugins: [domainsGateway.plugin, solidPlugin()],
+  plugins: [
+    domainsGateway.plugin,
+    solidPlugin({
+      exclude: [
+        '**/packages/domains/work/task-react/**',
+        '**/packages/domains/work/task-vue/**',
+      ],
+    }),
+    reactPlugin({
+      include: ['**/packages/domains/work/task-react/**/*.{tsx,ts,jsx,js}'],
+    }),
+    vuePlugin(),
+  ],
   publicDir: resolve(monorepoRoot, 'packages/assets/public'),
   resolve: {
     alias: {

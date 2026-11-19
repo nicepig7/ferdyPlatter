@@ -9,7 +9,7 @@
 
 1. **Desktop & Taskbar UI (`components/`)**:
    - **바탕화면 (`desktop/`)**: 뷰포트 크기에 맞춰 정사각형에 가깝게 균등 분할되는 반응형 바탕화면 바로가기 아이콘 그리드(`desktopStore` + `appStore.state.shortcuts`), 드래그 앤 드롭 배치 및 Ghost 격자 오버레이(`Ctrl+Wheel` 배율 조절)를 렌더링합니다.
-   - **작업 표시줄 & 시작 메뉴 (`taskbar/`)**: 좌측 하단 `fdPlatter` 시작 버튼과 글래스모피즘 시작 메뉴 팝업(`StartMenu` — 앱 검색·카테고리 필터·실행/새 창 열기·창 제어 퀵 액션), 열린 창 탭 목록, 우측 트레이 창 정렬 버튼(바둑판·계단식·모두 최소화/복원) 및 시계를 렌더링합니다.
+   - **작업 표시줄 & 시작 메뉴 (`taskbar/`)**: 좌측 하단 `fdPlatter` 시작 버튼과 글래스모피즘 시작 메뉴 팝업(`StartMenu` — 앱 검색·`builtin` / `sample` / `work` 카테고리 필터·실행/새 창 열기·창 제어 퀵 액션), 열린 창 탭 목록, 우측 트레이 창 정렬 버튼(바둑판·계단식·모두 최소화/복원) 및 시계를 렌더링합니다.
 2. **App Registry & Shortcut Service (`services/app/`)**:
    - `.meta.ts` 파일 규칙(한 파일당 한 종류의 메타데이터 관리)에 따라 설치된 도메인 앱 매니페스트(`fdCore.app.manifest.meta.ts`), 바탕화면 바로가기 목록(`fdCore.app.shortcuts.meta.ts`), 아이콘 컬러 톤 프리셋(`fdCore.app.tones.meta.ts`)을 분리하여 관리합니다.
    - `appStore.launchApp(appId, options)`, `appStore.launchAppInWindow(windowId, appId)` 및 `appStore.openShortcut(shortcut)`을 통해 매니페스트 기본값을 기반으로 쿼리 파라미터(`?instance=2`), 창 제목, 위치/크기를 오버라이드하거나 외부 웹 사이트(`appUrl`, `openMode: 'window' | 'new-tab'`)를 실행할 수 있습니다.
@@ -23,6 +23,7 @@
 5. **Monorepo Domains Gateway (`vite.config.ts`, `plugins/monorepoDomainsGateway.ts`)**:
    - **Dev**: `/domains/<app-rel-path>/` 요청을 가로채어 `packages/domains/<app-rel-path>/index.html`을 실시간 변환 및 서빙합니다.
    - **Build**: `packages/domains/**` 디렉토리를 재귀 스캔하여 중첩된 도메인 앱까지 Rollup `input`에 멀티페이지 엔트리로 자동 등록합니다.
+   - **멀티 프레임워크 플러그인 스코핑**: `vite-plugin-solid`(`exclude`로 React/Vue 도메인 앱 제외), `@vitejs/plugin-react`(`include`로 `packages/domains/work/task-react/**` 전담), `@vitejs/plugin-vue`(`.vue` SFC 전담)를 조합해 단일 서버·단일 빌드에서 SolidJS, React, Vue 앱을 충돌 없이 함께 처리합니다.
    - **FOUC 방지 & Assets**: 프리로드 다크 에스프레소 테마 스타일을 주입해 초기 로딩 깜빡임을 방지하고, `packages/assets/public`을 `publicDir`로 연결하여 모든 정적 에셋을 동일 오리진(`/assets/...`)에서 서빙합니다.
 
 ---

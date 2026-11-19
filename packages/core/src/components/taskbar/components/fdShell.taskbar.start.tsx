@@ -28,6 +28,7 @@ type CategoryFilter = 'all' | AppCategory;
 const CATEGORY_LABELS: Record<AppCategory, string> = {
   builtin: 'Builtin Apps',
   sample: 'Sample Apps',
+  work: 'Work Apps',
 };
 
 export const StartMenu: Component<StartMenuProps> = (props) => {
@@ -87,11 +88,13 @@ export const StartMenu: Component<StartMenuProps> = (props) => {
     const apps = allApps();
     const builtinCount = apps.filter((app) => app.category === 'builtin').length;
     const sampleCount = apps.filter((app) => app.category === 'sample').length;
+    const workCount = apps.filter((app) => app.category === 'work').length;
 
     return [
       { id: 'all' as CategoryFilter, label: 'All', count: apps.length },
       { id: 'builtin' as CategoryFilter, label: 'Builtin', count: builtinCount },
       { id: 'sample' as CategoryFilter, label: 'Sample', count: sampleCount },
+      { id: 'work' as CategoryFilter, label: 'Work', count: workCount },
     ];
   });
 
@@ -122,7 +125,7 @@ export const StartMenu: Component<StartMenuProps> = (props) => {
         : [];
     }
 
-    const categories: AppCategory[] = ['builtin', 'sample'];
+    const categories: AppCategory[] = ['builtin', 'sample', 'work'];
     return categories
       .map((cat) => ({
         category: cat,

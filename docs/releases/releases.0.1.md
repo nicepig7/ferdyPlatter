@@ -15,12 +15,20 @@
   - `src/fdExtern.task.adapter.ts`: `localStorage`(`ferdy:extern:tasks`) JSON 영속화 및 `BroadcastChannel('ferdy:extern:task')` + `window` `storage` 이벤트를 활용한 동일 오리진 다중 `iframe` 창 간 실시간 동기화 구현체(`createLocalStorageTaskAdapter`) 캡슐화
   - `src/fdExtern.task.util.ts` & `src/fdExtern.task.seed.ts`: 입력 정규화·상태 전이·타입 가드 순수 유틸리티 및 초기 데모 시드 데이터(6종) 분리
   - `src/index.ts`: 도메인 앱에는 공개 타입과 `taskExternService` 싱글턴만 노출하고 내부 구현(`adapter`/`util`/`seed`)은 캡슐화
+- **`@ferdy/tsconfig` React / Vue 멀티 프레임워크 프리셋 신설 (`packages/base/tsconfig/`)**:
+  - `react.json`: `./base.json` 확장 후 `jsx: "react-jsx"`, `jsxImportSource: "react"` 오버라이드
+  - `vue.json`: `./base.json` 확장 후 `jsx: "preserve"`, `jsxImportSource: "vue"` 오버라이드
+  - `package.json`의 `exports` 및 `files`에 `./react.json`, `./vue.json` 등록
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:
   - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 및 시작 메뉴 버전 배지를 `0.1.8`로 일괄 업데이트
 - **`[E]` 레이어 전환 (`packages/etc` → `packages/externs/*`)**:
   - 루트 `package.json`의 `workspaces`에서 `"packages/etc/*"`를 `"packages/externs/*"`로 전환하고 기존 빈 `packages/etc` 디렉토리를 정리하여 외부 I/O 전담 `[E] Externs` 계층 정립
+- **단일 Vite 게이트웨이 멀티 프레임워크 플러그인 스코핑 (`packages/core/`)**:
+  - `@vitejs/plugin-react`, `@vitejs/plugin-vue` `devDependencies` 추가 및 `vite.config.ts`에서 `vite-plugin-solid`(`exclude`로 React/Vue 도메인 앱 경로 제외), `@vitejs/plugin-react`(`include`로 `packages/domains/work/task-react/**` 전담), `@vitejs/plugin-vue`(`.vue` SFC 전담) 스코핑 구성
+- **`work` 앱 카테고리 확장 (`packages/core/`)**:
+  - `fdCore.app.type.ts`의 `AppCategory`를 `'builtin' | 'sample' | 'work'`로 확장하고, 시작 메뉴(`fdShell.taskbar.start.tsx`)에 `Work` 필터 탭 및 `Work Apps` 섹션 반영
 
 ### Fixed
 - *(작업을 진행하며 수정될 사항 기록)*

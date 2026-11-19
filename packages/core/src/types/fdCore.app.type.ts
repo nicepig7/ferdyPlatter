@@ -39,8 +39,9 @@ export type ShortcutOpenMode = 'window' | 'new-tab';
  * 도메인 애플리케이션 분류 카테고리
  * - `'builtin'`: OS 기본 탑재 유틸리티/위젯 앱
  * - `'sample'`: 템플릿, 데모, 샌드박스 테스트용 앱
+ * - `'work'`: 개인 할 일 및 업무 생산성 도메인 앱
  */
-export type AppCategory = 'builtin' | 'sample';
+export type AppCategory = 'builtin' | 'sample' | 'work';
 
 /**
  * OS에 설치/등록된 도메인 애플리케이션의 고유 메타정보 (App Manifest)
