@@ -3,7 +3,7 @@
 다음 작업 세션에서 진행할 단기 **Action Items (TODO)**와 자유롭게 떠오르는 **아이디어(Backlog / Brainstorming)**를 가볍게 기록하고 관리하는 문서입니다.
 
 > **참고**: 큰 단위의 공식 마일스톤과 완료된 기능 명세는 [docs/features.md](../features.md)에서 관리하며, 이곳의 항목이 구현 완료되면 `features.md` 및 [docs/releases/releases.md](../releases/releases.md)에 반영한 뒤 정리합니다.
-> 현재 진행 중인 버전의 세부 작업 계획은 [todo.currVer.md](./todo.currVer.md)에서 관리하며, 주제별 상세 브레인스토밍 문서는 `docs/todo/todo.<topic>.md` 형태로 함께 관리합니다 (예: [todo.opfs.md](./todo.opfs.md)).
+> 직전 버전 작업 내역은 [todo.currVer.md](./todo.currVer.md)에 기록되어 있으며, 주제별 상세 브레인스토밍 문서는 `docs/todo/todo.<topic>.md` 형태로 함께 관리합니다 (예: [todo.opfs.md](./todo.opfs.md), [todo.webCompo.md](./todo.webCompo.md)).
 
 ---
 
@@ -11,14 +11,11 @@
 
 가장 먼저 착수할 만한 단기 작업 목록입니다.
 
-### 🚀 0.1.8 Focus — Multi-Framework MPA (React & Vue) & `[E] Externs` Layer
-세부 체크리스트 및 아키텍처 설계는 [todo.currVer.md](./todo.currVer.md)에서 관리합니다.
+### 🧩 `@ferdy/ui` Web Components (`Lit`) 표준화 (Next Milestone 후보)
+세부 설계 및 2층 하이브리드 전략은 [todo.webCompo.md](./todo.webCompo.md)에서 관리합니다.
 
-- [x] **Phase 1: `[E] Externs` 레이어 전환 및 `@ferdy/extern-task` 구축** (`packages/externs/task`, 인터페이스 계약 + `localStorage`/`BroadcastChannel` 어댑터)
-- [x] **Phase 2: 멀티 프레임워크 파이프라인 & `work` 카테고리 확장** (`@ferdy/tsconfig` React/Vue 프리셋, `vite.config.ts` 플러그인 스코핑, 시작 메뉴 `Work` 탭)
-- [x] **Phase 3: React 기반 개인·업무 Task 보드 앱** (`@ferdy/work-task-react`, `/domains/work/task-react/`)
-- [x] **Phase 4: Vue 기반 개인·업무 Task 보드 앱** (`@ferdy/work-task-vue`, `/domains/work/task-vue/`)
-- [x] **Phase 5: Core 레지스트리 등록, 통합 빌드/타입 검증 및 문서 동기화**
+- [ ] **Style Layer (`@ferdy/ui/styles.css`)**에 프레임워크 중립 CSS 컴포넌트 클래스(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input` 등) 정리
+- [ ] **Web Components (`Lit`) PoC**: `<fd-select>`, `<fd-switch>`, `<fd-text-field>` 등 복합 UI 요소를 Custom Elements로 구현해 Solid/React/Vue 공통 사용 검증
 
 ### 🪟 Window & Bridge 확장 후보군
 - [ ] **App ↔ Window 양방향 제어 확장 (`@ferdy/bridge` & `AppManifest`)**

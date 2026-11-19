@@ -10,7 +10,7 @@
 
 ## Latest Release
 
-- **[0.1.8] — Multi-Framework MPA (React & Vue) & Externs Layer (WIP)**: 멀티 프레임워크(React·Vue) 도메인 앱 및 `[E] Externs` 외부 연동 추상화 계층 구축 (작업 진행 중) → [상세 보기](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer-wip)
+- **[0.1.8] — Multi-Framework MPA (React & Vue) & Externs Layer**: 멀티 프레임워크(React 19 · Vue 3) Task 보드 도메인 앱, `[E] Externs` 외부 연동 계층(`@ferdy/extern-task`), 짝수 타이포그래피 스케일 토큰 정립 → [상세 보기](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer)
 
 ---
 
@@ -24,8 +24,7 @@
 
 ## Version Index (`0.1.x`)
 
-- **[0.1.8](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer-wip)** — Multi-Framework MPA (React & Vue) & Externs Layer (작업 진행 중)
-
+- **[0.1.8](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer)** — Multi-Framework MPA (React & Vue) & Externs Layer: `@ferdy/extern-task`, React 19 · Vue 3 Task 보드 앱, 짝수 타이포그래피 스케일 토큰
 - **[0.1.7](./releases.0.1.md#017---window-snapping-session-persistence--layout-actions-start-menu-empty--loading-window-views)** — 창 스냅, `localStorage` 세션 유지 및 일괄 정렬, 시작 메뉴, 빈 창 런처 및 로딩 오버레이
 - **[0.1.6](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)** — Calendar·Notes Builtin 앱 신설, 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` & UI/Core/Domains 구조 표준화
 - **[0.1.5](./releases.0.1.md#015---app-manifest-registry-servicesapp-metats-convention--brand-identity-fdplatter)** — App Manifest Registry (`services/app/`), `.meta.ts` 규칙, 브랜드 로고(`fdPlatter`), 활성 창 새로고침

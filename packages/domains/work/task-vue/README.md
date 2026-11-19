@@ -32,10 +32,23 @@ packages/domains/work/task-vue/
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 @vitejs/plugin-vue 설정
 ├── README.md           # 앱 개요 및 연동 명세
 └── src/
-    ├── main.ts         # @ferdy/ui/styles.css 로드 및 Vue 3 createApp 마운트
-    ├── vite-env.d.ts   # Vite 클라이언트 및 *.vue SFC 모듈 타입 선언
-    ├── appTaskVue.vue  # Task 보드 메인 SFC 컴포넌트 (<script setup lang="ts">)
-    └── appTaskVue.css  # --fd-* 디자인 토큰 기반 다크 테마 스타일 (React 앱과 동일 클래스 구조)
+    ├── main.ts                         # @ferdy/ui/styles.css 로드 및 Vue 3 createApp 마운트
+    ├── vite-env.d.ts                   # Vite 클라이언트 및 *.vue SFC 모듈 타입 선언
+    ├── appTaskVue.vue                  # Task 보드 메인 컨테이너 (<script setup lang="ts">)
+    ├── appTaskVue.css                  # 앱 루트 레이아웃 스타일
+    ├── common/
+    │   ├── appTaskVue.constants.ts     # 상태/분류/우선순위 라벨·옵션 상수
+    │   ├── appTaskVue.types.ts         # TaskFilterStatus 등 UI 전용 타입
+    │   └── appTaskVue.utils.ts         # 타임스탬프 포맷 등 순수 유틸리티
+    ├── composables/
+    │   └── appTaskVue.useTaskBoard.ts  # @ferdy/extern-task 연동, 필터링·CRUD·실시간 동기화 컴포저블
+    └── components/
+        ├── appTaskVue.header.*         # 상단 Vue 3 배지, 요약 카운터, [Compare with React] 버튼
+        ├── appTaskVue.quickAdd.*       # 빠른 Task 추가 폼
+        ├── appTaskVue.filterBar.*      # 상태/분류 필터, 키워드 검색, [Reset Seed]
+        ├── appTaskVue.list.*           # 티켓 카드 목록 및 빈 상태 안내
+        ├── appTaskVue.card.*           # 개별 티켓 카드 (원클릭 상태 순환·삭제)
+        └── appTaskVue.footer.*         # 하단 동기화 상태 푸터
 ```
 
 ---

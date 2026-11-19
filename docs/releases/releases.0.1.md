@@ -6,7 +6,7 @@
 
 ---
 
-## [0.1.8] - Multi-Framework MPA (React & Vue) & Externs Layer (WIP)
+## [0.1.8] - Multi-Framework MPA (React & Vue) & Externs Layer
 
 ### Added
 - **Task 외부 저장·동기화 어댑터 패키지 (`@ferdy/extern-task`, `packages/externs/task/`) 신설**:
@@ -28,8 +28,10 @@
   - `@ferdy/ui/styles.css` 스타일 토큰·웹폰트·아이콘 클래스만 격리 로드하고, Vue 3 `<script setup lang="ts">` Composition API와 `--fd-*` 토큰 기반의 동일 클래스 구조(`src/appTaskVue.vue`, `src/appTaskVue.css`)로 구현
   - 상단 `Vue 3` 배지 및 상태별 요약 카운터(`Total` / `Todo` / `In Progress` / `Done`), `ferdyBridge.openWindow` 기반 `[Compare with React]` 비교 창 런처, 빠른 Task 추가 폼, 상태/분류/키워드 다중 필터 및 `[Reset Seed]` 버튼, 원클릭 상태 순환·삭제 및 `taskExternService.subscribe` 실시간 창 간 동기화 지원
 - **Core Work 앱 매니페스트 및 바탕화면 바로가기 등록 (`packages/core/`)**:
-  - `src/services/app/fdCore.app.manifest.meta.ts`: `WORK_APP_MANIFESTS` (`work-task-react` — `'Task Board (React)'`, 아이콘 `'kanban'`, 톤 `'blue'`; `work-task-vue` — `'Task Board (Vue)'`, 아이콘 `'list-todo'`, 톤 `'teal'`) 신설 및 `INITIAL_APP_MANIFESTS` 병합 (`720×560` 기본 창 크기, 본문 최소 `420×360` + 창 프레임/타이틀바 제약 적용)
+  - `src/services/app/fdCore.app.manifest.meta.ts`: `WORK_APP_MANIFESTS` (`work-task-react` — `'Task Board (React)'`, 아이콘 `'kanban'`, 톤 `'amber'`; `work-task-vue` — `'Task Board (Vue)'`, 아이콘 `'list-todo'`, 톤 `'amber'`) 신설 및 `INITIAL_APP_MANIFESTS` 병합 (`720×560` 기본 창 크기, 본문 최소 `420×360` + 창 프레임/타이틀바 제약 적용)
   - `src/services/app/fdCore.app.shortcuts.meta.ts`: `INITIAL_DESKTOP_SHORTCUTS`에 `work-task-react-1`, `work-task-vue-1` 바탕화면 기본 바로가기 아이콘 등록
+- **`@ferdy/ui` 짝수 타이포그래피 스케일 토큰 추가 (`packages/base/ui/`)**:
+  - `src/styles/fdStyle.token.css`: `--fd-text-xs`(`12px`), `--fd-text-sm`(`14px`), `--fd-text-base`(`16px`), `--fd-text-lg`(`18px`), `--fd-text-xl`(`20px`), `--fd-text-2xl`(`24px`) 짝수 타이포그래피 스케일 토큰 정의
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:
@@ -40,9 +42,10 @@
   - `@vitejs/plugin-react`, `@vitejs/plugin-vue` `devDependencies` 추가 및 `vite.config.ts`에서 `vite-plugin-solid`(`exclude`로 React/Vue 도메인 앱 경로 제외), `@vitejs/plugin-react`(`include`로 `packages/domains/work/task-react/**` 전담), `@vitejs/plugin-vue`(`.vue` SFC 전담) 스코핑 구성
 - **`work` 앱 카테고리 확장 (`packages/core/`)**:
   - `fdCore.app.type.ts`의 `AppCategory`를 `'builtin' | 'sample' | 'work'`로 확장하고, 시작 메뉴(`fdShell.taskbar.start.tsx`)에 `Work` 필터 탭 및 `Work Apps` 섹션 반영
-
-### Fixed
-- *(작업을 진행하며 수정될 사항 기록)*
+- **OS 셸 및 기본 도메인 앱 타이포그래피 가독성 상향 (`@ferdy/ui`, `@ferdy/core`, `builtin/*`)**:
+  - `@ferdy/ui`(`fdStyle.base.css`, `button`, `badge`, `input`), `@ferdy/core`(바탕화면 아이콘·태스크바·시작 메뉴·창 타이틀바), `builtin/calendar`, `builtin/clock`, `builtin/notes`의 폰트 크기를 `--fd-text-*` 짝수 스케일 토큰 기준으로 상향 정리
+- **Task 보드 도메인 앱 모듈화 리팩토링 (`@ferdy/work-task-react`, `@ferdy/work-task-vue`)**:
+  - 단일 파일 컴포넌트를 `common/`(`constants`, `types`, `utils`), `components/`(`header`, `quickAdd`, `filterBar`, `list`, `card`, `footer`), `hooks/appTaskReact.useTaskBoard.ts` 및 `composables/appTaskVue.useTaskBoard.ts`로 역할별 분리
 
 ---
 

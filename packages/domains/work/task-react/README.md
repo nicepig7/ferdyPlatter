@@ -32,9 +32,22 @@ packages/domains/work/task-react/
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 @vitejs/plugin-react 설정
 ├── README.md           # 앱 개요 및 연동 명세
 └── src/
-    ├── main.tsx        # @ferdy/ui/styles.css 로드 및 React 19 createRoot 마운트
-    ├── appTaskReact.tsx # Task 보드 메인 컴포넌트 (@ferdy/extern-task, @ferdy/bridge 연동)
-    └── appTaskReact.css # --fd-* 디자인 토큰 기반 다크 테마 스타일 (Vue 앱과 동일 클래스 구조)
+    ├── main.tsx                        # @ferdy/ui/styles.css 로드 및 React 19 createRoot 마운트
+    ├── appTaskReact.tsx                # Task 보드 메인 컨테이너 (@ferdy/bridge 비교 창 실행 연동)
+    ├── appTaskReact.css                # 앱 루트 레이아웃 스타일
+    ├── common/
+    │   ├── appTaskReact.constants.ts   # 상태/분류/우선순위 라벨·옵션 상수
+    │   ├── appTaskReact.types.ts       # TaskFilterStatus 등 UI 전용 타입
+    │   └── appTaskReact.utils.ts       # 타임스탬프 포맷 등 순수 유틸리티
+    ├── hooks/
+    │   └── appTaskReact.useTaskBoard.ts # @ferdy/extern-task 연동, 필터링·CRUD·실시간 동기화 훅
+    └── components/
+        ├── appTaskReact.header.*       # 상단 React 19 배지, 요약 카운터, [Compare with Vue] 버튼
+        ├── appTaskReact.quickAdd.*     # 빠른 Task 추가 폼
+        ├── appTaskReact.filterBar.*    # 상태/분류 필터, 키워드 검색, [Reset Seed]
+        ├── appTaskReact.list.*         # 티켓 카드 목록 및 빈 상태 안내
+        ├── appTaskReact.card.*         # 개별 티켓 카드 (원클릭 상태 순환·삭제)
+        └── appTaskReact.footer.*       # 하단 동기화 상태 푸터
 ```
 
 ---

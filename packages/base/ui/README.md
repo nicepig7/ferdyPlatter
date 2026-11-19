@@ -26,7 +26,8 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
 - `fdStyle.token.css` (`@layer tokens`): 테마와 무관한 원시 값 토큰 정의
   - Color Palette Primitives (`--fd-palette-*`, `--fd-rgb-*`: Espresso, Cream/Sand, Terracotta, Forest/Mint, Crimson/Rose)
   - Radius Scale (`--fd-radius-xs`, `sm`, `md`, `lg`, `pill`)
-  - Typography (`--fd-font-sans`: `Pretendard Variable`, `--fd-font-mono`: `D2Coding`)
+  - Control Size (`--fd-control-height-sm: 30px`, `--fd-control-height-md: 36px`)
+  - Typography (`--fd-font-sans`: `Pretendard Variable`, `--fd-font-mono`: `D2Coding`, `--fd-text-xs` `12px` ~ `--fd-text-2xl` `24px` 짝수 스케일 토큰)
   - Motion / Transition (`--fd-duration-fast`, `--fd-duration-normal`, `--fd-ease-default`)
 - `fdStyle.theme.css` (`@layer theme`): `:root, [data-theme='dark']` 시맨틱 토큰 정의
   - Surface & Elevation (`--fd-bg-*`, `--fd-bg-glass`, `--fd-bg-window`, `--fd-shadow-window*`)
