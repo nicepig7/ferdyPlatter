@@ -9,11 +9,18 @@
 ## [0.1.8] - Multi-Framework MPA (React & Vue) & Externs Layer (WIP)
 
 ### Added
-- *(작업을 진행하며 추가될 기능 기록)*
+- **Task 외부 저장·동기화 어댑터 패키지 (`@ferdy/extern-task`, `packages/externs/task/`) 신설**:
+  - `src/fdExtern.task.ts`: 활성 어댑터 바인딩과 공개 퍼사드(`taskExternService`)를 정의하는 대표 진입 모듈 구현
+  - `src/fdExtern.task.type.ts`: `TaskStatus`, `TaskPriority`, `TaskCategory`, `TaskItem`, `CreateTaskInput`, `UpdateTaskPatch` 모델 및 비동기(`Promise`) 기반 `TaskExternService` 계약 인터페이스 정의
+  - `src/fdExtern.task.adapter.ts`: `localStorage`(`ferdy:extern:tasks`) JSON 영속화 및 `BroadcastChannel('ferdy:extern:task')` + `window` `storage` 이벤트를 활용한 동일 오리진 다중 `iframe` 창 간 실시간 동기화 구현체(`createLocalStorageTaskAdapter`) 캡슐화
+  - `src/fdExtern.task.util.ts` & `src/fdExtern.task.seed.ts`: 입력 정규화·상태 전이·타입 가드 순수 유틸리티 및 초기 데모 시드 데이터(6종) 분리
+  - `src/index.ts`: 도메인 앱에는 공개 타입과 `taskExternService` 싱글턴만 노출하고 내부 구현(`adapter`/`util`/`seed`)은 캡슐화
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:
   - 루트 및 전체 패키지(`@ferdy/assets`, `@ferdy/bridge`, `@ferdy/tsconfig`, `@ferdy/ui`, `@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)의 `package.json` 및 시작 메뉴 버전 배지를 `0.1.8`로 일괄 업데이트
+- **`[E]` 레이어 전환 (`packages/etc` → `packages/externs/*`)**:
+  - 루트 `package.json`의 `workspaces`에서 `"packages/etc/*"`를 `"packages/externs/*"`로 전환하고 기존 빈 `packages/etc` 디렉토리를 정리하여 외부 I/O 전담 `[E] Externs` 계층 정립
 
 ### Fixed
 - *(작업을 진행하며 수정될 사항 기록)*

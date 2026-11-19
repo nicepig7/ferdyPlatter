@@ -14,7 +14,7 @@
 ### 🚀 0.1.8 Focus — Multi-Framework MPA (React & Vue) & `[E] Externs` Layer
 세부 체크리스트 및 아키텍처 설계는 [todo.currVer.md](./todo.currVer.md)에서 관리합니다.
 
-- [ ] **Phase 1: `[E] Externs` 레이어 전환 및 `@ferdy/extern-task` 구축** (`packages/externs/task`, 인터페이스 계약 + `localStorage`/`BroadcastChannel` 어댑터)
+- [x] **Phase 1: `[E] Externs` 레이어 전환 및 `@ferdy/extern-task` 구축** (`packages/externs/task`, 인터페이스 계약 + `localStorage`/`BroadcastChannel` 어댑터)
 - [ ] **Phase 2: 멀티 프레임워크 파이프라인 & `work` 카테고리 확장** (`@ferdy/tsconfig` React/Vue 프리셋, `vite.config.ts` 플러그인 스코핑, 시작 메뉴 `Work` 탭)
 - [ ] **Phase 3: React 기반 개인·업무 Task 보드 앱** (`@ferdy/work-task-react`, `/domains/work/task-react/`)
 - [ ] **Phase 4: Vue 기반 개인·업무 Task 보드 앱** (`@ferdy/work-task-vue`, `/domains/work/task-vue/`)

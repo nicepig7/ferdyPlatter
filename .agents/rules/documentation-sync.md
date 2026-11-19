@@ -7,7 +7,7 @@
 1. **Root `README.md`**:
    - 깃허브 방문자 및 신규 개발자를 위한 프로젝트 개요, A-B-C-D-E 워크스페이스 구조, 빠른 실행 명령어, 문서 링크 허브 역할만 수행합니다.
    - 너무 깊은 구현 세부사항은 루트 `README.md`에 직접 적지 않고 `docs/` 하위 문서로 위임합니다.
-2. **Package `README.md` (`packages/assets/README.md`, `packages/base/*/README.md`, `packages/core/README.md`, `packages/domains/<category>/*/README.md`)**:
+2. **Package `README.md` (`packages/assets/README.md`, `packages/base/*/README.md`, `packages/core/README.md`, `packages/domains/<category>/*/README.md`, `packages/externs/*/README.md`)**:
    - 해당 워크스페이스 모듈의 역할, 내부 디렉토리 구조, 주요 상태/컴포넌트/API, 단독 실행 및 테스트 방법을 설명합니다.
    - 각 패키지의 주요 컴포넌트나 구조 변경 시 해당 `README.md`를 함께 업데이트합니다.
    - 새로운 도메인 앱(`packages/domains/<category>/<app-name>`) 추가 시 `.agents/skills/create-new-app/SKILL.md` 절차를 따르고, 해당 앱 폴더에 `README.md`를 반드시 생성합니다.

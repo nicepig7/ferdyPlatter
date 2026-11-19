@@ -8,7 +8,7 @@
 
 ## 핵심 특징
 
-- **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`) → `core` → `domains` → `etc` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
+- **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`) → `core` → `domains` → `externs` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
 - **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
 - **타입 안전 이벤트 브릿지 (`@ferdy/bridge`)**: `window.postMessage` 기반의 Pub/Sub 통신(`emit`, `on`, `broadcast`)을 타입 안전하게 추상화합니다.
 - **Single-Server MPA 아키텍처**: `@ferdy/core`의 단일 Vite 서버(`:3000`)가 미들웨어 게이트웨이를 통해 `/domains/<category>/<app-name>/` 경로로 `packages/domains/<category>/<app-name>/` 앱들을 온디맨드 서빙합니다.
@@ -49,7 +49,8 @@ ferdyPlatter/
     │   └── sample/           #     템플릿·예제·테스트용 샘플 앱
     │       ├── app/          #       @ferdy/sample-app — 샌드박스 레퍼런스 샘플 앱
     │       └── hello/        #       @ferdy/sample-hello — 최소 구성 Hello World 앱
-    └── etc/                  # [E] 실험적 모듈 및 기타 유틸리티 예비 공간
+    └── externs/              # [E] 시스템 외부 I/O·영속화·창 간 동기화 어댑터 계층
+        └── task/             #       @ferdy/extern-task — Task 저장 계약 및 localStorage + BroadcastChannel 어댑터
 ```
 
 ---
@@ -100,4 +101,5 @@ npm run preview
 | **[D] Builtin — Notes** | [packages/domains/builtin/notes/README.md](./packages/domains/builtin/notes/README.md) | `@ferdy/builtin-notes` 다중 메모 및 마크다운 메모장 앱 설명 |
 | **[D] Sample — App** | [packages/domains/sample/app/README.md](./packages/domains/sample/app/README.md) | `@ferdy/sample-app` 샌드박스 템플릿 설명 |
 | **[D] Sample — Hello** | [packages/domains/sample/hello/README.md](./packages/domains/sample/hello/README.md) | `@ferdy/sample-hello` 최소 구성 Hello World 앱 설명 |
+| **[E] Extern — Task** | [packages/externs/task/README.md](./packages/externs/task/README.md) | `@ferdy/extern-task` Task 외부 저장·창 간 동기화 어댑터 설명 |
 | **Agent Rules** | [AGENTS.md](./AGENTS.md) | AI 페어 프로그래밍 시 적용되는 프로젝트 규칙 안내 |

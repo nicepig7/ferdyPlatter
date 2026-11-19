@@ -8,7 +8,7 @@
     "packages/base/*",
     "packages/core",
     "packages/domains/**",
-    "packages/etc/*"
+    "packages/externs/*"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=@ferdy/core",

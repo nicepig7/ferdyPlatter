@@ -43,7 +43,14 @@
        - 초기 등록 메타데이터 (`services/<domain>/`): `fdCore.<domain>.<kind>.meta.ts` — 메타 정보를 저장하는 파일은 반드시 접미사(postfix)로 `.meta`를 붙이며, **한 파일에 한 종류의 데이터만 관리**합니다.
        - 타입 정의 (`types/`): `fdCore.<domain>.type.ts`
    - **[D] `packages/domains/<category>/*` (`@ferdy/<category>-<name>`)**: `iframe` 샌드박스 내부에서 독립 실행되는 개별 도메인 웹 앱 (`builtin/*`, `sample/*` 등 카테고리별 그룹화).
-   - **[E] `packages/etc`**: 기타 실험적 모듈, 외부 연동 어댑터, 유틸리티 공간.
+   - **[E] `packages/externs/*` (`@ferdy/extern-<domain>`)**: 시스템 외부 저장소(`localStorage`, `OPFS`, 향후 `REST API` 등) 및 창 간 동기화 I/O를 전담하는 어댑터 계층.
+     - 도메인 앱(`packages/domains/**`)에는 순수 계약(`TaskExternService` 등)과 데이터 모델, 그리고 대표 서비스 퍼사드만 노출하고 세부 I/O 구현은 캡슐화합니다.
+     - 역할별 파일 접두어/접미어 규칙 (`fdExtern.<domain>.*`):
+       - 대표 서비스 퍼사드 & 어댑터 바인딩 (`src/`): `fdExtern.<domain>.ts`
+       - 공개 계약·데이터 모델 (`src/`): `fdExtern.<domain>.type.ts`
+       - 외부 I/O 구현체 (`src/`): `fdExtern.<domain>.adapter.ts`
+       - 순수 유틸리티 (`src/`): `fdExtern.<domain>.util.ts`
+       - 초기 시드 데이터 (`src/`): `fdExtern.<domain>.seed.ts`
 2. **Core ↔ Domain App 격리 원칙**:
    - 개별 앱(`packages/domains/**`)은 Core의 내부 스토어(`windowStore` 등)를 직접 import해서는 안 됩니다.
    - 앱과 Core 간의 모든 상호작용은 `@ferdy/bridge` (`ferdyBridge`)를 통해 이루어져야 하며, 공통 Look & Feel은 `@ferdy/ui`를 통해 일관되게 유지합니다.

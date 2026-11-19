@@ -1,0 +1,4 @@
+{
+  "extends": "@ferdy/tsconfig/base.json",
+  "include": ["src"]
+}

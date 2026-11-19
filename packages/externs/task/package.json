@@ -1,0 +1,11 @@
+{
+  "name": "@ferdy/extern-task",
+  "version": "0.1.8",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}

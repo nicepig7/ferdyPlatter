@@ -26,8 +26,9 @@
           │
           ▼  (순수 인터페이스 / Promise 기반 계약만 의존)
 [E] Externs (@ferdy/extern-task, packages/externs/task/)
+ ├── Root Facade     : fdExtern.task.ts (taskExternService 공개 퍼사드 & 어댑터 바인딩)
  ├── Public Contract : fdExtern.task.type.ts (TaskItem, TaskExternService)
- └── Internal Adapter: fdExtern.task.adapter.ts
+ └── Internal Adapter: fdExtern.task.adapter.ts, fdExtern.task.util.ts, fdExtern.task.seed.ts
           │
           ├── v0.1.8 : localStorage 영속화 + BroadcastChannel('ferdy:extern:task') 창 간 동기화
           └── Future : OPFS 파일 시스템 / 원격 REST API 어댑터 교체 (도메인 앱 코드 무변경)
@@ -38,9 +39,9 @@
 ## ✅ 세부 작업 Task 목록
 
 ### Phase 1: `[E] Externs` 레이어 전환 및 `@ferdy/extern-task` 패키지 구축
-- [ ] **워크스페이스 전환**: 루트 `package.json`의 `"packages/etc/*"`를 `"packages/externs/*"`로 변경
-- [ ] **패키지 초기화**: `packages/externs/task/` (`@ferdy/extern-task`)에 `package.json`, `tsconfig.json`, `README.md` 생성
-- [ ] **인터페이스 및 모델 정의 (`src/fdExtern.task.type.ts`)**:
+- [x] **워크스페이스 전환**: 루트 `package.json`의 `"packages/etc/*"`를 `"packages/externs/*"`로 변경
+- [x] **패키지 초기화**: `packages/externs/task/` (`@ferdy/extern-task`)에 `package.json`, `tsconfig.json`, `README.md` 생성
+- [x] **인터페이스 및 모델 정의 (`src/fdExtern.task.type.ts`)**:
   - `TaskStatus`: `'todo' | 'in-progress' | 'done'`
   - `TaskPriority`: `'low' | 'medium' | 'high'`
   - `TaskCategory`: `'work' | 'personal' | 'study' | 'idea'`
@@ -54,11 +55,12 @@
     - `deleteTask(id: string): Promise<void>`
     - `resetToSeed(): Promise<TaskItem[]>`
     - `subscribe(listener: (tasks: TaskItem[]) => void): () => void`
-- [ ] **기본 시드 데이터 (`src/fdExtern.task.seed.ts`)**: 업무 티켓과 개인 할 일이 조화된 초기 데모 데이터 정의
-- [ ] **내부 저장·동기화 어댑터 (`src/fdExtern.task.adapter.ts`)**:
-  - `localStorage` 기반 JSON 직렬화 영속화
+- [x] **기본 시드 데이터 (`src/fdExtern.task.seed.ts`)**: 업무 티켓과 개인 할 일이 조화된 초기 데모 데이터 정의
+- [x] **내부 저장·동기화 어댑터 & 유틸 (`src/fdExtern.task.adapter.ts`, `src/fdExtern.task.util.ts`)**:
+  - `localStorage` 기반 JSON 직렬화 영속화 및 런타임 검증·정규화 유틸리티 분리
   - `BroadcastChannel('ferdy:extern:task')` 및 `window` `storage` 이벤트를 활용한 동일 오리진 내 다중 `iframe` 창 간 실시간 변경 전파
-- [ ] **공개 진입점 (`src/index.ts`)**: 외부 앱에는 인터페이스/타입 및 `taskExternService` 싱글턴 인스턴스만 노출 (내부 구현 세부는 비공개 캡슐화)
+- [x] **대표 공개 서비스 퍼사드 (`src/fdExtern.task.ts`)**: 활성 어댑터 바인딩 및 `taskExternService` 공개 퍼사드 구현
+- [x] **공개 진입점 (`src/index.ts`)**: 외부 앱에는 인터페이스/타입 및 `taskExternService` 싱글턴 인스턴스만 노출 (내부 구현 세부는 비공개 캡슐화)
 
 ### Phase 2: 멀티 프레임워크 빌드·타입 파이프라인 및 `work` 카테고리 확장
 - [ ] **`@ferdy/tsconfig` 확장 (`packages/base/tsconfig/`)**:

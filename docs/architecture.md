@@ -19,7 +19,7 @@
 | **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트), `postMessage` Pub/Sub 브릿지 및 공통 TypeScript 설정 |
 | **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리, 윈도우 매니저 및 단일 Vite 서버 MPA 게이트웨이 |
 | **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 카테고리별 도메인 웹 애플리케이션 (`builtin`, `sample`) |
-| **[E] Etc** | `packages/etc` | - | 실험적 기능, 외부 연동 어댑터, 기타 보조 스크립트를 위한 확장 공간 |
+| **[E] Externs** | `packages/externs/*` | `@ferdy/extern-*` | 시스템 외부(`localStorage`, `OPFS`, `REST API` 등) I/O 및 창 간 동기화를 캡슐화하고 도메인 앱에 순수 계약만 제공하는 어댑터 계층 |
 
 ```mermaid
 flowchart TB
@@ -39,6 +39,10 @@ flowchart TB
             Static["/assets/* & FERDY_ASSETS.paths"]
         end
 
+        subgraph Externs["[E] Externs"]
+            ExternTask["@ferdy/extern-task (Contract & I/O Adapter)"]
+        end
+
         subgraph Window1["[D] Window #1 (iframe sandbox)"]
             App1["@ferdy/sample-app (/domains/sample/app/)"]
         end
@@ -56,6 +60,7 @@ flowchart TB
     App1 --> UI
     App1 --> Bridge
     App2 --> UI
+    App1 -.-> ExternTask
     Bridge <--> Core
 ```
 
@@ -128,3 +133,19 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 | `FERDY_OPEN_WINDOW` | App → Core | `id?`, `appId?`, `title?`, `appUrl?`, `icon?`, `queryParams?`, `x?`, `y?`, `width?`, `height?` | 자식 앱 내부에서 Core에게 새로운 창 생성을 요청 (`appId` 지정 시 레지스트리 기본값 활용) |
 | `FERDY_SET_WINDOW_LOADING` | App → Core | `loading: boolean`, `message?`, `windowId?` | 자식 앱이 속한 부모 창(또는 지정한 `windowId`)의 로딩 오버레이 표시 여부 및 안내 문구 제어 |
 | `FERDY_THEME_CHANGE` | Core → Apps | `theme: 'dark' \| 'light'` | Core에서 열린 모든 `iframe` 앱으로 테마 변경을 브로드캐스트 *(런타임 스위처 연동 예정)* |
+
+---
+
+## 6. 외부 스토리지 & I/O 어댑터 계층 (`packages/externs/*`)
+
+도메인 앱(`packages/domains/**`)이 브라우저 저장소(`localStorage`, `OPFS`)나 원격 API 세부 구현에 직접 결합되지 않도록, **[E] Externs** 계층은 **계약 우선(Contract-First) 어댑터 패턴**으로 외부 I/O를 캡슐화합니다.
+
+- **공개 인터페이스 vs 내부 구현 격리**:
+  - `src/index.ts`는 도메인 모델·계약 타입(`fdExtern.<domain>.type.ts`)과 대표 서비스 퍼사드 싱글턴(`fdExtern.<domain>.ts`)만 외부에 노출합니다.
+  - 실제 영속화/동기화 구현체(`fdExtern.<domain>.adapter.ts`), 순수 변환·검증 유틸리티(`fdExtern.<domain>.util.ts`), 초기 시드 데이터(`fdExtern.<domain>.seed.ts`)는 패키지 내부에 캡슐화되어 향후 `OPFS`나 `REST API`로 어댑터를 교체하더라도 도메인 앱 코드를 수정할 필요가 없습니다.
+- **표준 모듈 구조 (`@ferdy/extern-task` 기준)**:
+  - `fdExtern.task.ts`: 활성 어댑터(`createLocalStorageTaskAdapter`)를 바인딩하는 대표 서비스 퍼사드(`taskExternService`)
+  - `fdExtern.task.type.ts`: `TaskItem`, `TaskExternService` 등 순수 데이터 모델 및 비동기(`Promise`) 계약 정의
+  - `fdExtern.task.adapter.ts`: `localStorage`(`ferdy:extern:tasks`) 영속화 및 `BroadcastChannel('ferdy:extern:task')`·`window` `storage` 이벤트 기반 다중 `iframe` 창 간 실시간 동기화 구현
+  - `fdExtern.task.util.ts`: 상태 전이(`getNextTaskStatus`), 입력 정규화, 엔티티 조립/패치, 런타임 스키마 검증(`isValidTaskItem`) 순수 함수
+  - `fdExtern.task.seed.ts`: 초기 실행 및 `resetToSeed()` 복원용 기본 시드 데이터
