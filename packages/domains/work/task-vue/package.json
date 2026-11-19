@@ -1,0 +1,23 @@
+{
+  "name": "@ferdy/work-task-vue",
+  "version": "0.1.8",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit && tsc --noEmit -p tsconfig.node.json"
+  },
+  "dependencies": {
+    "@ferdy/bridge": "*",
+    "@ferdy/extern-task": "*",
+    "@ferdy/ui": "*",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.1",
+    "vue-tsc": "^2.1.10"
+  }
+}

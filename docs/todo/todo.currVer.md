@@ -90,14 +90,14 @@
   - 티켓 카드 리스트: 상태 배지 클릭 시 원클릭 상태 순환(`todo → in-progress → done`), 우선순위/분류 배지, 메모/시각 표시, 삭제 버튼, 외부 창 변경 시 `subscribe`로 자동 갱신
 
 ### Phase 4: Vue 기반 Task 보드 도메인 앱 (`@ferdy/work-task-vue`)
-- [ ] **패키지 스캐폴딩 (`packages/domains/work/task-vue/`)**:
+- [x] **패키지 스캐폴딩 (`packages/domains/work/task-vue/`)**:
   - `package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `index.html`, `README.md` 작성
   - Vue 3 (`<script setup lang="ts">`) 및 `vue-tsc` 타입체크 스크립트 구성
   - 서빙 경로: `/domains/work/task-vue/` (`<head>` FOUC 방지 다크 프리로드 스타일 포함)
-- [ ] **공통 스타일 및 레이어 연동**:
+- [x] **공통 스타일 및 레이어 연동**:
   - `import '@ferdy/ui/styles.css'`로 디자인 토큰(`--fd-*`) 및 다크 테마 공유
   - `@ferdy/extern-task` (`taskExternService`) 및 `@ferdy/bridge` (`ferdyBridge`) 연동
-- [ ] **UI 및 기능 구현 (`@ferdy/work-task-react`와 100% 동일 스펙)**:
+- [x] **UI 및 기능 구현 (`@ferdy/work-task-react`와 100% 동일 스펙)**:
   - 상단 헤더: `Vue 3` 프레임워크 배지, 상태별 요약 카운터, `ferdyBridge.openWindow`로 React 앱을 즉시 여는 `[Compare with React]` 버튼
   - 빠른 Task 추가 폼, 다중 필터 바(상태/분류/검색/초기화), 티켓 카드 리스트 및 실시간 동기화
 
