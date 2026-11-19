@@ -22,7 +22,7 @@
 }
 
 .cal-selected-label {
-  font-size: 10px;
+  font-size: var(--fd-text-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--fd-text-dim);
@@ -30,7 +30,7 @@
 
 .cal-selected-date {
   font-family: var(--fd-font-sans);
-  font-size: clamp(13px, min(3.2vw, 3.4vh), 22px);
+  font-size: clamp(14px, min(3.2vw, 3.4vh), 22px);
   font-weight: 600;
   color: var(--fd-text-secondary);
   font-variant-numeric: tabular-nums;
@@ -54,6 +54,6 @@
 }
 
 .cal-memo-input {
-  font-size: clamp(12px, min(2.8vw, 3vh), 15px);
+  font-size: clamp(14px, min(2.8vw, 3vh), 16px);
   line-height: 1.3;
 }

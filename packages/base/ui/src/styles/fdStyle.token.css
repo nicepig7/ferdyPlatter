@@ -71,6 +71,13 @@
     --fd-font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
     --fd-font-mono: 'D2Coding', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
+    --fd-text-xs: 12px;
+    --fd-text-sm: 14px;
+    --fd-text-base: 16px;
+    --fd-text-lg: 18px;
+    --fd-text-xl: 20px;
+    --fd-text-2xl: 24px;
+
     /* ======================================================================
      * Motion / Transition Tokens
      * ====================================================================== */

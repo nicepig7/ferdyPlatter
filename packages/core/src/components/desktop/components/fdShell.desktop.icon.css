@@ -111,7 +111,7 @@
 
 .os-desktop-icon-label {
   width: 100%;
-  font-size: clamp(11px, calc(var(--os-cell-size, 100px) * 0.13), 16px);
+  font-size: clamp(14px, calc(var(--os-cell-size, 100px) * 0.14), 18px);
   font-weight: 500;
   color: var(--fd-text-secondary);
   text-align: center;

@@ -28,7 +28,7 @@
 
 .cal-year-month {
   font-family: var(--fd-font-sans);
-  font-size: clamp(15px, min(5.2vw, 5.5vh), 44px);
+  font-size: clamp(16px, min(5.2vw, 5.5vh), 44px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--fd-text-primary);
@@ -37,7 +37,7 @@
 }
 
 .cal-month-name {
-  font-size: clamp(12px, min(3vw, 3.2vh), 24px);
+  font-size: clamp(14px, min(3vw, 3.2vh), 24px);
   font-weight: 500;
   color: var(--fd-text-muted);
   overflow: hidden;

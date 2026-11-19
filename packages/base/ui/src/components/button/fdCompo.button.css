@@ -23,13 +23,13 @@
 
   .fd-btn--sm {
     padding: 4px 10px;
-    font-size: 12px;
+    font-size: var(--fd-text-sm);
     border-radius: var(--fd-radius-sm);
   }
 
   .fd-btn--md {
     padding: 8px 14px;
-    font-size: 13px;
+    font-size: var(--fd-text-base);
   }
 
   .fd-btn--primary {

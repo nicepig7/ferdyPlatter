@@ -26,7 +26,7 @@
   background: linear-gradient(135deg, rgba(217, 119, 54, 0.22), rgba(59, 110, 82, 0.24));
   color: var(--fd-text-primary);
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--fd-text-sm);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: center;
   color: var(--fd-primary);
-  font-size: 15px;
+  font-size: var(--fd-text-base);
   flex-shrink: 0;
 }
 
@@ -70,7 +70,7 @@
   border: 1px solid var(--fd-border-subtle);
   background: rgba(40, 33, 29, 0.65);
   color: var(--fd-text-secondary);
-  font-size: 12px;
+  font-size: var(--fd-text-sm);
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -125,7 +125,7 @@
 
 .os-taskbar-item-z {
   font-family: var(--fd-font-mono);
-  font-size: 10px;
+  font-size: var(--fd-text-xs);
   padding: 1px 5px;
   border-radius: 4px;
   background: rgba(18, 15, 13, 0.55);
@@ -136,7 +136,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 12px;
+  font-size: var(--fd-text-sm);
   color: var(--fd-text-muted);
 }
 
