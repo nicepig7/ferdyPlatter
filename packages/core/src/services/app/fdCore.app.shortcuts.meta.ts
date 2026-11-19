@@ -16,14 +16,6 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     appId: 'builtin-clock',
   },
   {
-    id: 'sample-app-2',
-    appId: 'sample-app',
-    title: 'Second Instance',
-    icon: 'rocket',
-    tone: 'amber',
-    queryParams: { instance: 2 },
-  },
-  {
     id: 'sample-hello-1',
     appId: 'sample-hello',
   },

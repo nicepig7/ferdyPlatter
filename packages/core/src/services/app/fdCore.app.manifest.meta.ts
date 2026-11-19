@@ -90,7 +90,7 @@ export const WORK_APP_MANIFESTS: AppManifest[] = [
     category: 'work',
     title: 'Task Board (React)',
     icon: 'kanban',
-    tone: 'blue',
+    tone: 'amber',
     appUrl: '/domains/work/task-react/',
     description: 'React 19 및 @ferdy/extern-task 기반 실시간 동기화 업무·개인 Task 보드 앱',
     defaultWindow: {
@@ -105,7 +105,7 @@ export const WORK_APP_MANIFESTS: AppManifest[] = [
     category: 'work',
     title: 'Task Board (Vue)',
     icon: 'list-todo',
-    tone: 'teal',
+    tone: 'amber',
     appUrl: '/domains/work/task-vue/',
     description: 'Vue 3 및 @ferdy/extern-task 기반 실시간 동기화 업무·개인 Task 보드 앱',
     defaultWindow: {
