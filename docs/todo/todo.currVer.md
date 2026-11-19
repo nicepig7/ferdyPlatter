@@ -102,12 +102,12 @@
   - 빠른 Task 추가 폼, 다중 필터 바(상태/분류/검색/초기화), 티켓 카드 리스트 및 실시간 동기화
 
 ### Phase 5: Core 레지스트리 등록, 통합 검증 및 문서 동기화
-- [ ] **Core 매니페스트 & 바로가기 등록 (`packages/core/`)**:
+- [x] **Core 매니페스트 & 바로가기 등록 (`packages/core/`)**:
   - `src/services/app/fdCore.app.manifest.meta.ts`: `WORK_APP_MANIFESTS` (`work-task-react`, `work-task-vue`) 추가 및 `INITIAL_APP_MANIFESTS` 병합
   - `src/services/app/fdCore.app.shortcuts.meta.ts`: 바탕화면 기본 바로가기 아이콘 등록
-- [ ] **통합 검증**:
+- [x] **통합 검증**:
   - 루트 `npm install` 후 `npm run typecheck` 전 패키지 통과 확인
   - 루트 `npm run build` 실행 및 `packages/core/dist/domains/work/task-react/`, `task-vue/` 멀티페이지 번들링 결과 확인
   - 개발 서버(`npm run dev`)에서 React 창 ↔ Vue 창 동시 실행 및 실시간 Task 동기화 동작 확인
-- [ ] **문서 동기화**:
+- [x] **문서 동기화**:
   - `AGENTS.md`, `README.md`, `docs/architecture.md`, `docs/features.md`, `docs/releases/releases.0.1.md`, `docs/releases/releases.md` 최신화

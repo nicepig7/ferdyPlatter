@@ -27,6 +27,9 @@
   - `@ferdy/tsconfig/vue.json`, `@vitejs/plugin-vue`, `vue-tsc` 기반 스캐폴딩(`package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `index.html`, `README.md`, `src/vite-env.d.ts`) 및 `/domains/work/task-vue/` 서빙·FOUC 방지 프리로드 적용
   - `@ferdy/ui/styles.css` 스타일 토큰·웹폰트·아이콘 클래스만 격리 로드하고, Vue 3 `<script setup lang="ts">` Composition API와 `--fd-*` 토큰 기반의 동일 클래스 구조(`src/appTaskVue.vue`, `src/appTaskVue.css`)로 구현
   - 상단 `Vue 3` 배지 및 상태별 요약 카운터(`Total` / `Todo` / `In Progress` / `Done`), `ferdyBridge.openWindow` 기반 `[Compare with React]` 비교 창 런처, 빠른 Task 추가 폼, 상태/분류/키워드 다중 필터 및 `[Reset Seed]` 버튼, 원클릭 상태 순환·삭제 및 `taskExternService.subscribe` 실시간 창 간 동기화 지원
+- **Core Work 앱 매니페스트 및 바탕화면 바로가기 등록 (`packages/core/`)**:
+  - `src/services/app/fdCore.app.manifest.meta.ts`: `WORK_APP_MANIFESTS` (`work-task-react` — `'Task Board (React)'`, 아이콘 `'kanban'`, 톤 `'blue'`; `work-task-vue` — `'Task Board (Vue)'`, 아이콘 `'list-todo'`, 톤 `'teal'`) 신설 및 `INITIAL_APP_MANIFESTS` 병합 (`720×560` 기본 창 크기, 본문 최소 `420×360` + 창 프레임/타이틀바 제약 적용)
+  - `src/services/app/fdCore.app.shortcuts.meta.ts`: `INITIAL_DESKTOP_SHORTCUTS`에 `work-task-react-1`, `work-task-vue-1` 바탕화면 기본 바로가기 아이콘 등록
 
 ### Changed
 - **워크스페이스 버전 상향 (`0.1.7` → `0.1.8`)**:

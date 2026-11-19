@@ -16,9 +16,9 @@
 | 계층 | 디렉토리 | 패키지명 | 역할 |
 | :--- | :--- | :--- | :--- |
 | **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 정적 파일 경로 상수(`FERDY_ASSETS.paths`) |
-| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 모든 패키지의 기반이 되는 디자인 시스템(토큰, Base CSS, Solid 컴포넌트), `postMessage` Pub/Sub 브릿지 및 공통 TypeScript 설정 |
+| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 디자인 시스템(토큰, Base CSS, `@ferdy/ui/styles.css` 스타일 전용 엔트리 및 Solid 컴포넌트), `postMessage` Pub/Sub 브릿지 및 멀티 프레임워크(`base`, `react`, `vue`, `node`) TypeScript 설정 |
 | **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리, 윈도우 매니저 및 단일 Vite 서버 MPA 게이트웨이 |
-| **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 카테고리별 도메인 웹 애플리케이션 (`builtin`, `sample`) |
+| **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 멀티 프레임워크(SolidJS · React 19 · Vue 3) 도메인 앱 (`builtin`, `sample`, `work`) |
 | **[E] Externs** | `packages/externs/*` | `@ferdy/extern-*` | 시스템 외부(`localStorage`, `OPFS`, `REST API` 등) I/O 및 창 간 동기화를 캡슐화하고 도메인 앱에 순수 계약만 제공하는 어댑터 계층 |
 
 ```mermaid
@@ -31,7 +31,7 @@ flowchart TB
         end
 
         subgraph Base["[B] Shared Base Modules"]
-            UI["@ferdy/ui (CSS Layers & <fd.*> Components)"]
+            UI["@ferdy/ui (CSS Layers / @ferdy/ui/styles.css / fd.*)"]
             Bridge["@ferdy/bridge (Typed Pub/Sub Event Bus)"]
         end
 
@@ -40,15 +40,19 @@ flowchart TB
         end
 
         subgraph Externs["[E] Externs"]
-            ExternTask["@ferdy/extern-task (Contract & I/O Adapter)"]
+            ExternTask["@ferdy/extern-task (Contract & BroadcastChannel/localStorage Adapter)"]
         end
 
-        subgraph Window1["[D] Window #1 (iframe sandbox)"]
-            App1["@ferdy/sample-app (/domains/sample/app/)"]
+        subgraph Window1["[D] Window #1 (iframe sandbox · SolidJS)"]
+            App1["@ferdy/builtin-clock (/domains/builtin/clock/)"]
         end
 
-        subgraph Window2["[D] Window #2 (iframe sandbox)"]
-            App2["@ferdy/builtin-clock (/domains/builtin/clock/)"]
+        subgraph Window2["[D] Window #2 (iframe sandbox · React 19)"]
+            App2["@ferdy/work-task-react (/domains/work/task-react/)"]
+        end
+
+        subgraph Window3["[D] Window #3 (iframe sandbox · Vue 3)"]
+            App3["@ferdy/work-task-vue (/domains/work/task-vue/)"]
         end
     end
 
@@ -58,9 +62,12 @@ flowchart TB
     Core --> Bridge
     Core --> Assets
     App1 --> UI
-    App1 --> Bridge
-    App2 --> UI
-    App1 -.-> ExternTask
+    App2 -->|styles.css| UI
+    App3 -->|styles.css| UI
+    App2 --> Bridge
+    App3 --> Bridge
+    App2 <-->|subscribe / sync| ExternTask
+    App3 <-->|subscribe / sync| ExternTask
     Bridge <--> Core
 ```
 
@@ -77,9 +84,15 @@ Ferdy Platter는 `packages/core/plugins/monorepoDomainsGateway.ts`의 `createMon
 3. HTML 내부의 상대 스크립트 경로(`./src/main.tsx` 등)를 Vite 파일시스템 서빙 경로인 `/@fs/<절대경로>/src/main.tsx`로 치환한 뒤 `server.transformIndexHtml`을 거쳐 반환합니다.
 4. `publicDir`이 `packages/assets/public`으로 지정되어 있어, Core와 모든 `iframe` 앱이 `/assets/...` 정적 리소스를 동일 오리진에서 즉시 공유합니다.
 
-### 2.2 프로덕션 빌드 및 코드 공유 (Shared Chunks)
+### 2.2 멀티 프레임워크 플러그인 스코핑 (`packages/core/vite.config.ts`)
+단일 Vite 서버와 단일 프로덕션 빌드 파이프라인 위에서 **SolidJS**, **React 19**, **Vue 3** JSX/SFC 변환기가 서로 간섭하지 않도록 `packages/core/vite.config.ts`에서 플러그인 적용 범위를 명시적으로 분리합니다.
+- **`vite-plugin-solid`**: `exclude` 옵션으로 React 및 Vue 도메인 앱 경로(`**/packages/domains/work/task-react/**`, `**/packages/domains/work/task-vue/**`)를 제외하여 Core 및 기본 SolidJS 앱만 전담 처리
+- **`@vitejs/plugin-react`**: `include` 옵션으로 `**/packages/domains/work/task-react/**/*.{tsx,ts,jsx,js}` 경로의 React JSX 변환만 전담 처리
+- **`@vitejs/plugin-vue`**: `.vue` 단일 파일 컴포넌트(SFC) 변환 전담 처리
+
+### 2.3 프로덕션 빌드 및 코드 공유 (Shared Chunks)
 1. `npm run build` 실행 시 `packages/domains/**` 하위 폴더들을 재귀 스캔하여 `dist/domains/<app-rel-path>/index.html` 멀티페이지 엔트리로 번들링합니다.
-2. 각 `iframe`은 런타임에 독립된 DOM/JS 인스턴스로 격리 실행되지만, 빌드 시 Rollup이 `solid-js`, `@ferdy/ui`, `@ferdy/bridge`를 **공통 청크(`dist/assets/...`)로 자동 추출**하므로 네트워크 다운로드는 1회(브라우저 캐시 공유)만 발생합니다.
+2. 각 `iframe`은 런타임에 독립된 DOM/JS 인스턴스로 격리 실행되지만, 빌드 시 Rollup이 `@ferdy/ui/styles.css`, `@ferdy/bridge`, `@ferdy/extern-task` 등 공통 모듈을 **공유 청크(`dist/assets/...`)로 자동 추출**하므로 프레임워크가 달라도 브라우저 캐시를 공유할 수 있습니다.
 
 ---
 
@@ -104,7 +117,11 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 
 ## 4. 중앙 디자인 시스템 (`@ferdy/ui`)
 
-`iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`)가 `@ferdy/ui`를 import하여 동일한 Look & Feel을 구성합니다.
+`iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`, `@ferdy/work-*`)가 `@ferdy/ui`의 스타일 시스템을 import하여 동일한 Look & Feel을 구성합니다.
+
+- **프레임워크별 진입점 분리 (`@ferdy/ui` vs `@ferdy/ui/styles.css`)**:
+  - **SolidJS 패키지 (`@ferdy/core`, `builtin/*`, `sample/*`)**: `@ferdy/ui` 기본 엔트리를 import하여 CSS `@layer` 스타일과 SolidJS UI Primitives(`<fd.*>`)를 함께 사용합니다.
+  - **비-Solid 도메인 앱 (`@ferdy/work-task-react`, `@ferdy/work-task-vue` 등)**: `packages/base/ui/package.json`의 `"./styles.css"` export를 통해 **`import '@ferdy/ui/styles.css'`** 만 로드합니다. 이를 통해 SolidJS 런타임 의존성 없이 동일한 CSS `@layer`, `--fd-*` 토큰, 웹폰트, Lucide 아이콘 폰트(`.icon-*`), 다크 테마를 프레임워크 충돌 없이 공유합니다.
 
 - **CSS Cascade Layers (`styles/index.css`, `fdStyle.*.css` & `fdCompo.style.css`)**:
   - `@layer reset, tokens, theme, libraries, base, components;` 6계층 구조로 스타일 우선순위를 제어하며, 전역 스타일시트는 `fdStyle.` 접두어를 사용합니다.

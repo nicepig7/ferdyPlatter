@@ -1,16 +1,18 @@
 # Ferdy Platter (FerdyOS)
 
-**SolidJS**, **Vite**, **TypeScript** 기반의 **Single-Server MPA(Multi-Page Application) Web OS** 모노레포 프로젝트입니다.
+**SolidJS** 코어 기반의 **Single-Server MPA(Multi-Page Application) Web OS** 모노레포 프로젝트입니다.
 
-데스크탑 OS와 유사한 창 관리(Window Manager) 환경을 웹 브라우저 위에 구현하며, **`packages/` 하위의 A-B-C-D-E 계층 아키텍처**를 통해 에셋(`assets`), 기반 모듈(`base/ui`, `base/bridge`), OS 코어(`core`), 그리고 `iframe` 샌드박스로 격리된 개별 도메인 앱(`domains/**`)을 체계적으로 관리합니다.
+데스크탑 OS와 유사한 창 관리(Window Manager) 환경을 웹 브라우저 위에 구현하며, **`packages/` 하위의 A-B-C-D-E 계층 아키텍처**를 통해 에셋(`assets`), 기반 모듈(`base/ui`, `base/bridge`, `base/tsconfig`), OS 코어(`core`), `iframe` 샌드박스로 격리된 멀티 프레임워크(SolidJS · React 19 · Vue 3) 도메인 앱(`domains/**`), 그리고 외부 I/O 어댑터(`externs/*`)를 체계적으로 관리합니다.
 
 ---
 
 ## 핵심 특징
 
-- **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`) → `core` → `domains` → `externs` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
-- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField` 및 `Fd*` / 기본 별칭)를 통해 Core와 모든 격리된 `iframe` 앱이 일관된 디자인을 공유합니다.
+- **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`, `tsconfig`) → `core` → `domains` → `externs` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
+- **멀티 프레임워크 MPA 공존**: `@ferdy/core`의 단일 Vite 서버(`:3000`) 및 플러그인 스코핑을 통해 SolidJS 코어·기본 앱뿐만 아니라 **React 19**(`@ferdy/work-task-react`)와 **Vue 3**(`@ferdy/work-task-vue`) 도메인 앱이 충돌 없이 동일 오리진에서 함께 서빙·빌드됩니다.
+- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField`)를 제공하며, 비-Solid 도메인 앱은 순수 스타일 엔트리(`@ferdy/ui/styles.css`)만 로드하여 동일한 디자인과 다크 테마를 공유합니다.
 - **타입 안전 이벤트 브릿지 (`@ferdy/bridge`)**: `window.postMessage` 기반의 Pub/Sub 통신(`emit`, `on`, `broadcast`)을 타입 안전하게 추상화합니다.
+- **계약 우선 외부 연동 계층 (`@ferdy/extern-*`)**: 도메인 앱에는 순수 인터페이스와 모델만 노출하고, `localStorage` 영속화 및 `BroadcastChannel` 기반 다중 창 실시간 동기화 등 외부 I/O 세부 구현은 `[E] Externs` 계층에 캡슐화합니다.
 - **Single-Server MPA 아키텍처**: `@ferdy/core`의 단일 Vite 서버(`:3000`)가 미들웨어 게이트웨이를 통해 `/domains/<category>/<app-name>/` 경로로 `packages/domains/<category>/<app-name>/` 앱들을 온디맨드 서빙합니다.
 
 ---
@@ -46,9 +48,12 @@ ferdyPlatter/
     │   │   ├── calendar/     #       @ferdy/builtin-calendar — 월간 달력 및 D-Day 위젯 앱
     │   │   ├── clock/        #       @ferdy/builtin-clock — 실시간 디지털 시계 위젯 앱
     │   │   └── notes/        #       @ferdy/builtin-notes — 마크다운/텍스트 빠른 메모장 앱
-    │   └── sample/           #     템플릿·예제·테스트용 샘플 앱
-    │       ├── app/          #       @ferdy/sample-app — 샌드박스 레퍼런스 샘플 앱
-    │       └── hello/        #       @ferdy/sample-hello — 최소 구성 Hello World 앱
+    │   ├── sample/           #     템플릿·예제·테스트용 샘플 앱
+    │   │   ├── app/          #       @ferdy/sample-app — 샌드박스 레퍼런스 샘플 앱
+    │   │   └── hello/        #       @ferdy/sample-hello — 최소 구성 Hello World 앱
+    │   └── work/             #     개인 할 일·업무 생산성 도메인 앱 (멀티 프레임워크)
+    │       ├── task-react/   #       @ferdy/work-task-react — React 19 기반 실시간 동기화 Task 보드 앱
+    │       └── task-vue/     #       @ferdy/work-task-vue — Vue 3 기반 실시간 동기화 Task 보드 앱
     └── externs/              # [E] 시스템 외부 I/O·영속화·창 간 동기화 어댑터 계층
         └── task/             #       @ferdy/extern-task — Task 저장 계약 및 localStorage + BroadcastChannel 어댑터
 ```
@@ -101,5 +106,7 @@ npm run preview
 | **[D] Builtin — Notes** | [packages/domains/builtin/notes/README.md](./packages/domains/builtin/notes/README.md) | `@ferdy/builtin-notes` 다중 메모 및 마크다운 메모장 앱 설명 |
 | **[D] Sample — App** | [packages/domains/sample/app/README.md](./packages/domains/sample/app/README.md) | `@ferdy/sample-app` 샌드박스 템플릿 설명 |
 | **[D] Sample — Hello** | [packages/domains/sample/hello/README.md](./packages/domains/sample/hello/README.md) | `@ferdy/sample-hello` 최소 구성 Hello World 앱 설명 |
+| **[D] Work — Task (React)** | [packages/domains/work/task-react/README.md](./packages/domains/work/task-react/README.md) | `@ferdy/work-task-react` React 19 기반 실시간 동기화 Task 보드 앱 설명 |
+| **[D] Work — Task (Vue)** | [packages/domains/work/task-vue/README.md](./packages/domains/work/task-vue/README.md) | `@ferdy/work-task-vue` Vue 3 기반 실시간 동기화 Task 보드 앱 설명 |
 | **[E] Extern — Task** | [packages/externs/task/README.md](./packages/externs/task/README.md) | `@ferdy/extern-task` Task 외부 저장·창 간 동기화 어댑터 설명 |
 | **Agent Rules** | [AGENTS.md](./AGENTS.md) | AI 페어 프로그래밍 시 적용되는 프로젝트 규칙 안내 |

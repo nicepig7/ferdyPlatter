@@ -36,6 +36,14 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     appId: 'builtin-notes',
   },
   {
+    id: 'work-task-react-1',
+    appId: 'work-task-react',
+  },
+  {
+    id: 'work-task-vue-1',
+    appId: 'work-task-vue',
+  },
+  {
     id: 'ext-cube-timer',
     title: 'Cube Timer',
     icon: 'timer',

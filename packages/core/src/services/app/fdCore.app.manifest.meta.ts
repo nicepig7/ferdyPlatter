@@ -84,7 +84,41 @@ export const SAMPLE_APP_MANIFESTS: AppManifest[] = [
   },
 ];
 
+export const WORK_APP_MANIFESTS: AppManifest[] = [
+  {
+    appId: 'work-task-react',
+    category: 'work',
+    title: 'Task Board (React)',
+    icon: 'kanban',
+    tone: 'blue',
+    appUrl: '/domains/work/task-react/',
+    description: 'React 19 및 @ferdy/extern-task 기반 실시간 동기화 업무·개인 Task 보드 앱',
+    defaultWindow: {
+      width: 720,
+      height: 560,
+      minWidth: 420 + WINDOW_FRAME_BORDER,
+      minHeight: 360 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
+    },
+  },
+  {
+    appId: 'work-task-vue',
+    category: 'work',
+    title: 'Task Board (Vue)',
+    icon: 'list-todo',
+    tone: 'teal',
+    appUrl: '/domains/work/task-vue/',
+    description: 'Vue 3 및 @ferdy/extern-task 기반 실시간 동기화 업무·개인 Task 보드 앱',
+    defaultWindow: {
+      width: 720,
+      height: 560,
+      minWidth: 420 + WINDOW_FRAME_BORDER,
+      minHeight: 360 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
+    },
+  },
+];
+
 export const INITIAL_APP_MANIFESTS: AppManifest[] = [
   ...BUILTIN_APP_MANIFESTS,
   ...SAMPLE_APP_MANIFESTS,
+  ...WORK_APP_MANIFESTS,
 ];
