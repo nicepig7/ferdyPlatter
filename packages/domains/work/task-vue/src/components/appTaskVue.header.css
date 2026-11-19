@@ -1,0 +1,144 @@
+.task-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--fd-border-subtle);
+  background: rgba(18, 15, 13, 0.48);
+  flex-shrink: 0;
+}
+
+.task-header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.task-brand-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--fd-radius-sm);
+  background: var(--fd-primary-subtle);
+  border: 1px solid var(--fd-primary-border);
+  color: var(--fd-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.task-brand-title {
+  margin: 0;
+  font-size: var(--fd-text-lg);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--fd-text-primary);
+  white-space: nowrap;
+}
+
+.task-fw-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: var(--fd-radius-pill);
+  font-size: var(--fd-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.task-fw-badge--vue {
+  background: rgba(52, 211, 153, 0.14);
+  border-color: rgba(52, 211, 153, 0.4);
+  color: #6ee7b7;
+}
+
+.task-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.task-compare-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--fd-radius-sm);
+  border: 1px solid var(--fd-secondary-border);
+  background: var(--fd-secondary-subtle);
+  color: var(--fd-secondary-text);
+  font-family: var(--fd-font-sans);
+  font-size: var(--fd-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--fd-duration-normal) var(--fd-ease-default),
+    border-color var(--fd-duration-normal) var(--fd-ease-default),
+    color var(--fd-duration-normal) var(--fd-ease-default);
+}
+
+.task-compare-btn:hover {
+  background: var(--fd-secondary-subtle-hover);
+  border-color: var(--fd-secondary-focus);
+  color: var(--fd-text-on-secondary-hover);
+}
+
+.task-summary-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.task-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  border-radius: var(--fd-radius-pill);
+  border: 1px solid var(--fd-border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--fd-text-secondary);
+  font-size: var(--fd-text-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.task-stat-pill strong {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.task-stat-pill--todo {
+  border-color: rgba(217, 119, 54, 0.35);
+  background: var(--fd-primary-subtle);
+  color: var(--fd-primary);
+}
+
+.task-stat-pill--progress {
+  border-color: rgba(245, 158, 11, 0.36);
+  background: rgba(245, 158, 11, 0.14);
+  color: #fcd34d;
+}
+
+.task-stat-pill--done {
+  border-color: var(--fd-secondary-border);
+  background: var(--fd-secondary-subtle);
+  color: var(--fd-secondary-text);
+}

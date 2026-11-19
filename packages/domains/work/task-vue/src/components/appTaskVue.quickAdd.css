@@ -1,0 +1,126 @@
+.task-quick-add {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--fd-border-subtle);
+  background: rgba(18, 15, 13, 0.24);
+  flex-shrink: 0;
+}
+
+.task-quick-add-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 7px;
+}
+
+.task-quick-add-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.task-quick-add-selects {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.task-field-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.task-field-label {
+  font-size: var(--fd-text-xs);
+  font-weight: 600;
+  color: var(--fd-text-muted);
+  white-space: nowrap;
+}
+
+.task-input,
+.task-select {
+  height: var(--fd-control-height-sm);
+  border-radius: var(--fd-radius-sm);
+  border: 1px solid var(--fd-border-subtle);
+  background: var(--fd-bg-elevated);
+  color: var(--fd-text-primary);
+  font-family: var(--fd-font-sans);
+  font-size: var(--fd-text-base);
+  outline: none;
+  transition:
+    border-color var(--fd-duration-normal) var(--fd-ease-default),
+    background-color var(--fd-duration-normal) var(--fd-ease-default);
+}
+
+.task-input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 10px;
+  user-select: text;
+}
+
+.task-input::placeholder {
+  color: var(--fd-text-dim);
+}
+
+.task-input:hover:not(:disabled),
+.task-select:hover:not(:disabled) {
+  border-color: var(--fd-border-strong);
+}
+
+.task-input:focus,
+.task-select:focus {
+  border-color: var(--fd-primary-border);
+}
+
+.task-select {
+  padding: 0 8px;
+  font-size: var(--fd-text-sm);
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.task-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: var(--fd-control-height-sm);
+  padding: 0 12px;
+  border-radius: var(--fd-radius-sm);
+  border: 1px solid var(--fd-primary);
+  background: var(--fd-primary-strong);
+  color: var(--fd-text-on-primary);
+  font-family: var(--fd-font-sans);
+  font-size: var(--fd-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--fd-duration-normal) var(--fd-ease-default),
+    transform var(--fd-duration-fast) var(--fd-ease-default);
+}
+
+.task-add-btn:hover:not(:disabled) {
+  background: var(--fd-primary-hover);
+}
+
+.task-add-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.task-add-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 620px) {
+  .task-quick-add-inputs {
+    grid-template-columns: 1fr;
+  }
+}

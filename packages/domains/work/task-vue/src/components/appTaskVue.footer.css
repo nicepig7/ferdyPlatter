@@ -1,0 +1,30 @@
+.task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 14px;
+  border-top: 1px solid var(--fd-border-subtle);
+  background: rgba(18, 15, 13, 0.38);
+  font-size: var(--fd-text-xs);
+  color: var(--fd-text-muted);
+  flex-shrink: 0;
+}
+
+.task-footer-count,
+.task-footer-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  white-space: nowrap;
+}
+
+.task-footer-sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fd-secondary-text);
+  box-shadow: 0 0 6px rgba(163, 203, 178, 0.65);
+}
