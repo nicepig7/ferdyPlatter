@@ -114,10 +114,10 @@
   - React 19 (`JSX.IntrinsicElements`), Vue 3 (`GlobalComponents`), SolidJS (`JSX.IntrinsicElements`) 모두에서 커스텀 태그 속성/이벤트 자동완성 및 `npm run typecheck` 통과 보장
 
 ### Phase 6: Sample 도메인 컴포넌트 쇼케이스 앱 신설 (`@ferdy/sample-components`)
-- [ ] **앱 스캐폴딩 (`packages/domains/sample/components/`)**:
+- [x] **앱 스캐폴딩 (`packages/domains/sample/components/`)**:
   - 패키지명 `@ferdy/sample-components`, 서빙 경로 `/domains/sample/components/` 생성
   - Core 앱 매니페스트(`fdCore.app.manifest.meta.ts`) 및 바탕화면 바로가기(`fdCore.app.shortcuts.meta.ts`) 등록
-- [ ] **쇼케이스 & 인터랙티브 플레이그라운드 UI 구현**:
+- [x] **쇼케이스 & 인터랙티브 플레이그라운드 UI 구현**:
   - **1층 Style Layer 탭**: `.fd-btn` (variant/size별), `.fd-badge`, `.fd-card`, `.fd-input` 프리뷰
   - **2층 Web Components 탭**:
     - `<fd-text-field>`: `clearable`, 좌/우 아이콘, `info`/`pass`/`fail` 상태, `instant` vs `lazy` Rule 검증(`validate()` 버튼 포함) 및 다중 필드 연속 `Tab` 포커스 이동 테스트

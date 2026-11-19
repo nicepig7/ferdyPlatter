@@ -82,6 +82,21 @@ export const SAMPLE_APP_MANIFESTS: AppManifest[] = [
       height: 360,
     },
   },
+  {
+    appId: 'sample-components',
+    category: 'sample',
+    title: 'UI Components',
+    icon: 'blocks',
+    tone: 'primary',
+    appUrl: '/domains/sample/components/',
+    description: '@ferdy/ui 1층 Style Layer 및 2층 Web Components 인터랙티브 쇼케이스 앱',
+    defaultWindow: {
+      width: 920,
+      height: 640,
+      minWidth: 520 + WINDOW_FRAME_BORDER,
+      minHeight: 400 + WINDOW_TITLEBAR_HEIGHT + WINDOW_FRAME_BORDER,
+    },
+  },
 ];
 
 export const WORK_APP_MANIFESTS: AppManifest[] = [

@@ -20,6 +20,10 @@ export const INITIAL_DESKTOP_SHORTCUTS: DesktopShortcut[] = [
     appId: 'sample-hello',
   },
   {
+    id: 'sample-components-1',
+    appId: 'sample-components',
+  },
+  {
     id: 'builtin-calendar-1',
     appId: 'builtin-calendar',
   },
