@@ -24,7 +24,13 @@ export default defineConfig({
     reactPlugin({
       include: ['**/packages/domains/work/task-react/**/*.{tsx,ts,jsx,js}'],
     }),
-    vuePlugin(),
+    vuePlugin({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith('fd-'),
+        },
+      },
+    }),
   ],
   publicDir: resolve(monorepoRoot, 'packages/assets/public'),
   resolve: {

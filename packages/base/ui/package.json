@@ -7,12 +7,14 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles.css": "./src/styles/index.css"
+    "./styles.css": "./src/styles/index.css",
+    "./elements": "./src/elements/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "lit": "^3.3.3",
     "lucide-static": "^1.73.0",
     "solid-js": "^1.9.3"
   }

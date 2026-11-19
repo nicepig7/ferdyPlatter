@@ -21,6 +21,18 @@
     transform: scale(0.98);
   }
 
+  .fd-btn:focus-visible {
+    outline: 2px solid var(--fd-primary-focus);
+    outline-offset: 2px;
+  }
+
+  .fd-btn:disabled,
+  .fd-btn[aria-disabled='true'] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
   .fd-btn--sm {
     padding: 4px 10px;
     font-size: var(--fd-text-sm);

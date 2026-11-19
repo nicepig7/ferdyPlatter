@@ -17,6 +17,13 @@
     color: var(--fd-text-dim);
   }
 
+  .fd-input:disabled,
+  .fd-input[aria-disabled='true'] {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
   .fd-input--sm {
     padding: 4px 8px;
     font-size: var(--fd-text-sm);

@@ -74,42 +74,42 @@
 
 ### Phase 1: 버전 준비 및 `Lit` · `@ferdy/ui/elements` PoC 기반 구축
 - [x] **버전 상향**: 루트 및 워크스페이스 `package.json` 버전을 `0.1.8` → `0.1.9`로 상향 (총 14개 패키지)
-- [ ] **`@ferdy/tsconfig` 데코레이터 공통 설정 (`packages/base/tsconfig/base.json`)**:
+- [x] **`@ferdy/tsconfig` 데코레이터 공통 설정 (`packages/base/tsconfig/base.json`)**:
   - `"experimentalDecorators": true`, `"useDefineForClassFields": false` 추가
-- [ ] **`@ferdy/ui` 의존성 및 엔트리 구성 (`packages/base/ui/`)**:
+- [x] **`@ferdy/ui` 의존성 및 엔트리 구성 (`packages/base/ui/`)**:
   - `lit` 의존성 추가 및 `package.json` `exports`에 `"./elements": "./src/elements/index.ts"` 정의
-- [ ] **멀티 프레임워크 Vite 설정 정비**:
+- [x] **멀티 프레임워크 Vite 설정 정비**:
   - `packages/core/vite.config.ts` 및 `packages/domains/work/task-vue/vite.config.ts`의 `vuePlugin`에 `template.compilerOptions.isCustomElement: (tag) => tag.startsWith('fd-')` 설정
-  - Core(SolidJS), `task-react`(React 19), `task-vue`(Vue 3)에서 `<fd-*>` 태그 렌더링 및 데코레이터 반응성 무충돌 PoC 검증
+  - PoC 엘리먼트(`<fd-poc-badge>`) 추가 및 `npm run typecheck`, `npm run build` 통과 확인 (실제 앱 내 렌더링 검증은 Phase 3/6에서 함께 확인 예정)
 
 ### Phase 2: 1층 Style Layer(`.fd-*`) 정비 & Shadow DOM 아이콘 유틸 구축
-- [ ] **Style Layer 정리 (`@ferdy/ui/styles.css`)**:
+- [x] **Style Layer 정리 (`@ferdy/ui/styles.css`)**:
   - 기존 `fdCompo.*.css`(`Button`, `Badge`, `Card`, `Input` 등)를 `@ferdy/ui/styles.css`에서도 일관되게 사용할 수 있도록 `.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input` 클래스 및 `@layer components` 구조 정비
-- [ ] **Shadow DOM 아이콘 렌더링 유틸 구축 (`src/elements/common/fdElem.icon.ts`)**:
+- [x] **Shadow DOM 아이콘 렌더링 유틸 구축 (`src/elements/common/fdElem.icon.ts`)**:
   - `lucide-static` 아이콘을 Shadow DOM 내부에서 인라인 `<svg>`로 안전하게 렌더링하는 `Lit` 헬퍼 구현 (Named Slot 폴백 포함)
 
 ### Phase 3: `<fd-text-field>` 핵심 스펙 구현 및 3종 프레임워크 테스트
-- [ ] **`<fd-text-field>` (`src/elements/text-field/fdElem.textField.ts`) 구현**:
+- [x] **`<fd-text-field>` (`src/elements/text-field/fdElem.textField.ts`) 구현**:
   - `static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true }` 및 `tabIndex` 처리
   - 입력 시작 시 우측 지우기(`X`) 버튼 자동 노출, 클릭 시 값 초기화 + 포커스 복원 (`tabindex="-1"` 부여로 Tab 이동 방해 방지)
   - 좌측 / 우측 아이콘 지원 (`left-icon`, `right-icon` 속성 및 Named Slot)
   - 하단 헬퍼 메시지 영역 (`status`: `'info' | 'pass' | 'fail'`, `message` 속성)
   - Rule 검증 지원 (`rules` 프로퍼티, `validate-on`: `'instant' | 'lazy'`, 외부 호출용 `validate()` 및 `resetValidation()` 메서드 노출)
-- [ ] **SolidJS `fd.TextField` 호환 정리**:
-  - 기존 SolidJS 엔트리(`fd.TextField`)와 `<fd-text-field>` 간 역할 정리 또는 호환 유지
+- [x] **SolidJS `fd.TextField` 호환 정리**:
+  - 기존 SolidJS 엔트리(`fd.TextField`)는 Core/Solid 네이티브 래퍼로 호환 유지하고, 크로스 프레임워크 표준 `<fd-text-field>`와 역할 분리 명시
 
 ### Phase 4: 실전 활용 Web Component 후보군 추가 구현 (`@ferdy/ui/elements`)
 도메인 앱들에서 반복 사용되는 상호작용 위젯을 `LitElement` 기반 커스텀 엘리먼트로 추가 구현합니다.
-- [ ] **`<fd-select>` (`src/elements/select/fdElem.select.ts` — 커스텀 셀렉트 드롭다운)**:
+- [x] **`<fd-select>` (`src/elements/select/fdElem.select.ts` — 커스텀 셀렉트 드롭다운)**:
   - `options` (`{ value: string; label: string; icon?: string; disabled?: boolean }[]`), `value`, `placeholder`, `size` (`'sm' | 'md'`), `disabled` 지원
   - 키보드 탐색(`ArrowUp`, `ArrowDown`, `Home`, `End`, `Enter`, `Escape`), 외부 클릭 닫기, `fd-change` 커스텀 이벤트 발생
-- [ ] **`<fd-switch>` (`src/elements/switch/fdElem.switch.ts` — 토글 스위치)**:
+- [x] **`<fd-switch>` (`src/elements/switch/fdElem.switch.ts` — 토글 스위치)**:
   - `checked`, `disabled`, `size` (`'sm' | 'md'`), `label` 표시, `role="switch"` 및 `Space`/`Enter` 키보드 토글, `fd-change` 이벤트 발생
-- [ ] **`<fd-tabs>` (`src/elements/tabs/fdElem.tabs.ts` — 세그먼트 / 탭 스위치)**:
+- [x] **`<fd-tabs>` (`src/elements/tabs/fdElem.tabs.ts` — 세그먼트 / 탭 스위치)**:
   - `items` (`{ value: string; label: string; count?: number; icon?: string }[]`), `value`, `variant` (`'pill' | 'underline' | 'segmented'`), `size` (`'sm' | 'md'`), 키보드 좌우 방향키 포커스 이동 및 `fd-change` 이벤트 발생
 
 ### Phase 5: TypeScript DX (Custom Elements 타입 선언) 정리
-- [ ] **프레임워크별 `<fd-*>` 타입 선언(`src/elements/fdElem.jsx.d.ts`) 구성**:
+- [x] **프레임워크별 `<fd-*>` 타입 선언(`src/elements/fdElem.jsx.d.ts`) 구성**:
   - `HTMLElementTagNameMap`에 `'fd-text-field'`, `'fd-select'`, `'fd-switch'`, `'fd-tabs'` 등록
   - React 19 (`JSX.IntrinsicElements`), Vue 3 (`GlobalComponents`), SolidJS (`JSX.IntrinsicElements`) 모두에서 커스텀 태그 속성/이벤트 자동완성 및 `npm run typecheck` 통과 보장
 

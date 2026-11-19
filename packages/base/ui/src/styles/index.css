@@ -5,3 +5,11 @@
 @import './fdStyle.theme.css';
 @import './fdStyle.libraries.css';
 @import './fdStyle.base.css';
+
+/* 1st-Layer Style Components (.fd-compo, .fd-btn, .fd-badge, .fd-card, .fd-icon, .fd-input) */
+@import '../components/fdCompo.style.css';
+@import '../components/button/fdCompo.button.css';
+@import '../components/badge/fdCompo.badge.css';
+@import '../components/card/fdCompo.card.css';
+@import '../components/icon/fdCompo.icon.css';
+@import '../components/input/fdCompo.input.css';

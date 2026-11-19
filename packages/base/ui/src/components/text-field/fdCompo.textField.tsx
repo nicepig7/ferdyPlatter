@@ -18,6 +18,11 @@ export interface TextFieldProps extends Omit<InputProps, 'variant'> {
 
 export type FdTextFieldProps = TextFieldProps;
 
+/**
+ * SolidJS-native TextField wrapper (`fd.TextField`) for Core and Solid apps.
+ * For cross-framework (React / Vue / Solid) usage with validation rules and status messages,
+ * prefer `<fd-text-field>` from `@ferdy/ui/elements`.
+ */
 export const TextField: Component<TextFieldProps> = (rawProps) => {
   const merged = mergeProps(
     {
