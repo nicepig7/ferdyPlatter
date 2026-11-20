@@ -1,7 +1,6 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react';
 import type { JSX as SolidJSX } from 'solid-js';
 import type { DefineComponent } from 'vue';
-import type { FdPocBadgeElement } from './poc/fdElem.poc';
 import type { FdSelectElement, FdSelectOption, FdSelectSize } from './select/fdElem.select';
 import type { FdSwitchElement, FdSwitchSize } from './switch/fdElem.switch';
 import type { FdTabItem, FdTabsElement, FdTabsSize, FdTabsVariant } from './tabs/fdElem.tabs';
@@ -12,10 +11,6 @@ import type {
   FdTextFieldStatus,
   FdTextFieldValidateOn,
 } from './text-field/fdElem.textField';
-
-export interface FdPocBadgeAttributes {
-  label?: string;
-}
 
 export interface FdTextFieldAttributes {
   value?: string;
@@ -82,7 +77,6 @@ type SolidCustomElement<El extends HTMLElement, Props> = SolidJSX.HTMLAttributes
 
 declare global {
   interface HTMLElementTagNameMap {
-    'fd-poc-badge': FdPocBadgeElement;
     'fd-text-field': FdTextFieldElement;
     'fd-select': FdSelectElement;
     'fd-switch': FdSwitchElement;
@@ -93,12 +87,6 @@ declare global {
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      'fd-poc-badge': ReactCustomElement<
-        FdPocBadgeElement,
-        FdPocBadgeAttributes & {
-          'onfd-poc-click'?: (event: CustomEvent<{ count: number }>) => void;
-        }
-      >;
       'fd-text-field': ReactCustomElement<
         FdTextFieldElement,
         FdTextFieldAttributes & {
@@ -131,7 +119,6 @@ declare module 'react' {
 
 declare module 'vue' {
   export interface GlobalComponents {
-    'fd-poc-badge': DefineComponent<FdPocBadgeAttributes>;
     'fd-text-field': DefineComponent<FdTextFieldAttributes>;
     'fd-select': DefineComponent<FdSelectAttributes>;
     'fd-switch': DefineComponent<FdSwitchAttributes>;
@@ -142,12 +129,6 @@ declare module 'vue' {
 declare module 'solid-js' {
   namespace JSX {
     interface IntrinsicElements {
-      'fd-poc-badge': SolidCustomElement<
-        FdPocBadgeElement,
-        FdPocBadgeAttributes & {
-          'on:fd-poc-click'?: (event: CustomEvent<{ count: number }>) => void;
-        }
-      >;
       'fd-text-field': SolidCustomElement<
         FdTextFieldElement,
         FdTextFieldAttributes & {

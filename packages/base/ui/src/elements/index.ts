@@ -1,12 +1,10 @@
 export type {
-  FdPocBadgeAttributes,
   FdSelectAttributes,
   FdSwitchAttributes,
   FdTabsAttributes,
   FdTextFieldAttributes,
 } from './fdElem.jsx';
 
-export { FdPocBadgeElement } from './poc/fdElem.poc';
 export {
   FdTextFieldElement,
   type FdTextFieldRule,
