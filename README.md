@@ -10,7 +10,7 @@
 
 - **A-B-C-D-E 레이어드 모노레포**: `assets` → `base` (`ui`, `bridge`, `tsconfig`) → `core` → `domains` → `externs` 순으로 역할과 의존성 방향이 명확하게 정렬됩니다.
 - **멀티 프레임워크 MPA 공존**: `@ferdy/core`의 단일 Vite 서버(`:3000`) 및 플러그인 스코핑을 통해 SolidJS 코어·기본 앱뿐만 아니라 **React 19**(`@ferdy/work-task-react`)와 **Vue 3**(`@ferdy/work-task-vue`) 도메인 앱이 충돌 없이 동일 오리진에서 함께 서빙·빌드됩니다.
-- **중앙화된 Look & Feel (`@ferdy/ui`)**: CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`), 공통 SolidJS 컴포넌트(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField`)를 제공하며, 비-Solid 도메인 앱은 순수 스타일 엔트리(`@ferdy/ui/styles.css`)만 로드하여 동일한 디자인과 다크 테마를 공유합니다.
+- **중앙화된 Look & Feel (`@ferdy/ui`)**: 2층 하이브리드 UI 아키텍처를 제공합니다. **1층 Style Layer(`@ferdy/ui/styles.css`)**는 CSS 디자인 토큰(`--fd-*`), 공통 컴포넌트 클래스(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`) 및 다크 테마를 제공하며, **2층 Web Component Layer(`@ferdy/ui/elements`)**는 SolidJS · React 19 · Vue 3 어디서나 동일하게 동작하는 `Lit` 기반 커스텀 엘리먼트(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`)를 제공합니다. Core 및 SolidJS 기본 앱은 기존 SolidJS 프리미티브(`fd.*`)와 함께 사용할 수 있습니다.
 - **타입 안전 이벤트 브릿지 (`@ferdy/bridge`)**: `window.postMessage` 기반의 Pub/Sub 통신(`emit`, `on`, `broadcast`)을 타입 안전하게 추상화합니다.
 - **계약 우선 외부 연동 계층 (`@ferdy/extern-*`)**: 도메인 앱에는 순수 인터페이스와 모델만 노출하고, `localStorage` 영속화 및 `BroadcastChannel` 기반 다중 창 실시간 동기화 등 외부 I/O 세부 구현은 `[E] Externs` 계층에 캡슐화합니다.
 - **Single-Server MPA 아키텍처**: `@ferdy/core`의 단일 Vite 서버(`:3000`)가 미들웨어 게이트웨이를 통해 `/domains/<category>/<app-name>/` 경로로 `packages/domains/<category>/<app-name>/` 앱들을 온디맨드 서빙합니다.
@@ -34,7 +34,7 @@ ferdyPlatter/
 │   │   └── releases.0.1.md   # 0.1.x 시리즈 상세 변경 이력
 │   └── todo/                 # 다음 작업 할 일(TODO) 및 주제별 아이디어 메모장
 │       ├── todo.md           # 전체 단기 Action Items 및 아이디어 목록
-│       ├── todo.currVer.md   # 최근 완료 버전(v0.1.8) 세부 작업 계획 및 체크리스트
+│       ├── todo.currVer.md   # 최근 완료 버전(v0.1.9) 세부 작업 계획 및 체크리스트
 │       ├── todo.opfs.md      # 브라우저 스토리지 및 OPFS 활용 아이디어
 │       └── todo.webCompo.md  # @ferdy/ui Web Components (Lit) 도입 설계 및 TODO
 └── packages/                 # 📦 A-B-C-D-E 워크스페이스 루트
@@ -42,7 +42,7 @@ ferdyPlatter/
     ├── base/                 # [B] 기반 공통 모듈
     │   ├── bridge/           #     @ferdy/bridge — postMessage Pub/Sub 이벤트 브릿지
     │   ├── tsconfig/         #     @ferdy/tsconfig — 워크스페이스 공통 TypeScript 설정
-    │   └── ui/               #     @ferdy/ui — 디자인 토큰, Base CSS, 공통 SolidJS 컴포넌트
+    │   └── ui/               #     @ferdy/ui — 디자인 토큰, 1층 Style Layer, 2층 Lit Web Components, SolidJS 프리미티브
     ├── core/                 # [C] @ferdy/core — Web OS 데스크탑, 태스크바, 윈도우 매니저, 게이트웨이
     ├── domains/              # [D] 개별 격리 실행 도메인 앱 (iframe 샌드박스)
     │   ├── builtin/          #     OS 기본 내장 앱 (유틸리티·위젯)
@@ -51,6 +51,7 @@ ferdyPlatter/
     │   │   └── notes/        #       @ferdy/builtin-notes — 마크다운/텍스트 빠른 메모장 앱
     │   ├── sample/           #     템플릿·예제·테스트용 샘플 앱
     │   │   ├── app/          #       @ferdy/sample-app — 샌드박스 레퍼런스 샘플 앱
+    │   │   ├── components/   #       @ferdy/sample-components — @ferdy/ui Style Layer & Web Components 쇼케이스 앱
     │   │   └── hello/        #       @ferdy/sample-hello — 최소 구성 Hello World 앱
     │   └── work/             #     개인 할 일·업무 생산성 도메인 앱 (멀티 프레임워크)
     │       ├── task-react/   #       @ferdy/work-task-react — React 19 기반 실시간 동기화 Task 보드 앱
@@ -95,7 +96,7 @@ npm run preview
 | :--- | :--- | :--- |
 | **Architecture** | [docs/architecture.md](./docs/architecture.md) | A-B-C-D-E 구조, Single-Server MPA, `@ferdy/ui`, `@ferdy/bridge` 설계 |
 | **Features & Roadmap** | [docs/features.md](./docs/features.md) | 현재 구현된 OS 기능 목록 및 향후 개발 로드맵 |
-| **TODO & Ideas** | [docs/todo/todo.md](./docs/todo/todo.md) | 다음 작업 후보(TODO), [v0.1.8 작업 계획](./docs/todo/todo.currVer.md), 아이디어 메모장 ([OPFS](./docs/todo/todo.opfs.md) · [Web Components](./docs/todo/todo.webCompo.md)) |
+| **TODO & Ideas** | [docs/todo/todo.md](./docs/todo/todo.md) | 다음 작업 후보(TODO), [v0.1.9 작업 계획](./docs/todo/todo.currVer.md), 아이디어 메모장 ([OPFS](./docs/todo/todo.opfs.md) · [Web Components](./docs/todo/todo.webCompo.md)) |
 | **Release Notes** | [docs/releases/releases.md](./docs/releases/releases.md) | 버전별 주요 변경 사항 요약 및 인덱스 ([0.1.x 상세](./docs/releases/releases.0.1.md)) |
 | **[A] Assets Package** | [packages/assets/README.md](./packages/assets/README.md) | `@ferdy/assets` 정적 리소스 및 상수 설명 |
 | **[B] Bridge Package** | [packages/base/bridge/README.md](./packages/base/bridge/README.md) | `@ferdy/bridge` Pub/Sub 이벤트 통신 규격 설명 |
@@ -106,6 +107,7 @@ npm run preview
 | **[D] Builtin — Clock** | [packages/domains/builtin/clock/README.md](./packages/domains/builtin/clock/README.md) | `@ferdy/builtin-clock` 소형 디지털 시계 앱 설명 |
 | **[D] Builtin — Notes** | [packages/domains/builtin/notes/README.md](./packages/domains/builtin/notes/README.md) | `@ferdy/builtin-notes` 다중 메모 및 마크다운 메모장 앱 설명 |
 | **[D] Sample — App** | [packages/domains/sample/app/README.md](./packages/domains/sample/app/README.md) | `@ferdy/sample-app` 샌드박스 템플릿 설명 |
+| **[D] Sample — Components** | [packages/domains/sample/components/README.md](./packages/domains/sample/components/README.md) | `@ferdy/sample-components` 2층 UI 아키텍처 & Web Components 쇼케이스 앱 설명 |
 | **[D] Sample — Hello** | [packages/domains/sample/hello/README.md](./packages/domains/sample/hello/README.md) | `@ferdy/sample-hello` 최소 구성 Hello World 앱 설명 |
 | **[D] Work — Task (React)** | [packages/domains/work/task-react/README.md](./packages/domains/work/task-react/README.md) | `@ferdy/work-task-react` React 19 기반 실시간 동기화 Task 보드 앱 설명 |
 | **[D] Work — Task (Vue)** | [packages/domains/work/task-vue/README.md](./packages/domains/work/task-vue/README.md) | `@ferdy/work-task-vue` Vue 3 기반 실시간 동기화 Task 보드 앱 설명 |

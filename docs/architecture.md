@@ -16,7 +16,7 @@
 | 계층 | 디렉토리 | 패키지명 | 역할 |
 | :--- | :--- | :--- | :--- |
 | **[A] Assets** | `packages/assets` | `@ferdy/assets` | OS 전역에서 공유하는 정적 파일(`public/assets/*`) 및 정적 파일 경로 상수(`FERDY_ASSETS.paths`) |
-| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 디자인 시스템(토큰, Base CSS, `@ferdy/ui/styles.css` 스타일 전용 엔트리 및 Solid 컴포넌트), `postMessage` Pub/Sub 브릿지 및 멀티 프레임워크(`base`, `react`, `vue`, `node`) TypeScript 설정 |
+| **[B] Base** | `packages/base/ui`<br>`packages/base/bridge`<br>`packages/base/tsconfig` | `@ferdy/ui`<br>`@ferdy/bridge`<br>`@ferdy/tsconfig` | 2층 하이브리드 디자인 시스템(`@ferdy/ui/styles.css` 1층 CSS Style Layer + `@ferdy/ui/elements` 2층 `Lit` Web Components + SolidJS 프리미티브), `postMessage` Pub/Sub 브릿지 및 멀티 프레임워크(`base`, `react`, `vue`, `node`) TypeScript 설정 |
 | **[C] Core** | `packages/core` | `@ferdy/core` | Web OS 데스크탑, 태스크바, 앱 레지스트리, 윈도우 매니저 및 단일 Vite 서버 MPA 게이트웨이 |
 | **[D] Domains** | `packages/domains/<category>/*` | `@ferdy/<category>-*` | `<iframe sandbox>` 내부에서 독립된 인스턴스로 실행되는 멀티 프레임워크(SolidJS · React 19 · Vue 3) 도메인 앱 (`builtin`, `sample`, `work`) |
 | **[E] Externs** | `packages/externs/*` | `@ferdy/extern-*` | 시스템 외부(`localStorage`, `OPFS`, `REST API` 등) I/O 및 창 간 동기화를 캡슐화하고 도메인 앱에 순수 계약만 제공하는 어댑터 계층 |
@@ -119,9 +119,10 @@ Core(`@ferdy/core`)는 UI 셸, 상태·레지스트리 서비스, 타입 계층�
 
 `iframe` 경계 너머로는 부모 창의 CSS가 자동 상속되지 않으므로, 모든 패키지(`@ferdy/core`, `@ferdy/builtin-*`, `@ferdy/sample-*`, `@ferdy/work-*`)가 `@ferdy/ui`의 스타일 시스템을 import하여 동일한 Look & Feel을 구성합니다.
 
-- **프레임워크별 진입점 분리 (`@ferdy/ui` vs `@ferdy/ui/styles.css`)**:
-  - **SolidJS 패키지 (`@ferdy/core`, `builtin/*`, `sample/*`)**: `@ferdy/ui` 기본 엔트리를 import하여 CSS `@layer` 스타일과 SolidJS UI Primitives(`<fd.*>`)를 함께 사용합니다.
-  - **비-Solid 도메인 앱 (`@ferdy/work-task-react`, `@ferdy/work-task-vue` 등)**: `packages/base/ui/package.json`의 `"./styles.css"` export를 통해 **`import '@ferdy/ui/styles.css'`** 만 로드합니다. 이를 통해 SolidJS 런타임 의존성 없이 동일한 CSS `@layer`, `--fd-*` 토큰, 웹폰트, Lucide 아이콘 폰트(`.icon-*`), 다크 테마를 프레임워크 충돌 없이 공유합니다.
+- **프레임워크별 진입점 분리 (`@ferdy/ui` vs `@ferdy/ui/styles.css` + `@ferdy/ui/elements`)**:
+  - **1층 Style Layer (`@ferdy/ui/styles.css`)**: CSS `@layer` 계층, `--fd-*` 디자인 토큰, 웹폰트, Lucide 아이콘 폰트(`.icon-*`), 다크 테마 및 프레임워크 중립 CSS 컴포넌트 클래스(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`)를 제공합니다.
+  - **2층 Web Component Layer (`@ferdy/ui/elements`)**: `Lit` 기반 커스텀 엘리먼트(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`)를 제공하며 SolidJS · React 19 · Vue 3 어디서나 동일한 상태·접근성·커스텀 이벤트(`fd-input`, `fd-change`, `fd-clear`)로 동작합니다. (`fdElem.jsx.d.ts`로 3종 프레임워크 JSX/템플릿 타입 지원)
+  - **SolidJS 엔트리 (`@ferdy/ui`)**: Core 및 SolidJS 기본 앱은 CSS `@layer` 스타일과 SolidJS UI Primitives(`<fd.*>`)를 함께 사용할 수 있으며, 필요 시 `@ferdy/ui/elements`를 병행합니다.
 
 - **CSS Cascade Layers (`styles/index.css`, `fdStyle.*.css` & `fdCompo.style.css`)**:
   - `@layer reset, tokens, theme, libraries, base, components;` 6계층 구조로 스타일 우선순위를 제어하며, 전역 스타일시트는 `fdStyle.` 접두어를 사용합니다.

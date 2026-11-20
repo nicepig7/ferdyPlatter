@@ -1,14 +1,15 @@
 # @ferdy/ui (`packages/base/ui`)
 
-**Ferdy Platter (FerdyOS)**의 **[B] Base** 계층에 속하는 **공통 디자인 시스템 및 SolidJS UI 컴포넌트 패키지**입니다.  
-Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/domains/**`)에 일관된 Look & Feel(CSS Cascade Layers, 디자인 토큰, Base Reset, 공통 컴포넌트)을 제공합니다.
+**Ferdy Platter (FerdyOS)**의 **[B] Base** 계층에 속하는 **공통 디자인 시스템, 2층 하이브리드 UI(CSS Style Layer + Lit Web Components) 및 SolidJS UI 패키지**입니다.  
+Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/domains/**`, SolidJS · React 19 · Vue 3)에 일관된 Look & Feel(CSS Cascade Layers, 디자인 토큰, Base Reset, 프레임워크 중립 Web Components, 공통 SolidJS 컴포넌트)을 제공합니다.
 
 ---
 
 ## 패키지 진입점 (Exports)
 
-- `@ferdy/ui` (`./src/index.ts`): 공통 스타일(`styles/index.css`, `components/fdCompo.style.css`)과 모든 UI 컴포넌트(`fd.*` 네임스페이스 및 개별 컴포넌트/타입)를 함께 export합니다.
-- `@ferdy/ui/styles.css` (`./src/styles/index.css`): SolidJS 컴포넌트 없이 CSS 계층과 디자인 토큰만 주입하고 싶을 때 사용합니다.
+- `@ferdy/ui` (`./src/index.ts`): 공통 스타일(`styles/index.css`, `components/fdCompo.style.css`)과 SolidJS UI 컴포넌트(`fd.*` 네임스페이스 및 개별 컴포넌트/타입)를 함께 export합니다.
+- `@ferdy/ui/styles.css` (`./src/styles/index.css`): **1층 Style Layer** — CSS `@layer` 계층, 디자인 토큰(`--fd-*`), 및 프레임워크 중립 CSS 컴포넌트 클래스(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`)를 로드합니다.
+- `@ferdy/ui/elements` (`./src/elements/index.ts`): **2층 Web Component Layer** — `Lit` 기반 커스텀 엘리먼트(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`) 및 SolidJS / React 19 / Vue 3 공통 JSX·템플릿 타입 선언(`fdElem.jsx.d.ts`)을 등록·export합니다.
 
 ---
 
@@ -37,7 +38,21 @@ Core(`@ferdy/core`)와 `iframe`으로 격리된 모든 도메인 앱(`packages/d
 - `fdStyle.libraries.css` (`@layer libraries`): 외부 웹폰트(`Pretendard Variable`, `D2Coding`) 및 `lucide-static/font/lucide.css`를 `layer(libraries)`로 래핑해 로드 (`base`, `components`보다 낮은 우선순위 보장)
 - `fdStyle.base.css` (`@layer base`): `html, body, #root`, 인라인 `code` 및 `pre/kbd/samp`, `:focus-visible`, `::selection`, 스크롤바(`::-webkit-scrollbar*`) 기본 스타일
 
-### 2. SolidJS UI Primitives (`src/components/`)
+### 2. 1층 Style Layer (`.fd-*` CSS 컴포넌트 클래스)
+
+`styles/index.css`는 `fdCompo.style.css`, `button`, `badge`, `card`, `input` CSS를 `@layer components`에 함께 포함하여 비-Solid 앱(`@ferdy/ui/styles.css` 단독 로드)에서도 `.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input` 및 `--variant` / `--size` 모디파이어를 그대로 사용할 수 있습니다.
+
+### 3. 2층 Web Components (`src/elements/` — `Lit`)
+
+프레임워크와 무관하게 동일한 상태·접근성·인터랙션을 제공하는 `LitElement` 기반 커스텀 엘리먼트(`fdElem.<name>.ts`)입니다.
+- `common/fdElem.icon.ts`: `lucide-static` 아이콘을 Shadow DOM 내부에 인라인 `<svg>`로 렌더링하는 헬퍼 (`registerFdIcons`, `renderFdIcon`, `renderFdIconSlot`)
+- `text-field/fdElem.textField.ts` (`<fd-text-field>`): `delegatesFocus`, `clearable` 지우기 버튼, 좌/우 아이콘(`left-icon`, `right-icon` 및 Named Slot), `status` (`info`/`pass`/`fail`) 헬퍼 메시지, `instant`/`lazy` Rule 검증(`validate()`, `resetValidation()`)
+- `select/fdElem.select.ts` (`<fd-select>`): 커스텀 드롭다운, 키보드 탐색(`ArrowUp`/`ArrowDown`/`Home`/`End`/`Enter`/`Escape`), 외부 클릭 닫기
+- `switch/fdElem.switch.ts` (`<fd-switch>`): `role="switch"`, `sm`/`md` 토글 스위치, `Space`/`Enter` 지원
+- `tabs/fdElem.tabs.ts` (`<fd-tabs>`): `pill`/`underline`/`segmented` 변형, `count`/`icon` 배지, 좌우 방향키 탭 전환
+- `fdElem.jsx.d.ts`: `HTMLElementTagNameMap`, React 19 `JSX.IntrinsicElements`, Vue 3 `GlobalComponents`, SolidJS `JSX.IntrinsicElements` 타입 선언
+
+### 4. SolidJS UI Primitives (`src/components/`)
 
 - `fdCompo.style.css` (`@layer components`): 모든 `.fd-compo` 컴포넌트가 공유하는 포커스(`:focus-visible`) 및 비활성화(`:disabled`, `[aria-disabled='true']`) 규칙
 - 각 컴포넌트는 `src/components/<name>/` 폴더에 `fdCompo.<name>.tsx`와 전용 스타일 `fdCompo.<name>.css`(`@layer components`) 한 쌍으로 격리됩니다.
@@ -75,10 +90,11 @@ export const MyApp = () => (
 );
 ```
 
-스타일만 단독으로 불러올 때는 `@ferdy/ui/styles.css`를 import합니다.
+멀티 프레임워크 도메인 앱(React 19, Vue 3 등)에서는 1층 스타일과 2층 Web Components를 함께 로드합니다.
 
 ```ts
 import '@ferdy/ui/styles.css';
+import '@ferdy/ui/elements';
 ```
 
 ---

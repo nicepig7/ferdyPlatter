@@ -11,12 +11,6 @@
 
 가장 먼저 착수할 만한 단기 작업 목록입니다.
 
-### 🧩 `@ferdy/ui` Web Components (`Lit`) 표준화 (Next Milestone 후보)
-세부 설계 및 2층 하이브리드 전략은 [todo.webCompo.md](./todo.webCompo.md)에서 관리합니다.
-
-- [ ] **Style Layer (`@ferdy/ui/styles.css`)**에 프레임워크 중립 CSS 컴포넌트 클래스(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input` 등) 정리
-- [ ] **Web Components (`Lit`) PoC**: `<fd-select>`, `<fd-switch>`, `<fd-text-field>` 등 복합 UI 요소를 Custom Elements로 구현해 Solid/React/Vue 공통 사용 검증
-
 ### 🪟 Window & Bridge 확장 후보군
 - [ ] **App ↔ Window 양방향 제어 확장 (`@ferdy/bridge` & `AppManifest`)**
   - 도메인 앱이 자신의 창 제목을 동적으로 변경(`FERDY_SET_WINDOW_TITLE`, 예: `@ferdy/builtin-notes`에서 선택된 메모 제목 반영)하거나 창 닫기·최소화를 요청하는 브릿지 이벤트 추가
@@ -37,8 +31,8 @@
 
 ### 🎨 `@ferdy/ui` (디자인 시스템 & 컴포넌트)
 - [ ] 추가 기본 컴포넌트 확장 후보:
-  - `fd.Select` / `fd.Switch` (토글 스위치) / `fd.Textarea`
-  - `fd.Tooltip` / `fd.Modal` / `fd.Tabs`
+  - `fd.Textarea` / `<fd-textarea>`
+  - `fd.Tooltip` / `fd.Modal`
 
 ### 🖥️ `@ferdy/core` (Window Manager & Desktop UX)
 - [ ] **바탕화면 위젯(Widget) 지원**: 그리드 모델(`colSpan` × `rowSpan`) 기반 다중 셀 위젯 배치 (예: 2×1 시계, 2×2 메모/캘린더 요약)

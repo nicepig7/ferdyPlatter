@@ -6,6 +6,37 @@
 
 ---
 
+## [0.1.9] - Lit Web Components & 2-Layer Hybrid UI Architecture
+
+### Added
+- **2층 Web Component Layer (`@ferdy/ui/elements`, `packages/base/ui/src/elements/`) 신설**:
+  - `lit` 의존성 추가 및 `package.json` `exports`에 `"./elements": "./src/elements/index.ts"` 엔트리 공개
+  - `common/fdElem.icon.ts`: Shadow DOM 내부에서 `lucide-static` 아이콘을 인라인 `<svg>`로 안전하게 렌더링하는 `registerFdIcons`, `renderFdIcon`, `renderFdIconSlot` 헬퍼 구현 (Named Slot 폴백 포함)
+  - `text-field/fdElem.textField.ts` (`<fd-text-field>`): `delegatesFocus: true`, `clearable` 지우기 버튼, 좌/우 아이콘(`left-icon`, `right-icon` 및 Named Slot), `status`(`'info' | 'pass' | 'fail'`) 헬퍼 메시지, `rules` & `validate-on`(`'instant' | 'lazy'`) 검증 및 `validate()`/`resetValidation()` 메서드 구현
+  - `select/fdElem.select.ts` (`<fd-select>`): 커스텀 드롭다운 선택기, 키보드 탐색(`ArrowUp`, `ArrowDown`, `Home`, `End`, `Enter`, `Escape`), 외부 클릭 닫기, `fd-change` 이벤트 발행
+  - `switch/fdElem.switch.ts` (`<fd-switch>`): `role="switch"` 토글 스위치(`checked`, `disabled`, `size`: `'sm' | 'md'`, `label`), `Space`/`Enter` 키보드 토글 및 `fd-change` 이벤트 발행
+  - `tabs/fdElem.tabs.ts` (`<fd-tabs>`): `pill` / `underline` / `segmented` 변형, `count` / `icon` 지원, 좌우 방향키 탭 전환 및 `fd-change` 이벤트 발행
+  - `fdElem.jsx.d.ts`: `HTMLElementTagNameMap`, React 19(`JSX.IntrinsicElements`), Vue 3(`GlobalComponents`), SolidJS(`JSX.IntrinsicElements`) 공통 커스텀 엘리먼트 타입 선언 제공
+- **UI 컴포넌트 쇼케이스 도메인 앱 (`@ferdy/sample-components`, `packages/domains/sample/components/`) 신설**:
+  - `/domains/sample/components/` 경로로 서빙되는 1층 Style Layer(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`) 및 2층 Web Components(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`) 인터랙티브 플레이그라운드 및 실시간 커스텀 이벤트(`fd-input`, `fd-change`, `fd-clear`) 인스펙터 구현
+  - Core 앱 매니페스트(`fdCore.app.manifest.meta.ts`) 및 바탕화면 바로가기(`fdCore.app.shortcuts.meta.ts`)에 `sample-components` 등록
+
+### Changed
+- **워크스페이스 버전 상향 (`0.1.8` → `0.1.9`)**:
+  - 루트 및 전체 워크스페이스 패키지(`package.json`) 버전을 `0.1.9`로 일괄 업데이트
+- **`@ferdy/tsconfig` 및 Vite 멀티 프레임워크 Lit 호환 설정**:
+  - `packages/base/tsconfig/base.json`: `experimentalDecorators: true`, `useDefineForClassFields: false` 추가로 서브 패키지 번들링 시 Lit 데코레이터 Class Field Shadowing 방지
+  - `packages/core/vite.config.ts` & `packages/domains/work/task-vue/vite.config.ts`: `vuePlugin`에 `template.compilerOptions.isCustomElement: (tag) => tag.startsWith('fd-')` 설정
+- **1층 Style Layer(`.fd-*`) 정비 (`packages/base/ui/src/styles/index.css`)**:
+  - `fdCompo.style.css`와 `button`, `badge`, `card`, `input` CSS를 `@ferdy/ui/styles.css`에 포함하여 비-Solid 앱에서도 `.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input` 클래스 일관 사용 가능
+- **기존 도메인 앱 `@ferdy/ui` 2층 하이브리드 UI 전환**:
+  - `@ferdy/work-task-react` & `@ferdy/work-task-vue`: Quick Add 제목(`rules` 필수 검증)·메모 및 검색바를 `<fd-text-field>`로, Category/Priority를 `<fd-select>`로, 상태 필터 탭을 `<fd-tabs>`로 전환하고 `.fd-btn`/`.fd-badge` 1층 클래스 적용 (자체 중복 CSS 제거)
+  - `@ferdy/builtin-calendar`: `CalendarFooter` 날짜별 한 줄 메모 입력을 `<fd-text-field>`로 전환
+  - `@ferdy/builtin-clock`: `24H / 12H` 포맷 전환에 `<fd-switch>` 적용
+  - `@ferdy/builtin-notes`: `Edit / Preview` 모드 전환에 `<fd-tabs>` 적용 및 제목 입력 영역 정비
+
+---
+
 ## [0.1.8] - Multi-Framework MPA (React & Vue) & Externs Layer
 
 ### Added

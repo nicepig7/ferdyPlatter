@@ -23,6 +23,7 @@ packages/base/tsconfig/
 1. **`@ferdy/tsconfig/base.json`**:
    - `target: "ESNext"`, `module: "ESNext"`, `moduleResolution: "bundler"`
    - `jsx: "preserve"`, `jsxImportSource: "solid-js"`, `types: ["vite/client"]`
+   - `experimentalDecorators: true`, `useDefineForClassFields: false` (Lit Web Components 데코레이터 호환 및 Class Field Shadowing 방지)
    - `strict: true`, `isolatedModules: true`, `noEmit: true`
 2. **`@ferdy/tsconfig/react.json`**:
    - `./base.json` 확장 후 `jsx: "react-jsx"`, `jsxImportSource: "react"`로 오버라이드

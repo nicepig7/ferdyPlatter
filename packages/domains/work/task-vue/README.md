@@ -32,7 +32,7 @@ packages/domains/work/task-vue/
 ├── vite.config.ts      # 개별 앱 단독 실행/빌드용 @vitejs/plugin-vue 설정
 ├── README.md           # 앱 개요 및 연동 명세
 └── src/
-    ├── main.ts                         # @ferdy/ui/styles.css 로드 및 Vue 3 createApp 마운트
+    ├── main.ts                         # @ferdy/ui/styles.css & @ferdy/ui/elements 로드 및 Vue 3 createApp 마운트
     ├── vite-env.d.ts                   # Vite 클라이언트 및 *.vue SFC 모듈 타입 선언
     ├── appTaskVue.vue                  # Task 보드 메인 컨테이너 (<script setup lang="ts">)
     ├── appTaskVue.css                  # 앱 루트 레이아웃 스타일
@@ -55,9 +55,9 @@ packages/domains/work/task-vue/
 
 ## 패키지 연동 명세
 
-### 1. `@ferdy/ui` 스타일 공유 (프레임워크 격리)
-- `@ferdy/ui`의 JS 컴포넌트(`fd.*`)는 SolidJS 전용이므로 import하지 않고, `src/main.ts`에서 **`import '@ferdy/ui/styles.css'`** 만 로드합니다.
-- `--fd-*` 디자인 토큰, `Pretendard Variable` / `D2Coding` 웹폰트, `lucide-static` 아이콘 클래스(`.icon-*`), 다크 에스프레소 테마를 그대로 공유합니다.
+### 1. `@ferdy/ui` 2층 하이브리드 UI 공유 (Style Layer + Lit Web Components)
+- `@ferdy/ui`의 JS 컴포넌트(`fd.*`)는 SolidJS 전용이므로 import하지 않고, `src/main.ts`에서 **`import '@ferdy/ui/styles.css'`**(1층 Style Layer: `--fd-*` 토큰, `.fd-btn`, `.fd-badge`, 웹폰트)와 **`import '@ferdy/ui/elements'`**(2층 Lit Web Components: `<fd-text-field>`, `<fd-select>`, `<fd-tabs>`)를 로드합니다.
+- `vite.config.ts`에서 `template.compilerOptions.isCustomElement: (tag) => tag.startsWith('fd-')`를 설정하여 Vue 컴파일러 경고를 방지하고, React 19 앱과 동일한 UI 컴포넌트를 공유합니다.
 
 ### 2. `[E] Externs` (`@ferdy/extern-task`)
 - 직접 `localStorage`나 `BroadcastChannel`을 호출하지 않고, 공개 퍼사드인 `taskExternService` 계약만 사용합니다:

@@ -41,7 +41,7 @@
 
 ## 2. Domain Apps (`packages/domains/**`)
 
-모든 도메인 앱은 `<iframe sandbox>` 내부에서 역할별 카테고리(`builtin/`, `sample/`, `work/`)로 분리되어 멀티 프레임워크(SolidJS · React 19 · Vue 3)로 독립 실행되며, `@ferdy/ui`(또는 비-Solid 앱용 `@ferdy/ui/styles.css`) 디자인 토큰과 `@ferdy/bridge` 이벤트 버스를 통해 OS와 일관된 경험 및 통신을 제공합니다. `work/` 앱들은 `[E] Externs` 계층(`@ferdy/extern-task`)을 통해 프레임워크를 넘나드는 실시간 창 간 동기화를 지원합니다.
+모든 도메인 앱은 `<iframe sandbox>` 내부에서 역할별 카테고리(`builtin/`, `sample/`, `work/`)로 분리되어 멀티 프레임워크(SolidJS · React 19 · Vue 3)로 독립 실행되며, `@ferdy/ui`의 **2층 하이브리드 UI 아키텍처**(`@ferdy/ui/styles.css` 1층 CSS Style Layer + `@ferdy/ui/elements` 2층 `Lit` Web Components `<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`) 및 `@ferdy/bridge` 이벤트 버스를 통해 OS와 일관된 경험 및 통신을 제공합니다. `work/` 앱들은 `[E] Externs` 계층(`@ferdy/extern-task`)을 통해 프레임워크를 넘나드는 실시간 창 간 동기화를 지원합니다.
 
 | 카테고리 | 앱 이름 | 패키지 / 경로 | 핵심 기능 |
 | :--- | :--- | :--- | :--- |
@@ -49,6 +49,7 @@
 | `builtin` | **Calendar** | `@ferdy/builtin-calendar`<br>`/domains/builtin/calendar/` | 월간 캘린더 탐색, 오늘(Today) 이동, 선택 일자 D-Day 표시 및 날짜별 한 줄 메모(`localStorage` 저장·셀 도트 인디케이터) 지원 위젯 앱 |
 | `builtin` | **Notes** | `@ferdy/builtin-notes`<br>`/domains/builtin/notes/` | 좌측 사이드바 기반 다중 메모 관리(추가/전환/삭제), `localStorage` 실시간 자동 저장, `Edit` ↔ `Preview` 마크다운 미리보기 전환 및 글꼴 크기 조절(`11px ~ 28px`) 지원 앱 |
 | `sample` | **Sample App** | `@ferdy/sample-app`<br>`/domains/sample/app/` | `@ferdy/ui` 컴포넌트(`Button`, `Badge`)와 `@ferdy/bridge`(`ping`, `openWindow`, `setWindowLoading` 3초 로딩 테스트) 통신을 시연하는 표준 레퍼런스 앱 |
+| `sample` | **UI Components** | `@ferdy/sample-components`<br>`/domains/sample/components/` | 1층 Style Layer(`.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`)와 2층 Lit Web Components(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`) 인터랙티브 플레이그라운드 및 커스텀 이벤트 인스펙터 앱 |
 | `sample` | **Hello World** | `@ferdy/sample-hello`<br>`/domains/sample/hello/` | 최소 구성(Minimal) 도메인 앱 구조 및 공통 스타일시트 연동 검증 앱 |
 | `work` | **Task Board (React)** | `@ferdy/work-task-react`<br>`/domains/work/task-react/` | React 19 + `@ferdy/extern-task` 기반 업무·개인 Task 보드 앱 (상태별 카운터, 빠른 추가 폼, 상태/분류/검색 필터, 원클릭 상태 순환, `ferdyBridge.openWindow` 기반 `[Compare with Vue]` 창 실행 및 실시간 창 간 동기화) |
 | `work` | **Task Board (Vue)** | `@ferdy/work-task-vue`<br>`/domains/work/task-vue/` | Vue 3 (`<script setup lang="ts">`) + `@ferdy/extern-task` 기반 업무·개인 Task 보드 앱 (React 앱과 동일 스펙, `[Compare with React]` 창 실행 및 실시간 창 간 동기화) |

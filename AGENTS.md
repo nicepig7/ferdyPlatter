@@ -26,8 +26,8 @@ Core(`@ferdy/core`), 공통 UI(`@ferdy/ui`), 기본 내장/샘플 앱(`builtin/*
 
 `iframe` 샌드박스로 격리되는 도메인 앱(`packages/domains/work/*` 등)은 `packages/core/vite.config.ts`의 플러그인 스코핑을 통해 **React 19**, **Vue 3** 등 비-Solid 프레임워크로 작성할 수 있습니다.
 
-1. **`@ferdy/ui/styles.css` 전용 로드 원칙**:
-   - 비-Solid 도메인 앱은 SolidJS 런타임 및 JSX 충돌을 방지하기 위해 `@ferdy/ui`의 JS 컴포넌트 엔트리(`@ferdy/ui`)를 import하지 않고, 순수 CSS 엔트리(`import '@ferdy/ui/styles.css'`)만 로드하여 `--fd-*` 디자인 토큰, 웹폰트, 다크 테마 및 Lucide 아이콘 클래스를 공유합니다.
+1. **2층 하이브리드 UI 로드 원칙 (`@ferdy/ui/styles.css` + `@ferdy/ui/elements`)**:
+   - 비-Solid 도메인 앱은 SolidJS 런타임 및 JSX 충돌을 방지하기 위해 `@ferdy/ui`의 JS 컴포넌트 엔트리(`@ferdy/ui`)를 import하지 않고, **1층 Style Layer(`import '@ferdy/ui/styles.css'`)**로 `--fd-*` 디자인 토큰·`.fd-btn`/`.fd-badge`/`.fd-card`/`.fd-input` 클래스·웹폰트·아이콘 클래스를 공유하고, 상태가 풍부한 위젯은 **2층 Web Component Layer(`import '@ferdy/ui/elements'`)**의 `<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`를 사용합니다.
 2. **TypeScript 프리셋 및 프레임워크 표준**:
    - React 앱은 `@ferdy/tsconfig/react.json`, Vue 앱은 `@ferdy/tsconfig/vue.json`을 확장하며, 각 프레임워크의 표준 관용구(React 19 Hooks/함수형 컴포넌트, Vue 3 `<script setup lang="ts">` Composition API)를 준수합니다.
 
@@ -41,8 +41,9 @@ Core(`@ferdy/core`), 공통 UI(`@ferdy/ui`), 기본 내장/샘플 앱(`builtin/*
      - `@ferdy/bridge`: Core와 Domain Apps 간의 타입 안전 `postMessage` Pub/Sub 이벤트 버스.
      - `@ferdy/tsconfig`: 브라우저/SolidJS 앱(`base.json`), React 앱(`react.json`), Vue 앱(`vue.json`) 및 Vite/Node 설정(`node.json`) 공통 TypeScript 설정.
      - `@ferdy/ui`:
-       - CSS `@layer` 계층(`@layer reset, tokens, theme, libraries, base, components;`) 및 전역 스타일시트(`fdStyle.*.css`, 비-Solid 앱용 `@ferdy/ui/styles.css` 엔트리 제공)
-       - 공통 CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`)
+       - CSS `@layer` 계층(`@layer reset, tokens, theme, libraries, base, components;`) 및 전역 스타일시트(`fdStyle.*.css`, 1층 Style Layer `@ferdy/ui/styles.css` 엔트리 제공)
+       - 공통 CSS 디자인 토큰(`--fd-*`), 컴포넌트 공통 스타일(`.fd-compo`, `.fd-btn`, `.fd-badge`, `.fd-card`, `.fd-input`)
+       - 2층 `Lit` 기반 Web Components(`elements/<name>/fdElem.<name>.ts`, `@ferdy/ui/elements` 엔트리): `<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`
        - 폴더별로 격리 및 Co-location된 SolidJS UI 컴포넌트(`components/<name>/fdCompo.<name>.tsx` & `fdCompo.<name>.css`) 및 `fd.*` 네임스페이스(`fd.Button`, `fd.Badge`, `fd.Card`, `fd.Icon`, `fd.Input`, `fd.TextField`)
    - **[C] `packages/core` (`@ferdy/core`)**:
      - OS 데스크탑, 태스크바, 윈도우 매니저, 앱 레지스트리, 그리고 하위 도메인 앱들을 서빙하는 단일 Vite 서버 게이트웨이 호스트.

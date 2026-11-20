@@ -10,7 +10,7 @@
 
 ## Latest Release
 
-- **[0.1.8] — Multi-Framework MPA (React & Vue) & Externs Layer**: 멀티 프레임워크(React 19 · Vue 3) Task 보드 도메인 앱, `[E] Externs` 외부 연동 계층(`@ferdy/extern-task`), 짝수 타이포그래피 스케일 토큰 정립 → [상세 보기](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer)
+- **[0.1.9] — Lit Web Components & 2-Layer Hybrid UI Architecture**: `@ferdy/ui/elements`(`<fd-text-field>`, `<fd-select>`, `<fd-switch>`, `<fd-tabs>`) 및 1층 Style Layer(`.fd-*`) 정립, `@ferdy/sample-components` 쇼케이스 앱 신설, 전 도메인 앱 전환 → [상세 보기](./releases.0.1.md#019---lit-web-components--2-layer-hybrid-ui-architecture)
 
 ---
 
@@ -18,12 +18,13 @@
 
 | 시리즈 | 포함 버전 | 주요 테마 | 상세 문서 |
 | :--- | :--- | :--- | :--- |
-| **0.1.x** | `0.1.0` ~ `0.1.8` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` & `@ferdy/bridge`, Core 레지스트리, 기본 도메인 앱, App/Window 고도화 | [releases.0.1.md](./releases.0.1.md) |
+| **0.1.x** | `0.1.0` ~ `0.1.9` | Monorepo 구축, A-B-C-D-E 아키텍처, `@ferdy/ui` (2-Layer + Lit Web Components) & `@ferdy/bridge`, Core 레지스트리, 멀티 프레임워크 도메인 앱 | [releases.0.1.md](./releases.0.1.md) |
 
 ---
 
 ## Version Index (`0.1.x`)
 
+- **[0.1.9](./releases.0.1.md#019---lit-web-components--2-layer-hybrid-ui-architecture)** — Lit Web Components & 2-Layer Hybrid UI Architecture: `@ferdy/ui/elements`, 1층 `.fd-*` Style Layer, `@ferdy/sample-components`, 전 도메인 앱 UI 통일
 - **[0.1.8](./releases.0.1.md#018---multi-framework-mpa-react--vue--externs-layer)** — Multi-Framework MPA (React & Vue) & Externs Layer: `@ferdy/extern-task`, React 19 · Vue 3 Task 보드 앱, 짝수 타이포그래피 스케일 토큰
 - **[0.1.7](./releases.0.1.md#017---window-snapping-session-persistence--layout-actions-start-menu-empty--loading-window-views)** — 창 스냅, `localStorage` 세션 유지 및 일괄 정렬, 시작 메뉴, 빈 창 런처 및 로딩 오버레이
 - **[0.1.6](./releases.0.1.md#016---builtin-apps-calendar--notes-desktop-grid--tones-uicoredomains-architecture-standardization)** — Calendar·Notes Builtin 앱 신설, 바탕화면 그리드·톤 프리셋, `@ferdy/tsconfig` & UI/Core/Domains 구조 표준화
